@@ -73,7 +73,7 @@ function Navbar() {
                 SignUp
               </NavLink>
             </li> */}
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <NavLink
                 to="/inventory"
                 className="nav-links"
@@ -81,7 +81,7 @@ function Navbar() {
               >
                 Inventory
               </NavLink>
-            </li>
+            </li> */}
                <li className="nav-item">
   <HashLink
     to="/#services"
@@ -108,6 +108,15 @@ function Navbar() {
                 onClick={closeMobileMenu}
               >
                 Contact Us
+              </NavLink>
+            </li>
+               <li className="nav-item">
+              <NavLink
+                to="/signin"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Dashboard
               </NavLink>
             </li>
  

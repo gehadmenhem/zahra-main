@@ -16,6 +16,7 @@ import ErrorPage from "./pages/ErrorPage";
 import MechanicRepairProcess from "./pages/MechanicPage";
 import RemoteStarter from "./pages/RemoteStarterPage";
 import Detailing from "./pages/DetailingPage";
+import SignIn from "./pages/SignIn";
 import { Spin } from 'antd';
 import "./App.css"
 // const App = () => {
@@ -131,7 +132,7 @@ return (
           path="signup"
           element={isAuthenticated ? <RegistrationPage /> : <LoginPage />}
         />
-        <Route path="inventory" element={<Inventory />} />
+        {/* <Route path="inventory" element={<Inventory />} /> */}
         <Route path="aboutus" element={<AboutUsPage />} />
         <Route path="contactus" element={<ContactUsPage />} />
         <Route path="autobody" element={<Autobody />} />
@@ -140,7 +141,8 @@ return (
         <Route path="remotestarter" element={<RemoteStarter />} />
         <Route path="mechanic" element={<MechanicRepairProcess />} />
         <Route path="login" element={<LoginPage />} />
-        <Route path="tires" element={<TiresAndWheelPage />} />
+      <Route path="tires" element={<TiresAndWheelPage />} />
+       <Route path="signin" element={<SignIn />} />
         {/* Catch-all route */}
         <Route path="*" element={<ErrorPage />} />
       </Route>
