@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
+}
+
+.login-box {
+  position: absolute;
+  top: 62%;
+  margin-bottom: 60%;
+  left: 50%;
+  width: 800px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(189, 199, 218, 0.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+}
+
+.login-box Form {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.ant-form-input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+@media screen and (max-width: 960px) {
+  .login-box {
+    width: 100%;
+    height: 100vh;
+  }
+}
+@media screen and (max-width: 640px) {
+  .login-box .user-box {
+    width: 100%;
+    min-width: 0;
+  }
+}
+<<<<<<< HEAD
+=======
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px; /* or whatever spacing you prefer */
+  width: 100%;
+}
+>>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2

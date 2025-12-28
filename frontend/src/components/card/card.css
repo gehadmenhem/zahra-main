@@ -1,0 +1,130 @@
+.cards {
+  padding: 80px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.cards h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 60px;
+  color: #111;
+  position: relative;
+}
+
+.cards__container {
+  display: flex;
+  justify-content: center;
+}
+
+.cards__wrapper {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.cards__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cards__item {
+  background-color: #C0C0C0; /* silver */
+  border-radius: 10px;
+  position: relative;
+  padding: 40px 20px 30px 20px;
+  box-shadow: 0 10px 24px rgba(197, 116, 116, 0.08);
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  color: #111; /* default text color */
+}
+
+.cards__item:hover {
+  transform: translateY(-5px);
+  background-color: #ff0000; /* red */
+  color: #fff; /* text white */
+}
+
+.cards__item:hover .cards__item__label,
+.cards__item:hover .cards__item__text {
+  color: #fff;
+}
+
+.cards__item__link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+  position: relative;
+}
+
+.cards__icon-wrap {
+  position: absolute;
+  top: -100px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background-color: rgb(90, 3, 3);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid #e90707;
+  z-index: 2;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cards__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cards__item__info {
+  margin-top: 5px;
+  text-align: left;
+}
+
+.cards__item__label {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  /* margin-top: -30px; <-- moves it up */
+  color: #fff;
+  /* background: linear-gradient(135deg, #f0e5e5, #9c9b9b); */
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.cards__item__text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.cards__read-more {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: black;
+  border: 1px solid white;
+  color: red;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cards__item:hover .cards__read-more {
+  background-color: black;
+  border-color: #535151;
+  color: white;
+}
+
+.cards__item:hover .cards__icon-wrap {
+  border-color: #fff; /* white */
+}

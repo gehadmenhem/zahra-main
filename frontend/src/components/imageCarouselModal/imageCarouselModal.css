@@ -1,0 +1,277 @@
+/* Hide scrollbars but allow scroll */
+.hidden-scroll {
+  overflow-y: auto;
+  max-height: 80vh;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hidden-scroll::-webkit-scrollbar {
+  display: none;
+}
+/* Base modal width (desktop) */
+.responsive-modal {
+  width: 100% !important;
+  max-width: 800px !important;
+  margin: 0 auto;
+}
+
+/* Override internal Ant Design modal width */
+.responsive-modal .ant-modal {
+  width: 80% !important;
+  max-width: 800px !important;
+  margin: 0 auto;
+}
+
+/* Modal content padding */
+.responsive-modal .ant-modal-content {
+  padding: 24px !important;
+}
+
+/* Hide scrollbars but allow vertical scroll */
+.hidden-scroll {
+  overflow-y: auto;
+  max-height: 80vh;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.hidden-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Mobile and smaller screens (up to 768px) */
+@media (max-width: 768px) {
+  /* Modal width almost full screen, no max width */
+  .responsive-modal,
+  .responsive-modal .ant-modal {
+    width: 95% !important;
+    max-width: none !important;
+    margin: 0 auto;
+  }
+
+  /* Less padding inside modal content */
+  .responsive-modal .ant-modal-content {
+    padding: 12px !important;
+  }
+
+  /* Adjust carousel image height */
+  .carousel-image {
+  width: 100%;
+  height: auto; /* or your desired fixed height */
+  object-fit: contain; /* or 'cover', explained below */
+  object-position: center;
+  }
+
+  /* Reduce padding in descriptions section */
+  .descriptions-section {
+    padding: 12px !important;
+  }
+
+  /* Close button smaller and repositioned */
+  .ant-modal-close {
+    width: 32px !important;
+    height: 32px !important;
+    top: 4px !important;
+    right: 4px !important;
+  }
+
+  .ant-modal-close-x {
+    font-size: 18px !important;
+    line-height: 32px !important;
+  }
+   .carfax-image {
+    height: auto;
+    width: auto;
+  }
+}
+
+/* Very small devices (up to 360px) */
+@media (max-width: 360px) {
+  /* Carousel image smaller */
+  .carousel-image {
+    height: 180px !important;
+  }
+
+  /* Ensure modal still full width */
+  .responsive-modal,
+  .responsive-modal .ant-modal {
+    width: 100% !important;
+  }
+
+  /* Smaller font and better line wrap for descriptions */
+  .ant-descriptions-item-content {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  /* Padding in descriptions */
+  .descriptions-section {
+    padding: 12px !important;
+  }
+  .carfax-image {
+    height: auto;
+    width: auto;
+  }
+}
+
+/* Carousel arrows styling */
+.slick-prev,
+.slick-next {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: rgba(236, 10, 10, 0.15) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 1000 !important;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  color: white !important;
+  font-size: 24px !important;
+}
+
+/* Carousel dots */
+.slick-dots li button:before {
+  color: white !important;
+  opacity: 0.5 !important;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1 !important;
+  color: #1890ff !important;
+}
+
+/* Image counter overlay */
+.image-counter {
+  position: absolute !important;
+  bottom: 12px !important;
+  right: 12px !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  user-select: none !important;
+  pointer-events: none !important;
+}
+
+/* Price box styling */
+.price-box {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  background-color: #c0c2c6 !important;
+  border: 1px solid #f8f2f2 !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+}
+
+.price-label {
+  color: #6b7280 !important; /* Tailwind's gray-500 */
+}
+
+.old-price {
+  text-decoration: line-through !important;
+  color: #a70505 !important;
+  margin-right: 0.5rem !important;
+  font-weight: 300 !important;
+}
+
+.new-price {
+  color: #035c08 !important; /* green or sale color */
+  font-weight: bold !important;
+}
+
+/* Modal body background */
+.ant-modal-body {
+  padding: 0 !important;
+  background-color: rgba(145, 141, 141, 0.247) !important;
+  
+}
+
+/* Close button */
+.ant-modal-close {
+  background-color: rgb(235, 45, 45) !important;
+  border-radius: 50% !important;
+  z-index: 1001 !important;
+}
+
+.ant-modal-close-x {
+  color: white !important;
+  font-size: 20px !important;
+  text-align: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+.car-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  background: linear-gradient(to right, #f00303, #0f0000);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(238, 3, 3, 0.2);
+
+}
+
+.car-title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.car-title .make {
+  color: #fff; /* white */
+  font-weight: 600;
+}
+
+.car-title .model {
+  color: #fff; /* white */
+  font-weight: 600;
+}
+
+.carfax-image {
+  height: 40px;  /* Default height */
+  cursor: pointer;
+  width: 200px;
+}
+
+.carousel-slide {
+  height:500px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* or 'cover' */
+}
+
+@media (max-width: 768px) {
+  .carousel-slide {
+    height: 400px;
+  }
+}
+
+/* Phones (≤ 480px) */
+@media (max-width: 480px) {
+  .carousel-slide {
+    height: 250px;
+  }
+}
+
