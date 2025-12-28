@@ -1,9 +1,5 @@
 .navbar {
-<<<<<<< HEAD
-  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
-=======
   background: linear-gradient(100deg, rgb(2, 2, 2) 50%,rgb(168, 166, 166) 100%);
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   height: 80px;
   display: flex;
   justify-content: center;
@@ -16,25 +12,6 @@
 
 .navbar-container {
   display: flex;
-<<<<<<< HEAD
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  max-width: 1500px;
-}
-
-.navbar-logo {
-  color: #fff;
-  justify-self: start;
-  margin-left: 20px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-=======
   justify-content: space-between; /* space between logo and menu */
   align-items: center;
   height: 80px;
@@ -57,26 +34,11 @@
   outline: none;
   box-shadow: none; /* ✅ Remove any shadow */
 }
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
 .fa-typo3 {
   margin-left: 0.5rem;
   font-size: 1.8rem;
 }
 
-<<<<<<< HEAD
-.nav-menu {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-gap: 10px;
-  list-style: none;
-  text-align: center;
-  width: 60vw;
-  justify-content: end;
-  margin-right: 2rem;
-}
-
-.nav-item {
-=======
 /* Changed nav-menu to flex for better growth and spacing */
 .nav-menu {
   display: flex;
@@ -91,29 +53,16 @@
 
 .nav-item {
   /* Optional: remove fixed height or keep if you want */
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   height: 80px;
 }
 
 .nav-links {
-<<<<<<< HEAD
-  color: #fff;
-=======
   color: #f7f3f3;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   display: flex;
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
   height: 100%;
-<<<<<<< HEAD
-}
-
-.nav-links:hover,
-.nav-links:active {
-  border-bottom: 4px solid #fff;
-  transition: all 0.2s ease-out;
-=======
   width: auto;
   transition: all 0.3s ease;
 }
@@ -130,7 +79,6 @@
   border-bottom: 4px solid #f80606;
   font-weight: 700;
   transition: all 0.3s ease;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
 }
 
 .fa-bars {
@@ -145,15 +93,6 @@
   display: none;
 }
 
-<<<<<<< HEAD
-@media screen and (max-width: 960px) {
-  .NavbarItems {
-    position: relative;
-  }
-
-  .nav-menu {
-    display: inline-block;
-=======
 /* Responsive styles */
 @media screen and (max-width: 960px) {
    .navbar {
@@ -166,7 +105,6 @@
 
   .nav-menu {
     display:block;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
     flex-direction: column;
     width: 100%;
     height: 90vh;
@@ -175,19 +113,12 @@
     left: -100%;
     opacity: 1;
     transition: all 0.5s ease;
-<<<<<<< HEAD
-  }
-
-  .nav-menu.active {
-    background: #242222;
-=======
     background: #323133;
     margin-right: 0;
     padding: 0;
   }
 
   .nav-menu.active {
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
     left: 0;
     opacity: 1;
     transition: all 0.5s ease;
@@ -199,12 +130,6 @@
     padding: 2rem;
     width: 100%;
     display: table;
-<<<<<<< HEAD
-  }
-
-  .nav-links:hover,
-  .nav-links:active {
-=======
     border-bottom: none;
     border-radius: 0;
     color: #0e0d0d;
@@ -212,21 +137,11 @@
   }
 
   .nav-links:hover {
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
     background-color: #fff;
     color: #242424;
     border-radius: 0;
   }
 
-<<<<<<< HEAD
-  .navbar-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(25%, 50%);
-  }
-
-=======
   /* Active link style for mobile */
   .nav-links.active {
     background-color: black; /* red background */
@@ -241,7 +156,6 @@
    
   } */
 
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   .menu-icon {
     display: block;
     position: absolute;
@@ -274,12 +188,6 @@
 
   .nav-links-mobile:hover {
     background: #fff;
-<<<<<<< HEAD
-    color: #242424;
-    transition: 250ms;
-  }
-}
-=======
     color: black;
     transition: 250ms;
   }
@@ -382,4 +290,3 @@
 }
 
 
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2

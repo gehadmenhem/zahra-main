@@ -9,9 +9,6 @@
 
 html {
   height: 100%;
-<<<<<<< HEAD
-  background: linear-gradient(rgba(7, 37, 1, 0.6), rgba(3, 52, 80, 0.6));
-=======
    background: radial-gradient(
   circle,
   rgba(80, 80, 1, 0.1),
@@ -20,17 +17,13 @@ html {
 
 
 
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
 }
 
 body {
   font-family: montserrat, arial, verdana;
-<<<<<<< HEAD
-=======
 height: 100%;
   margin: 0;
   padding: 0;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
 }
 
 /* Form styles */
@@ -43,10 +36,6 @@ height: 100%;
 
 /* Fieldset styles */
 .multi-step-form fieldset {
-<<<<<<< HEAD
-=======
-
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   background: white;
   border: 0;
   border-radius: 3px;
@@ -71,23 +60,14 @@ height: 100%;
   margin-bottom: 10px;
   width: 100%;
   font-family: montserrat;
-<<<<<<< HEAD
-  color: #5fddc2;
-  font-size: 13px;
-=======
   color: #090a0a;
   font-size: 15px;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
 }
 
 /* Action button styles */
 .multi-step-form .action-button {
   width: 100px;
-<<<<<<< HEAD
-  background: #27ae60;
-=======
   background: #0be265;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   font-weight: bold;
   font-size: 20px;
   color: white;
@@ -120,11 +100,7 @@ height: 100%;
 
 /* Progress bar */
 #progressbar {
-<<<<<<< HEAD
-  margin-bottom: 30px;
-=======
   margin-bottom: 20px;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   overflow: hidden;
   counter-reset: step;
 }
@@ -134,26 +110,16 @@ height: 100%;
   text-transform: uppercase;
   color: white;
   font-size: 10px;
-<<<<<<< HEAD
-  width: 25%;
-  float: left;
-  position: relative;
-=======
   width: 20%;
   float: left;
   position:relative;
   
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
 }
 
 #progressbar li:before {
   content: counter(step);
   counter-increment: step;
-<<<<<<< HEAD
-  width: 20px;
-=======
   width: 5px;
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   line-height: 50px;
   font-size: 20px;
   color: #333;
@@ -179,11 +145,6 @@ height: 100%;
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-<<<<<<< HEAD
-  background: #27ae60;
-  color: white;
-}
-=======
   background: #ae8e27;
   color: white;
 }
@@ -231,4 +192,3 @@ height: 100%;
     overflow-y: auto;      /* scroll inside if content overflows */
   }
 }
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2

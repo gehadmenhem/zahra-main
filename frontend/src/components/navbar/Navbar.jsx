@@ -1,50 +1,5 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-<<<<<<< HEAD
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import "./navbar.css";
-
-import "primeicons/primeicons.css";
-
-function Navbar() {
-  const [click, setClick] = useState(false);
-  const menuClick = () => setClick(!click);
-  // const [button, setButton] = useState(true);
-  const closeMobileMenu = () => setClick(false);
-  // const showButton = () => {
-  //   if (window.innerWidth <= 960) {
-  //     setButton(false);
-  //   } else {
-  //     setButton(true);
-  //   }
-  // };
-  // useEffect(() => {
-  //   showButton();
-  // }, []);
-  // window.addEventListener("resize", showButton);
-  return (
-    <>
-      <nav className="navbar">
-        <div className="navbar-container">
-          <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-            Fun Bus
-          </Link>
-          <div className="menu-icon" onClick={menuClick}>
-            <i
-              className={click ? "pi pi-times" : "pi pi-bars"}
-              style={{ color: "white" }}
-            ></i>
-          </div>
-          <div className="menu-icon"></div>
-          <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? "nav-links" : "nav-links"
-                }
-=======
 import "./navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HashLink } from 'react-router-hash-link';
@@ -107,32 +62,12 @@ function Navbar() {
               <NavLink
                 to="/"
                 className="nav-links"
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
                 onClick={closeMobileMenu}
                 end
               >
                 Home
               </NavLink>
             </li>
-<<<<<<< HEAD
-            <li>
-              <NavLink
-                to="/signup"
-                className={({ isActive }) =>
-                  isActive ? "nav-links" : "nav-links"
-                }
-                onClick={closeMobileMenu}
-              >
-                SignUp
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/aboutus"
-                className={({ isActive }) =>
-                  isActive ? "nav-links" : "nav-links"
-                }
-=======
             {/* <li className="nav-item">
               <NavLink to="/signup" className="nav-links" onClick={closeMobileMenu}>
                 SignUp
@@ -161,14 +96,11 @@ function Navbar() {
               <NavLink
                 to="/aboutus"
                 className="nav-links"
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
                 onClick={closeMobileMenu}
               >
                 About Us
               </NavLink>
             </li>
-<<<<<<< HEAD
-=======
             <li className="nav-item">
               <NavLink
                 to="/contactus"
@@ -188,7 +120,6 @@ function Navbar() {
                 login
               </NavLink>
             </li> */}
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
           </ul>
         </div>
       </nav>
