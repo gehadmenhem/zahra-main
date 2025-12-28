@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import "../App.css";
-import MiddleSection from "../components/MiddleSection/MiddleSection";
-import Card from "../components/card/Card";
-import Footer from "../components/footer/Footer";
-export default function Home() {
-=======
 import React, { useEffect,useState } from "react";
 import "../App.css";
 import MiddleSection from "../components/MiddleSection/MiddleSection";
@@ -36,15 +28,11 @@ export default function Home() {
 
     fetchReviews();
   }, []);
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
   return (
     <>
       <MiddleSection />
       <Card />
-<<<<<<< HEAD
-=======
       <ReviewCarousel reviews={reviews}/>
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2
       <Footer />
     </>
   );
