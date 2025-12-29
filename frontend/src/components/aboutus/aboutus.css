@@ -2,8 +2,8 @@
    Page Title
 ================================ */
 .about-title {
-  background: linear-gradient(135deg, #ffd6e0, #cce7ff);
-  color: #333;
+  background: #02213b;
+  color: #02213b;
   font-weight: 400;
   font-family: "Poppins", "Segoe UI", sans-serif;
   padding: 2.5rem 1rem;
@@ -48,6 +48,9 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   z-index: 1;
 }
+
+
+
 
 .about-text h2 {
   color: #2c6cb0;

@@ -4,7 +4,7 @@
 .container {
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(23, 62, 148, 0.25), 0 10px 10px rgba(0,0,0,0.22);
   position: relative;
   overflow: hidden;
   width: 1000px;
@@ -72,7 +72,7 @@
 }
 
 .overlay {
-  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  background: linear-gradient(to right, #02213b, #2c628f);
   background-size: cover;
   color: #FFFFFF;
   position: relative;
@@ -214,7 +214,7 @@
 /* Focus */
 .ant-input:focus,
 .ant-input-password:focus-within {
-  border-color: #FF4B2B !important;
+  border-color: #02213b !important;
   background: #fff !important;
 }
 
@@ -223,8 +223,8 @@
 =========================== */
 .ant-btn {
   border-radius: 20px;
-  border: 1px solid #FF4B2B;
-  background-color: #FF4B2B;
+  border: 1px solid #02213b;
+  background-color: #02213b;
   color: #FFFFFF;
   font-size: 12px;
   font-weight: bold;

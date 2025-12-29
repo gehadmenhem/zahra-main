@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import "./footer.css";
 import { Link } from "react-router-dom";
 import { faFacebookF, faInstagram } from "@fortawesome/free-brands-svg-icons";
@@ -8,35 +8,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Footer() {
   return (
     <div className="footer-container">
+      {/* CTA Section */}
       <div className="footer-cta">
         <div className="footer-cta-section">
           <div className="footer-cta-left">
             <div className="cta-text">
-              <h3>Fast, precise, and affordable auto body repairs you can trust.</h3>
-              <p>Serving Calgary with expert craftsmanship and dependable service.</p>
+              <h3>A safe, happy place for your child to learn and grow</h3>
+              <p>Book a visit and discover our nurturing daycare environment.</p>
             </div>
           </div>
           <div className="footer-cta-right">
-            <Link to="/contactus" className="cta-button">Get A Quote</Link>
+            <Link to="/contactus" className="cta-button">
+              Schedule a Tour
+            </Link>
           </div>
         </div>
       </div>
 
+      {/* Map & Social Section */}
       <section className="social-media">
         <div className="cover-image-wrapper">
-          <img src="/images/mapfooter.png" alt="Map" className="cover-image" />
+          <img
+            src="/images/mapfooter.png"
+            alt="Daycare location map"
+            className="cover-image"
+          />
 
           <div className="map-info-box">
-            <h4 className="map-address-title">A2Z AUTO REPAIRS</h4>
-            <p className="map-address-sub">  4142 16 St SE, Calgary, AB T2G 3S1</p>
+            <h4 className="map-address-title">Bright Steps Daycare</h4>
+            <p className="map-address-sub">
+              123 Sunshine Ave, Calgary, AB
+            </p>
             <a
-             href="https://www.google.com/maps?q=4142+16+St+SE,+Calgary,+AB+T2G+3S1"
+              href="https://www.google.com/maps"
               target="_blank"
               rel="noopener noreferrer"
               className="get-direction-link"
-              aria-label="  4142 16 St SE, Calgary, AB T2G 3S1"
+              aria-label="Get directions to daycare"
             >
-              <FontAwesomeIcon icon={faLocationArrow} style={{ marginRight: "8px" }} />
+              <FontAwesomeIcon icon={faLocationArrow} />
               Get Directions
             </a>
           </div>
@@ -44,25 +54,25 @@ function Footer() {
 
         <div className="social-footer-content">
           <small className="website-rights">
-            © 2025 A2Z Auto Repair. All Rights Reserved.
+            © 2025 Bright Steps Daycare. All Rights Reserved.
           </small>
 
           <div className="social-icons">
             <a
-              href="https://www.facebook.com/p/A2Z-AUTO-Repair-100063622234813/"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="social-icon-link"
-              aria-label="Facebook page"
+              aria-label="Facebook"
             >
               <FontAwesomeIcon icon={faFacebookF} />
             </a>
             <a
-              href="https://www.instagram.com/a2z_autorepair/"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="social-icon-link"
-              aria-label="Instagram page"
+              aria-label="Instagram"
             >
               <FontAwesomeIcon icon={faInstagram} />
             </a>

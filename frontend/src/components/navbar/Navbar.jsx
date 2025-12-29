@@ -33,7 +33,7 @@ function Navbar() {
     <div className="top-header-right">
   <FontAwesomeIcon icon={faPhone} style={{ marginRight: '8px',color:"white" }} />
   <p style={{ margin: 0 }}>
-    Call Us: <a href="tel:4034001224" style={{color:"white"}}>(403) 400-1224</a>
+    Call Us: <a href="tel:4038191822" style={{color:"white"}}>(403) 819-1822</a>
   </p>
 </div>
 </div>
@@ -43,7 +43,7 @@ function Navbar() {
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
           
           <img
-  src="images/thumbnail_a2zautophoto.jpg"
+  src="images/daycarelogo.jpg"
   alt="A2Z Logo"
   className="a2z-logo"
 />

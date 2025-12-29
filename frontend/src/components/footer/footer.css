@@ -1,210 +1,169 @@
+/* ===============================
+   Footer Container
+================================ */
 .footer-container {
-  background: linear-gradient(90deg, rgb(248, 41, 41) 0%, rgb(226, 5, 5) 100%);
-  padding: 0;
+ background: linear-gradient(100deg, rgb(3, 92, 114) 50%,rgb(168, 166, 166) 100%);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 200px;
 }
-/* body, html {
+
+/* ===============================
+   CTA Section
+================================ */
+.footer-cta {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.footer-cta-section {
+  background: #ffffffff;
+  border-radius: 2.5rem;
+  padding: 2rem 3rem;
+  width: 80%;
+  max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.cta-text h3 {
+  color: #2c6cb0;
   margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* hide horizontal scrollbar */
-/* } */ 
-
-.footer-subscription {
-  max-width: 600px;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: white;
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
+.cta-text p {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.cta-button {
+  background-color: #ffb703ff;
+  color: #333;
+  padding: 0.8rem 1.6rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #fb8500ff;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   Map Section
+================================ */
 .social-media {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
-/* Make cover-image-wrapper full width and remove max-width & margin */
 .cover-image-wrapper {
   position: relative;
-  width: 100vw;           /* full viewport width */
-  max-width: 100vw;       /* prevent overflow */
+  width: 100vw;
   height: 300px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-  left: 25%;              /* shift right half viewport */
-  margin-left: -50vw;     /* pull it back to the left edge */
-  
-  box-sizing: border-box;
+  left: 25%;
+  margin-left: -50vw;
 }
 
 .cover-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-/* Address Box on Top of Image */
+/* Address Card */
 .map-info-box {
   position: absolute;
   top: 20px;
   left: 20px;
-  background: white;
+  background: #ffffffff;
   padding: 16px 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  max-width: 280px;
-  z-index: 2;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .map-address-title {
-  font-size: 16px;
-  font-weight: bold;
   margin: 0;
-  color: #222;
+  font-size: 16px;
+  color: #2c6cb0;
 }
 
 .map-address-sub {
   font-size: 14px;
   margin: 4px 0 10px;
-  color: #444;
+  color: #555;
 }
 
-/* Direction Link Button */
 .get-direction-link {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
-  font-weight: bold;
-  background-color: red;
-  color: white;
+  gap: 6px;
+  background-color: #90dbf4ff;
+  color: #333;
   padding: 8px 14px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
-  font-size: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .get-direction-link:hover {
-  background-color: #c72f3a;
+  background-color: #8ecae6ff;
 }
 
-.website-rights {
-  color: #bbb;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-.footer-cta {
-  background-color: #0d0d0d;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-cta-section {
-  background-color: #0d0d0d;
-  color: white;
-  border-radius: 3rem;
-  padding: 2rem 3rem;
-  margin: 2rem 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 80%;
-  max-width: 1100px;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-}
-
-.footer-cta-left {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.cta-icon {
-  width: 60px;
-  height: 60px;
-}
-
-.cta-text h3 {
-  color: red;
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.cta-text p {
-  margin: 0.2rem 0 0;
-  font-size: 0.9rem;
-  color: #ddd;
-}
-
-.footer-cta-right .cta-button {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 0.8rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.footer-cta-right .cta-button:hover {
-  background-color: #cc0000;
-}
-
+/* ===============================
+   Bottom Bar
+================================ */
 .social-footer-content {
   width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  color: white;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #333;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.website-rights {
+  font-size: 0.9rem;
 }
 
 .social-icons {
   display: flex;
-  align-items: center;
   gap: 15px;
 }
 
 .social-icon-link {
-  color: white;
+  color: #2c6cb0;
   font-size: 20px;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .social-icon-link:hover {
-  color: #f5f5f5;
   transform: scale(1.2);
 }
 
-/* Responsive */
+/* ===============================
+   Responsive
+================================ */
 @media (max-width: 768px) {
   .footer-cta-section {
     flex-direction: column;
     text-align: center;
-    padding: 2rem 1rem;
-  }
-
-  .footer-cta-left {
-    flex-direction: column;
-    gap: 1rem;
+    padding: 2rem 1.5rem;
   }
 
   .footer-cta-right {
@@ -212,46 +171,6 @@
   }
 
   .map-info-box {
-    top: 10px;
-    left: 10px;
     max-width: 90%;
-    padding: 12px;
-  }
-}
-
-@media (max-width: 365px) {
-  .footer-cta-section {
-    padding: 1rem;
-    border-radius: 1rem;
-  }
-
-  .cta-text h3 {
-    font-size: 0.95rem;
-  }
-
-  .cta-text p {
-    font-size: 0.75rem;
-  }
-
-  .footer-cta-right .cta-button {
-    padding: 0.6rem 1rem;
-    font-size: 0.85rem;
-    border-radius: 0.6rem;
-  }
-
-  .footer-container {
-    min-height: 160px;
-  }
-
-  .social-footer-content {
-    padding: 0.5rem 1rem;
-  }
-
-  .social-icon-link {
-    font-size: 18px;
-  }
-
-  .website-rights {
-    font-size: 0.75rem;
   }
 }
