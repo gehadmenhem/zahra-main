@@ -9,14 +9,14 @@ export default function AboutUs() {
 
   return (
     <>
+      {/* Page Title */}
       <motion.h1
         className="about-title"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        
       >
-        About Us
+        About Our Daycare
       </motion.h1>
 
       {/* Section 1 */}
@@ -26,16 +26,7 @@ export default function AboutUs() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         transition={{ staggerChildren: 0.2 }}
-        // style={{
-        //   height: "100vh",
-        //   width: "100vw",
-        //   marginLeft: "calc(-50vw + 50%)",
-        //   display: "flex",
-        //   alignItems: "center",
-        //   justifyContent: "space-between",
-        //   padding: "0 5%",
-        //   position: "relative",
-        // }}
+        style={{ backgroundColor: "#C7EDE6FF" }}
       >
         <div
           style={{
@@ -52,6 +43,7 @@ export default function AboutUs() {
             zIndex: -1,
           }}
         />
+
         <motion.div
           className="about-text"
           variants={{
@@ -59,21 +51,21 @@ export default function AboutUs() {
             visible: { opacity: 1, x: 0 },
           }}
           transition={{ duration: 0.6 }}
+           
         >
-          <h2>Why Choose Us?</h2>
+          <h2>Where Little Minds Grow</h2>
           <p>
-            We provide top-quality car services with honest pricing and fast
-            results. From mechanical to autobody — we’ve got you covered.
-            Our certified technicians use the latest tools and diagnostics to
-            keep your vehicle running smoothly. From oil changes to engine work,
-            we handle it all. We stand by our work and treat every car like it’s
-            our own.
-
+            At Bright Steps Daycare, we provide a warm, safe, and nurturing
+            environment where children feel happy, supported, and encouraged to
+            explore the world around them. Our dedicated caregivers focus on
+            early learning, creativity, and social development to help every
+            child grow with confidence.
           </p>
         </motion.div>
+
         <motion.img
-          src="/images/mechanicnew.jfif"
-          alt="Car Sales"
+          src="/images/daycare-bg.png"
+          alt="Children learning through play"
           className="about-image"
           variants={{
             hidden: { opacity: 0, x: 50 },
@@ -90,10 +82,7 @@ export default function AboutUs() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         transition={{ staggerChildren: 0.2 }}
-        style={{
-        
-          backgroundColor: "#444", // fallback color
-        }}
+        style={{ backgroundColor: "#E8F5E9FF" }}
       >
         <div
           style={{
@@ -102,7 +91,7 @@ export default function AboutUs() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: 'url("/images/aboutusback.png")', // different background
+            backgroundImage: 'url("/images/daycare-bg.png")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -110,25 +99,27 @@ export default function AboutUs() {
             zIndex: -1,
           }}
         />
+
         <motion.div
           className="about-text"
           variants={{
-            hidden: { opacity: 0, x: 50 }, // reversed animation
+            hidden: { opacity: 0, x: 50 },
             visible: { opacity: 1, x: 0 },
           }}
           transition={{ duration: 0.6 }}
         >
-          <h2>Collision & Auto Body Services</h2>
+          <h2>Learning Through Play</h2>
           <p>
-            Accidents happen—but we’ll make your vehicle look like new again.
-            Our autobody specialists provide top-tier paint jobs, dent removal,
-            and structural restoration with a commitment to quality and detail.
-
+            We believe children learn best when they are engaged, curious, and
+            having fun. Our daily programs include storytelling, music, arts and
+            crafts, outdoor play, and hands-on activities that build confidence,
+            independence, and strong social skills.
           </p>
         </motion.div>
+
         <motion.img
-          src="/images/aboutus1.jfif"
-          alt="Our Mission"
+          src="/images/daycare-activities.png"
+          alt="Creative activities at daycare"
           className="about-image"
           variants={{
             hidden: { opacity: 0, x: -50 },
@@ -145,10 +136,7 @@ export default function AboutUs() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         transition={{ staggerChildren: 0.2 }}
-        style={{
-        
-          backgroundColor: "#333",
-        }}
+        style={{ backgroundColor: "#eef6f0" }}
       >
         <div
           style={{
@@ -157,7 +145,7 @@ export default function AboutUs() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: 'url("/images/aboutusback.png")',
+            backgroundImage: 'url("/images/daycare-bg.png")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -165,6 +153,7 @@ export default function AboutUs() {
             zIndex: -1,
           }}
         />
+
         <motion.div
           className="about-text"
           variants={{
@@ -173,22 +162,18 @@ export default function AboutUs() {
           }}
           transition={{ duration: 0.6 }}
         >
-          <h2>About Our Tires</h2>
+          <h2>Safe, Caring & Trusted</h2>
           <p>
-            At A2Z AutoBody & Sales, we understand that tires are crucial for
-            your vehicle’s safety and performance. We offer a wide selection of
-            high-quality tires from trusted brands, suited for all seasons and
-            driving conditions. Our expert technicians provide professional tire
-            installation, balancing, and wheel alignment to ensure smooth
-            handling, better fuel efficiency, and longer tire life. Whether you
-            need new tires or maintenance, we deliver dependable service with
-            your safety in mind.
-
+            Your child’s safety and well-being are our highest priorities. We
+            maintain clean, secure facilities and follow strict health and safety
+            standards at all times. Our trained staff provides attentive care,
+            giving families peace of mind and children a place to thrive.
           </p>
         </motion.div>
+
         <motion.img
-          src="/images/tiresnew.jfif"
-          alt="Our Team"
+          src="/images/daycare-care.png"
+          alt="Caring daycare staff"
           className="about-image"
           variants={{
             hidden: { opacity: 0, x: 50 },

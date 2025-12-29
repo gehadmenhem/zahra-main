@@ -1,80 +1,102 @@
+/* ===============================
+   Page Title
+================================ */
+.about-title {
+  background: linear-gradient(135deg, #ffd6e0, #cce7ff);
+  color: #333;
+  font-weight: 400;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   Section Container
+================================ */
 .about-hero {
   position: relative;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  padding: 0 5%;
+  padding: 5rem 5%;
   overflow: hidden;
 
-  /* Default to column layout for small screens */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: auto; /* let it grow with content */
-}
-.about-title {
-  background-color: silver;
-  font-weight: 200;
-  color: #fff;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  padding: 2rem 1rem; /* top/bottom and left/right padding */
-  text-align: center;
+  min-height: 60vh;
 }
 
+/* Alternate layout automatically */
+.about-hero:nth-of-type(even) {
+  flex-direction: row-reverse;
+}
+
+/* ===============================
+   Text Card
+================================ */
 .about-text {
-  z-index: 1;
+  background: rgba(143, 187, 22, 0.92);
+  padding: 2.2rem;
+  border-radius: 24px;
   max-width: 90%;
-  color: white;
-  font-size: 0.9rem;
-  line-height: 1.3;
-  margin-bottom: 2rem; /* spacing for stacked layout */
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.7;
   text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  z-index: 1;
 }
 
+.about-text h2 {
+  color: #2c6cb0;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* ===============================
+   Image
+================================ */
 .about-image {
-  background-color: transparent;
-  max-width: 80vw;
-  max-height: 300px;
+  width: clamp(260px, 40vw, 520px);
   height: auto;
+  border-radius: 30px;
   object-fit: cover;
-  display: block;
-  clip-path: polygon(70px 0%, 100% 0%, calc(100% - 70px) 100%, 0% 100%);
-  margin: 0 auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
 }
 
-/* Medium and larger screens: side by side */
-@media only screen and (min-width: 768px) {
+/* ===============================
+   Tablet and Up
+================================ */
+@media (min-width: 768px) {
   .about-hero {
     flex-direction: row;
-    height: 50vh;
-    align-items: center;
     justify-content: space-between;
   }
-  
+
   .about-text {
     max-width: 45%;
-    font-size: 1.5rem;
-    margin-bottom: 0;
+    font-size: 1.1rem;
     text-align: left;
   }
-  
+
   .about-image {
-    max-width: 45%;
-    max-height: none;
-    width: 40vw;
-    margin: 0;
+    margin-top: 0;
   }
 }
 
-/* Large screens: bigger text and image */
-@media only screen and (min-width: 1200px) {
+/* ===============================
+   Desktop / Large Screens
+================================ */
+@media (min-width: 1200px) {
   .about-text {
-    font-size: 2rem;
-    max-width: 60%;
+    max-width: 50%;
+    font-size: 1.25rem;
   }
-  
+
   .about-image {
-    width: 35vw;
-    max-width: 600px;
+    width: clamp(320px, 35vw, 600px);
   }
 }
