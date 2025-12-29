@@ -143,6 +143,10 @@
 =========================== */
 .social-container {
   margin: 20px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .social-container .ant-btn {
@@ -271,4 +275,75 @@
   font-size: 14px;
   font-weight: 100;
   margin: 20px 0 30px;
+}
+
+.mobile-signup-btn,
+.mobile-signin-btn {
+  display: none;
+}
+
+/* ===========================
+   MOBILE RESPONSIVENESS
+=========================== */
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+    min-height: 600px;
+    margin: -20px auto 0 auto;
+  }
+
+  .form-container {
+    width: 100%;
+    left: 0;
+  }
+
+  .sign-in-container,
+  .sign-up-container {
+    width: 100%;
+    left: 0;
+  }
+
+  .sign-up-container {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .overlay-container {
+    display: none;
+  }
+
+  .mobile-signup-btn,
+  .mobile-signin-btn {
+    display: block;
+    background-color: #02213b;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .container.right-panel-active .sign-in-container {
+    transform: translateX(-100%);
+  }
+
+  .container.right-panel-active .sign-up-container {
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 5;
+  }
+
+  .social-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .social-container .ant-btn {
+    margin: 0 5px;
+  }
 }

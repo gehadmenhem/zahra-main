@@ -31,13 +31,13 @@ function SignIn() {
           layout="vertical"
         >
           <h1 className="form-title">Create Account</h1>
-          <p className="form-subtitle">Use your email for registration</p>
+          {/* <p className="form-subtitle">Use your email for registration</p>
           <div className="social-container">
             <Button shape="circle" icon={<span>f</span>} />
             <Button shape="circle" icon={<span>G</span>} />
             <Button shape="circle" icon={<span>l</span>} />
           </div>
-          <span>or use your email for registration</span>
+          <span>or use your email for registration</span> */}
           <Form.Item
             label="Name"
             name="name"
@@ -62,6 +62,9 @@ function SignIn() {
           <Button type="primary" htmlType="submit" className="ant-btn">
             Sign Up
           </Button>
+          <button className="mobile-signin-btn" onClick={togglePanel}>
+            Already have an account? Sign In
+          </button>
         </Form>
       </div>
       <div className="form-container sign-in-container">
@@ -72,13 +75,13 @@ function SignIn() {
           layout="vertical"
         >
           <h1 className="form-title">Sign in</h1>
-          <p className="form-subtitle">Use your account</p>
+          {/* <p className="form-subtitle">Use your account</p>
           <div className="social-container">
             <Button shape="circle" icon={<span>f</span>} />
             <Button shape="circle" icon={<span>G</span>} />
             <Button shape="circle" icon={<span>l</span>} />
           </div>
-          <span>or use your account</span>
+          <span>or use your account</span> */}
           <Form.Item
             label="Email"
             name="email"
@@ -97,6 +100,9 @@ function SignIn() {
           <Button type="primary" htmlType="submit" className="ant-btn">
             Sign In
           </Button>
+          <button className="mobile-signup-btn" onClick={togglePanel}>
+            Don't have an account? Sign Up
+          </button>
         </Form>
       </div>
       <div className="overlay-container">
