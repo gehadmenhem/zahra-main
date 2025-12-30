@@ -9,7 +9,7 @@ import ContactUsPage from "./pages/Contactuspage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import Autobody from "./pages/AutobodyPage";
-import OOPInspection from "./pages/OOPInspectionPage";
+import ProgramsAge from "./pages/ProgramsAge";
 import RootLayout from "./pages/Root";
 import TiresAndWheelPage from "./pages/TiresAndWheelPage";
 import ErrorPage from "./pages/ErrorPage";
@@ -136,7 +136,7 @@ return (
         <Route path="aboutus" element={<AboutUsPage />} />
         <Route path="contactus" element={<ContactUsPage />} />
         <Route path="autobody" element={<Autobody />} />
-        <Route path="inspection" element={<OOPInspection />} />
+        <Route path="programs" element={<ProgramsAge />} />
         <Route path="detailing" element={<Detailing />} />
         <Route path="remotestarter" element={<RemoteStarter />} />
         <Route path="mechanic" element={<MechanicRepairProcess />} />

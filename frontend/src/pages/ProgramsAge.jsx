@@ -1,12 +1,12 @@
 
 import "../App.css";
-import OOPInspectionComponents from "../components/inspection/OOPInspection";
+import ProgramsAge from "../components/programsAge/ProgramsAge";
 import Footer from "../components/footer/Footer";
 export default function AboutUsPage() {
   return (
     <>
      
-      <OOPInspectionComponents />
+      <ProgramsAge />
       <Footer />
     </>
   );

@@ -32,7 +32,7 @@
 }
 
 .cards__item {
-  background-color: #C0C0C0; /* silver */
+  background-color: #f1cc24; /* silver */
   border-radius: 10px;
   position: relative;
   padding: 40px 20px 30px 20px;
@@ -43,7 +43,7 @@
 
 .cards__item:hover {
   transform: translateY(-5px);
-  background-color: #ff0000; /* red */
+  background-color: #ffae00; /* red */
   color: #fff; /* text white */
 }
 
@@ -66,12 +66,12 @@
   right: -40px;
   width: 120px;
   height: 120px;
-  background-color: rgb(90, 3, 3);
+  background-color: rgb(90, 74, 3);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 5px solid #e90707;
+  border: 5px solid #e9b407;
   z-index: 2;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -114,7 +114,7 @@
   font-size: 14px;
   background-color: black;
   border: 1px solid white;
-  color: red;
+  color: rgb(255, 153, 0);
   cursor: pointer;
   transition: all 0.3s ease;
 }
