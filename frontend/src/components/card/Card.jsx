@@ -40,7 +40,7 @@ function Cards() {
               src="images/teachers.png"
               text="Caring, qualified educators dedicated to nurturing, teaching, and supporting every child as they grow."
               label="Meet Our Teachers"
-              path="/detailing"
+              path="/meetteacher"
             />
                {/* <CardItem
               src="images/inspectionlogo.png"

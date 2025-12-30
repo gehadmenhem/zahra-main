@@ -15,7 +15,7 @@ import TiresAndWheelPage from "./pages/TiresAndWheelPage";
 import ErrorPage from "./pages/ErrorPage";
 import MechanicRepairProcess from "./pages/MechanicPage";
 import RemoteStarter from "./pages/RemoteStarterPage";
-import Detailing from "./pages/DetailingPage";
+import MeetTeachersPage from "./pages/MeetTeachersPage";
 import SignIn from "./pages/SignIn";
 import { Spin } from 'antd';
 import "./App.css"
@@ -137,7 +137,7 @@ return (
         <Route path="contactus" element={<ContactUsPage />} />
         <Route path="dailyschedule" element={<DailySchedulePage />} />
         <Route path="programs" element={<ProgramsAge />} />
-        <Route path="detailing" element={<Detailing />} />
+        <Route path="meetteacher" element={<MeetTeachersPage />} />
         <Route path="remotestarter" element={<RemoteStarter />} />
         <Route path="mechanic" element={<MechanicRepairProcess />} />
         <Route path="login" element={<LoginPage />} />
