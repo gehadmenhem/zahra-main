@@ -288,7 +288,8 @@
 @media screen and (max-width: 768px) {
   .container {
     width: 100%;
-    min-height: 600px;
+    height: auto;
+    min-height: 800px;
     margin: -20px auto 0 auto;
   }
 

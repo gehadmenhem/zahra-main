@@ -107,7 +107,7 @@ const onFinish = () => {
             name="message"
             rules={[{ required: true, message: "Please write your message" }]}
           >
-            <TextArea rows={5} placeholder="Write your message here..." />
+            <TextArea rows={10} placeholder="Write your message here..." resize="vertical" />
           </Form.Item>
             <Button type="primary" htmlType="submit">
               Send Message
@@ -120,14 +120,14 @@ const onFinish = () => {
           <div className="info-item">
             <FontAwesomeIcon icon={faPhone} />
            <p style={{ margin: 0 ,color:"black"}}>
-    Call Us: <a href="tel:4034001224" style={{color:"black"}}>(403)400-1224</a>
+    Call Us: <a href="tel:4034001224" style={{color:"black"}}>(403)819-1822</a>
   </p>
 
           </div>
           <div className="info-item">
             <FontAwesomeIcon icon={faEnvelope} />
              <p style={{ margin: 0 }}>
-    Email Us: <a href="mailto:a2zautocalgary@gmail.com" style={{color:"black"}}>a2zautocalgary@gmail.com</a>
+    Email Us: <a href="mailto:a2zautocalgary@gmail.com" style={{color:"black"}}>miniversity_info@gmail.com</a>
   </p>
           </div>
           <div className="info-item">
