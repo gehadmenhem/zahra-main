@@ -8,7 +8,7 @@ import AboutUsPage from "./pages/AboutUSPage";
 import ContactUsPage from "./pages/Contactuspage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
-import Autobody from "./pages/AutobodyPage";
+import DailySchedulePage from "./pages/DailySchedulePage";
 import ProgramsAge from "./pages/ProgramsAge";
 import RootLayout from "./pages/Root";
 import TiresAndWheelPage from "./pages/TiresAndWheelPage";
@@ -135,7 +135,7 @@ return (
         {/* <Route path="inventory" element={<Inventory />} /> */}
         <Route path="aboutus" element={<AboutUsPage />} />
         <Route path="contactus" element={<ContactUsPage />} />
-        <Route path="autobody" element={<Autobody />} />
+        <Route path="dailyschedule" element={<DailySchedulePage />} />
         <Route path="programs" element={<ProgramsAge />} />
         <Route path="detailing" element={<Detailing />} />
         <Route path="remotestarter" element={<RemoteStarter />} />

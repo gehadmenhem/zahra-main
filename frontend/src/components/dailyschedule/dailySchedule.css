@@ -1,0 +1,112 @@
+.daily-schedule-section {
+  padding: 6rem 5%;
+  background: linear-gradient(180deg, #ffffff, #fffaf3);
+}
+
+.daily-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.daily-subtitle {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 4rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Layout */
+.daily-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 3rem;
+}
+
+/* Calendar Card */
+.calendar-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.selected-date {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Timeline */
+.schedule-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+.timeline-icon {
+  font-size: 1.8rem;
+}
+
+/* Color Tags */
+.arrival {
+  border-left: 6px solid #ffd6e0;
+}
+
+.learning {
+  border-left: 6px solid #cce7ff;
+}
+
+.play {
+  border-left: 6px solid #c8f7dc;
+}
+
+.meal {
+  border-left: 6px solid #fff2cc;
+}
+
+.rest {
+  border-left: 6px solid #e6dbff;
+}
+
+.creative {
+  border-left: 6px solid #ffd9b3;
+}
+
+.departure {
+  border-left: 6px solid #d6f5ff;
+}
+
+/* Content */
+.timeline-content h4 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.timeline-content .time {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.timeline-content p {
+  margin-top: 0.5rem;
+  color: #444;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .daily-layout {
+    grid-template-columns: 1fr;
+  }
+}

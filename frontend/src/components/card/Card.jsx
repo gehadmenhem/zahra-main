@@ -21,7 +21,7 @@ function Cards() {
               src="images/dailyprograms.png"
               text="A balanced daily routine that provides structure, comfort, learning, play, and rest throughout the day"
               label="Daily Schedule"
-              path="/autobody"
+              path="/dailyschedule"
             />
 
             <CardItem
