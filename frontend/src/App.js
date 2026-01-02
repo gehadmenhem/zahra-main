@@ -17,6 +17,7 @@ import MechanicRepairProcess from "./pages/MechanicPage";
 import RemoteStarter from "./pages/RemoteStarterPage";
 import MeetTeachersPage from "./pages/MeetTeachersPage";
 import SignIn from "./pages/SignIn";
+import Dashboard from "./pages/Dashboard"
 import { Spin } from 'antd';
 import "./App.css"
 // const App = () => {
@@ -142,7 +143,8 @@ return (
         <Route path="mechanic" element={<MechanicRepairProcess />} />
         <Route path="login" element={<LoginPage />} />
       <Route path="tires" element={<TiresAndWheelPage />} />
-       <Route path="signin" element={<SignIn />} />
+      <Route path="signin" element={<SignIn />} />
+       <Route path="dashboard" element={<Dashboard />} />
         {/* Catch-all route */}
         <Route path="*" element={<ErrorPage />} />
       </Route>
