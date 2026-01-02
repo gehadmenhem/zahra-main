@@ -7,7 +7,7 @@ export default function Dashboard() {
     <>
      
       <DashboardMenu />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
