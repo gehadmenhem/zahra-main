@@ -63,29 +63,30 @@ router.route("/register").post( async (req, res) => {
   try {
   console.log(req.body)
     const {
-      firstname,lastname,email,phoneNumber,emergencyContact,address,password
+      first_name, last_name, email, phone_number, emergency_contact_name, emergency_contact_phone, province, city, postal_code, password
     } = req.body;
 
     if (
-      !firstname,!lastname,!email,!phoneNumber,!emergencyContact,!address,!password
+      !first_name || !last_name || !email || !phone_number || !emergency_contact_name || !emergency_contact_phone || !province || !city || !postal_code || !password
     ) {
       throw new Error(
         "validation error: all fields are required"
       );
     }
  const parentData = {
-      firstname,
-      lastname,
+      first_name,
+      last_name,
       email,
-      phone_number: phoneNumber,
-      emergency_contact: emergencyContact,
-      address,
+      phone_number,
+      emergency_contact_name,
+      emergency_contact_phone,
+      province,
+      city,
+      postal_code,
       password,
     };
     console.log(parentData)
- 
 
-   
 
 
     res.status(200).json(result);

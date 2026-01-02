@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Row, Col } from 'antd';
 import './signin.css';
 import {register} from "./services"
 const { Password } = Input;
@@ -72,21 +72,52 @@ function SignIn() {
             name="phone_number"
             rules={[{ required: true, message: 'Please input your phone number!' }]}
           >
-            <Input placeholder="Phone Number" />
+            <Input placeholder="(403)-999-3711" />
           </Form.Item>
           <Form.Item
-            label="Emergency Contact"
-            name="emergency_contact"
-            rules={[{ required: true, message: 'Please input your emergency contact!' }]}
+            label="Emergency Contact Name"
+            name="emergency_contact_name"
+            rules={[{ required: true, message: 'Please input your emergency contact name!' }]}
           >
-            <Input placeholder="Emergency Contact (Name and Phone)" />
+            <Input placeholder="Emergency Contact Name" />
           </Form.Item>
           <Form.Item
-            label="Address"
-            name="address"
-            rules={[{ required: true, message: 'Please input your address!' }]}
+            label="Emergency Contact Phone"
+            name="emergency_contact_phone"
+            rules={[{ required: true, message: 'Please input your emergency contact phone!' }]}
           >
-            <Input placeholder="Address" />
+            <Input placeholder="(403)-999-3711" />
+          </Form.Item>
+          <Form.Item label="Address">
+            <Row gutter={8}>
+              <Col span={8}>
+                <Form.Item
+                  name="province"
+                  rules={[{ required: true, message: 'Please input your province!' }]}
+                  noStyle
+                >
+                  <Input placeholder="Province" />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="city"
+                  rules={[{ required: true, message: 'Please input your city!' }]}
+                  noStyle
+                >
+                  <Input placeholder="City" />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  name="postal_code"
+                  rules={[{ required: true, message: 'Please input your postal code!' }]}
+                  noStyle
+                >
+                  <Input placeholder="Postal Code" />
+                </Form.Item>
+              </Col>
+            </Row>
           </Form.Item>
           <Form.Item
             label="Password"
