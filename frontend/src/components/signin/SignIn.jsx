@@ -39,11 +39,18 @@ function SignIn() {
           </div>
           <span>or use your email for registration</span> */}
           <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: 'Please input your name!' }]}
+            label="Firstname"
+            name="firstname"
+            rules={[{ required: true, message: 'Please input your firstname!' }]}
           >
-            <Input placeholder="Name" />
+            <Input placeholder="Firstname" />
+          </Form.Item>
+          <Form.Item
+            label="Lastname"
+            name="lastname"
+            rules={[{ required: true, message: 'Please input your lastname!' }]}
+          >
+            <Input placeholder="Lastname" />
           </Form.Item>
           <Form.Item
             label="Email"
@@ -51,6 +58,27 @@ function SignIn() {
             rules={[{ required: true, message: 'Please input your email!' }]}
           >
             <Input placeholder="Email" />
+          </Form.Item>
+          <Form.Item
+            label="Phone Number"
+            name="phoneNumber"
+            rules={[{ required: true, message: 'Please input your phone number!' }]}
+          >
+            <Input placeholder="Phone Number" />
+          </Form.Item>
+          <Form.Item
+            label="Emergency Contact"
+            name="emergencyContact"
+            rules={[{ required: true, message: 'Please input your emergency contact!' }]}
+          >
+            <Input placeholder="Emergency Contact (Name and Phone)" />
+          </Form.Item>
+          <Form.Item
+            label="Address"
+            name="address"
+            rules={[{ required: true, message: 'Please input your address!' }]}
+          >
+            <Input placeholder="Address" />
           </Form.Item>
           <Form.Item
             label="Password"
