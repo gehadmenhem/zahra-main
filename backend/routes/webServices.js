@@ -59,43 +59,34 @@ router.route("/").get((req, res) => {
 // });
 
 
-router.route("/register").post(upload.array("files", 30), async (req, res) => {
+router.route("/register").post( async (req, res) => {
   try {
-  
+  console.log(req.body)
     const {
-      make,
-      mileage,
-      engine,
-      transmission,
-      model,
-      year,
-      vin_number,
-      modified_by,
-      created_by,
+      firstname,lastname,email,phoneNumber,emergencyContact,address,password
     } = req.body;
 
     if (
-      !make ||
-      !mileage ||
-      !engine ||
-      !transmission ||
-      !model ||
-      !year ||
-      !vin_number
+      !firstname,!lastname,!email,!phoneNumber,!emergencyContact,!address,!password
     ) {
       throw new Error(
         "validation error: all fields are required"
       );
     }
-    const carData = req?.body
-    console.log(carData)
-    if(!req.files || req.files.length===0 ){
-      throw new Error("image is empty")
-    }
-    const base64Images = req.files.map(file => file.buffer.toString('base64'));
+ const parentData = {
+      firstname,
+      lastname,
+      email,
+      phone_number: phoneNumber,
+      emergency_contact: emergencyContact,
+      address,
+      password,
+    };
+    console.log(parentData)
+ 
 
    
-    const result = await registerInventory(carData,base64Images);
+
 
     res.status(200).json(result);
   } catch (error) {

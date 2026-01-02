@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import './signin.css';
-
+import {register} from "./services"
 const { Password } = Input;
 
 function SignIn() {
@@ -16,10 +16,18 @@ function SignIn() {
     message.success('Sign In successful!');
   };
 
-  const onFinishSignUp = (values) => {
-    console.log('Sign Up values:', values);
-    message.success('Sign Up successful!');
-  };
+ const onFinishSignUp = async (values) => {
+  try {
+    console.log("Sign Up values:", values);
+
+    await register(values); // axios sends JSON by default
+
+    message.success("Sign Up successful!");
+  } catch (error) {
+    message.error(error.message || "Sign Up failed");
+  }
+};
+
 
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`}>
@@ -40,14 +48,14 @@ function SignIn() {
           <span>or use your email for registration</span> */}
           <Form.Item
             label="Firstname"
-            name="firstname"
+            name="first_name"
             rules={[{ required: true, message: 'Please input your firstname!' }]}
           >
             <Input placeholder="Firstname" />
           </Form.Item>
           <Form.Item
             label="Lastname"
-            name="lastname"
+            name="last_name"
             rules={[{ required: true, message: 'Please input your lastname!' }]}
           >
             <Input placeholder="Lastname" />
@@ -61,14 +69,14 @@ function SignIn() {
           </Form.Item>
           <Form.Item
             label="Phone Number"
-            name="phoneNumber"
+            name="phone_number"
             rules={[{ required: true, message: 'Please input your phone number!' }]}
           >
             <Input placeholder="Phone Number" />
           </Form.Item>
           <Form.Item
             label="Emergency Contact"
-            name="emergencyContact"
+            name="emergency_contact"
             rules={[{ required: true, message: 'Please input your emergency contact!' }]}
           >
             <Input placeholder="Emergency Contact (Name and Phone)" />
