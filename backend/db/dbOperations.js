@@ -109,11 +109,11 @@ async function registerUser(profile) {
   try {
     console.log(profile)
     const [email_address] = await knexInstance.transaction(async (trx) => {
-      return await trx('dbo.profile').insert(profile).returning('email_address');
+      return await trx('dbo.parent').insert(profile).returning('email_address');
     });
     return email_address;
   } catch (error) {
-    console.log("fgdfgdf")
+   
     console.error('Register error:', error);
     throw error;
   }

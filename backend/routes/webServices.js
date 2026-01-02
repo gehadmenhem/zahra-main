@@ -1,11 +1,13 @@
 const express = require("express");
+import bcrypt from "bcrypt";
 const bodyParser = require("body-parser");
 const app = express();
 const router = express.Router();
 const multer =require("multer")
 const { registerInventory, getUser, getInventory,getInventoryImages,getReviews } = require("../db/dbOperations");
 const { base64ImageToBuffer } = require("../controller/getImages/getImagesConverttoBuffer")
-const {sendEmail} = require("../controller/sendingEmails/sendEmail")
+const { sendEmail } = require("../controller/sendingEmails/sendEmail")
+const {parentRegistration}=require("../controller/parentOperations/parentOperations")
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/", router);
@@ -59,40 +61,69 @@ router.route("/").get((req, res) => {
 // });
 
 
-router.route("/register").post( async (req, res) => {
+router.route("/register").post(async (req, res) => {
   try {
-  console.log(req.body)
-    const {
-      first_name, last_name, email, phone_number, emergency_contact_name, emergency_contact_phone, province, city, postal_code, password
-    } = req.body;
+    console.log("Incoming data:", req.body);
 
-    if (
-      !first_name || !last_name || !email || !phone_number || !emergency_contact_name || !emergency_contact_phone || !province || !city || !postal_code || !password
-    ) {
-      throw new Error(
-        "validation error: all fields are required"
-      );
-    }
- const parentData = {
+    const {
       first_name,
       last_name,
-      email,
+      email_address,
       phone_number,
       emergency_contact_name,
       emergency_contact_phone,
       province,
       city,
       postal_code,
-      password,
+      password
+    } = req.body;
+
+    // ✅ Validation
+    if (
+      !first_name ||
+      !last_name ||
+      !email_address ||
+      !phone_number ||
+      !emergency_contact_name ||
+      !emergency_contact_phone ||
+      !province ||
+      !city ||
+      !postal_code ||
+      !password
+    ) {
+      return res.status(400).json({
+        error: "Validation error: all fields are required",
+      });
+    }
+
+    // 🔐 Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // ✅ Prepare data for DB
+    const parentData = {
+      first_name,
+      last_name,
+      email_address,
+      phone_number,
+      emergency_contact_name,
+      emergency_contact_phone,
+      province,
+      city,
+      postal_code,
+      password: hashedPassword, // store hashed password
+          
     };
-    console.log(parentData)
 
+    console.log("Prepared parent data:", parentData);
 
+    // 💾 Call your registration service
+    const result = await parentRegistration(parentData);
 
-    res.status(200).json(result);
+    res.status(201).json(result);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: error?.message || error });
+    console.error("Register error:", error.message);
+    res.status(500).json({ error: error.message || "Registration failed" });
   }
 });
 

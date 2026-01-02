@@ -62,7 +62,7 @@ function SignIn() {
           </Form.Item>
           <Form.Item
             label="Email"
-            name="email"
+            name="email_address"
             rules={[{ required: true, message: 'Please input your email!' }]}
           >
             <Input placeholder="Email" />
@@ -151,7 +151,7 @@ function SignIn() {
           <span>or use your account</span> */}
           <Form.Item
             label="Email"
-            name="email"
+            name="email_address"
             rules={[{ required: true, message: 'Please input your email!' }]}
           >
             <Input placeholder="Email" />
