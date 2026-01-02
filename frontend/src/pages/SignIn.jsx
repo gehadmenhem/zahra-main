@@ -9,10 +9,7 @@ export default function PreApprove() {
 
   return (
     <>
-      <div className="center-container">
         <SignIn />
-      </div>
-    
       <Footer />
     </>
   );
