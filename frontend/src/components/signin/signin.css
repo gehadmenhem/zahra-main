@@ -7,9 +7,9 @@
   box-shadow: 0 14px 28px rgba(23, 62, 148, 0.25), 0 10px 10px rgba(0,0,0,0.22);
   position: relative;
   overflow: hidden;
-  width: 1200px;
+  width: 1400px;
   max-width: 100%;
-  min-height: 900px;
+  min-height: 1100px;
   margin: 100px auto 100px auto;
 }
 
