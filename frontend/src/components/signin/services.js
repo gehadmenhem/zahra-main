@@ -1,9 +1,8 @@
-import axios from "axios";
-import config from "../../config.js"
+
 import axiosInstance from '../../api/axiosCookies.js';
 export const register = async (data) => {
   try {
-    const apiUrl = config.apiUrl;
+  
 
     const result = await axiosInstance.post(`/auth/register`, data);
     // Axios automatically sends JSON
