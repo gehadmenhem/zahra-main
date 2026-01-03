@@ -194,7 +194,7 @@ router.get('/me', async (req, res) => {
   try {
       const decoded = jwt.verify(token, JWT_SECRET);
       console.log(decoded)
-      const user = await knexInstance('dbo.profile').where({ email_address: decoded.profile }).first();
+      const user = await knexInstance('dbo.parent').where({ email_address: decoded.email_address }).first();
       console.log(user)
     res.json(user);
   } catch {
