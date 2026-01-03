@@ -14,7 +14,7 @@ function SignIn() {
 
   const onFinishSignIn = async(values) => {
     try {
-      console.log('Sign In values:', values);
+    
       const signInResult = await login(values)
       
     message.success(signInResult || 'Sign In successful!');
@@ -26,12 +26,16 @@ function SignIn() {
 
  const onFinishSignUp = async (values) => {
   try {
-    console.log("Sign Up values:", values);
 
-    await register(values); // axios sends JSON by default
 
-    message.success("Sign Up successful!");
+    const signUpResult=await register(values); // axios sends JSON by default
+    if (signUpResult) {
+      message.success("Sign Up successful!");
     signUpForm.resetFields(); // Reset the form fields after successful signup
+    } else {
+      message.error("Sign Up failed")
+   }
+   
   } catch (error) {
     message.error(error.message || "Sign Up failed");
   }
