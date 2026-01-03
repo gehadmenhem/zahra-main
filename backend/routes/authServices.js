@@ -120,11 +120,16 @@ router.post("/login", async (req, res) => {
     // 🔑 Generate JWT with the safe user object
     const token = jwt.sign(safeUser, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    // ✅ Return the safe user + token
-    res.status(200).json({
-      ...safeUser,
-      token
+    // ✅ Set cookie properly
+    res.cookie('token', token, {
+      httpOnly: true,              // ✅ More secure - prevents JS access
+      secure: process.env.NODE_ENV === 'production', // ✅ Required for HTTPS in production
+      sameSite: 'None',            // ✅ Required for cross-site cookies
+      maxAge: 86400000             // 1 day
     });
+
+    // ✅ Return the safe user only
+    res.status(200).json(safeUser);
   } catch (error) {
     console.error("Login error:", error.message);
     res.status(500).json({ error: "Login failed" });

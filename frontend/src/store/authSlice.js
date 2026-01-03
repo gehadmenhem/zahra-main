@@ -1,8 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import apiCalls from '../api/apiCalls';
+import axiosInstance from '../api/axiosCookies';
+
 export const checkAuth = createAsyncThunk('auth/check', async () => {
   const res = await apiCalls.checkifValidCookies() // this checks cookie
   return res.data;
+});
+
+export const loginUser = createAsyncThunk('auth/login', async (loginData, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.post("/auth/login", {
+      loginData
+    });
+    return response.data; // { id, email_address, role, ... }
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.error || 'Login failed');
+  }
 });
 
 const authSlice = createSlice({

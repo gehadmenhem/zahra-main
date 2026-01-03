@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message, Row, Col, Progress } from 'antd';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import './signin.css';
 import {register,login} from "./services"
+import { loginUser } from '../../store/authSlice';
 const { Password } = Input;
 
 function SignIn() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [signUpForm] = Form.useForm();
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const togglePanel = () => {
     setIsSignUp(!isSignUp);
@@ -28,17 +33,17 @@ function SignIn() {
     setPasswordStrength(calculatePasswordStrength(password));
   };
 
-  const onFinishSignIn = async(values) => {
-    try {
-    
-      const signInResult = await login(values)
-      
-    message.success(signInResult || 'Sign In successful!');
-    } catch (error) {
-        message.error(error.message || "Sign In failed");
-    }
-   
-  };
+const onFinishSignIn = async (values) => {
+  try {
+    const result = await dispatch(loginUser(values)).unwrap();
+    message.success('Sign In successful!');
+     dispatch(checkAuth());
+    navigate(`/dashboard/${result.parent_id}`);
+  } catch (error) {
+    message.error(error?.message || 'Sign In failed');
+  }
+};
+
 
  const onFinishSignUp = async (values) => {
   try {
