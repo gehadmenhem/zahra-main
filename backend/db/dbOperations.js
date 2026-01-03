@@ -165,4 +165,24 @@ async function getReviews(){
   }
 }
 
+
+async function insertChildren(childData) {
+  try {
+    console.log(profile);
+
+    const insertChildrenResult = await knexInstance.transaction(async (trx) => {
+      return await trx('dbo.children')
+        .insert(profile)
+        .returning('*');
+    });
+
+    return insertChildrenResult;
+  } catch (error) {
+   
+    console.error('Register error:', error);
+    throw error; // rethrow other errors
+  }
+}
+
+
 module.exports = { registerInventory, getUser,getInventory,getInventoryImages,registerUser,getReviews,loginUser };
