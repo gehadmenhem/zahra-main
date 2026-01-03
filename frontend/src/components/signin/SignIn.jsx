@@ -6,6 +6,7 @@ const { Password } = Input;
 
 function SignIn() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [signUpForm] = Form.useForm();
 
   const togglePanel = () => {
     setIsSignUp(!isSignUp);
@@ -30,6 +31,7 @@ function SignIn() {
     await register(values); // axios sends JSON by default
 
     message.success("Sign Up successful!");
+    signUpForm.resetFields(); // Reset the form fields after successful signup
   } catch (error) {
     message.error(error.message || "Sign Up failed");
   }
@@ -44,6 +46,7 @@ function SignIn() {
           className="form"
           onFinish={onFinishSignUp}
           layout="vertical"
+          form={signUpForm}
         >
           <h1 className="form-title">Create Account</h1>
           {/* <p className="form-subtitle">Use your email for registration</p>

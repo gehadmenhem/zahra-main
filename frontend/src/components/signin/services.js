@@ -5,7 +5,7 @@ export const register = async (data) => {
   try {
     const apiUrl = config.apiUrl;
 
-    const result = await axios.post(`${apiUrl}/auth/register`, data);
+    const result = await axiosInstance.post(`/auth/register`, data);
     // Axios automatically sends JSON
 
     return result.data;
