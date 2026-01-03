@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, message, Row, Col, Progress } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './signin.css';
 import {register,login} from "./services"
-import { loginUser } from '../../store/authSlice';
+import { loginUser, checkAuth } from '../../store/authSlice';
 const { Password } = Input;
 
 function SignIn() {
@@ -13,6 +13,17 @@ function SignIn() {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigate(`/dashboard/${user.parent_id}`);
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const togglePanel = () => {
     setIsSignUp(!isSignUp);
@@ -37,7 +48,7 @@ const onFinishSignIn = async (values) => {
   try {
     const result = await dispatch(loginUser(values)).unwrap();
     message.success('Sign In successful!');
-     dispatch(checkAuth());
+     
     navigate(`/dashboard/${result.parent_id}`);
   } catch (error) {
     message.error(error?.message || 'Sign In failed');

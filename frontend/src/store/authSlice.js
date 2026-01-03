@@ -40,6 +40,15 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state) => {
         state.loading = false;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+        state.loading = false;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
       });
   }
 });
