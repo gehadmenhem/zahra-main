@@ -124,7 +124,7 @@ router.post("/login", async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,              // ✅ More secure - prevents JS access
       secure: process.env.NODE_ENV === 'production', // ✅ Required for HTTPS in production
-      sameSite: 'None',            // ✅ Required for cross-site cookies
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // ✅ Lax for dev, None for prod
       maxAge: 86400000             // 1 day
     });
 
