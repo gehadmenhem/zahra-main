@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, message, Row, Col } from 'antd';
+import { Form, Input, Button, message, Row, Col, Progress } from 'antd';
 import './signin.css';
 import {register,login} from "./services"
 const { Password } = Input;
@@ -7,9 +7,25 @@ const { Password } = Input;
 function SignIn() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [signUpForm] = Form.useForm();
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const togglePanel = () => {
     setIsSignUp(!isSignUp);
+  };
+
+  const calculatePasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 8) strength += 25;
+    if (/[A-Z]/.test(password)) strength += 25;
+    if (/[a-z]/.test(password)) strength += 25;
+    if (/[0-9]/.test(password)) strength += 12.5;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 12.5;
+    return Math.min(strength, 100);
+  };
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setPasswordStrength(calculatePasswordStrength(password));
   };
 
   const onFinishSignIn = async(values) => {
@@ -136,10 +152,44 @@ function SignIn() {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[
+              { required: true, message: 'Please input your password!' },
+              { min: 8, message: 'Password must be at least 8 characters long!' },
+              {
+                pattern: /(?=.*[0-9])/,
+                message: 'Password must contain at least one number!'
+              },
+              {
+                pattern: /(?=.*[^A-Za-z0-9])/,
+                message: 'Password must contain at least one special character!'
+              }
+            ]}
           >
-            <Password placeholder="Password" />
+            <Password
+              placeholder="Password"
+              onChange={handlePasswordChange}
+            />
           </Form.Item>
+          {passwordStrength > 0 && (
+            <div className="password-strength-container">
+              <Progress
+                percent={passwordStrength}
+                showInfo={false}
+                strokeColor={
+                  passwordStrength < 25 ? '#ff4d4f' :
+                  passwordStrength < 50 ? '#faad14' :
+                  passwordStrength < 75 ? '#52c41a' : '#1890ff'
+                }
+              />
+              <div className="password-strength-text">
+                Password Strength: {
+                  passwordStrength < 25 ? 'Weak' :
+                  passwordStrength < 50 ? 'Fair' :
+                  passwordStrength < 75 ? 'Good' : 'Strong'
+                }
+              </div>
+            </div>
+          )}
           <Button type="primary" htmlType="submit" className="ant-btn">
             Sign Up
           </Button>

@@ -172,15 +172,14 @@
 
 /* ===========================
    INPUT & PASSWORD FIELDS
-   (FIXED + WIDER)
+   (FIXED + WIDER + ALIGNED)
 =========================== */
 .ant-form-item {
   width: 100%;
 }
 
 .ant-input,
-.ant-input-password,
-.ant-input-password input {
+.ant-input-password {
   width: 100% !important;
   max-width: 500px !important;   /* BIGGER WIDTH */
   background-color: #eee !important;
@@ -189,14 +188,15 @@
   height: 52px !important;
   border-radius: 10px !important;
   font-size: 16px !important;
+  box-sizing: border-box !important;
 }
 
-/* Password container */
+/* Password container - ALIGNED with regular inputs */
 .ant-input-password {
   display: flex !important;
   align-items: center !important;
-  padding: 0 15px !important;
-  box-sizing: border-box;
+  padding: 15px 20px !important;
+  box-sizing: border-box !important;
 }
 
 /* Input inside Password */
@@ -204,7 +204,9 @@
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;
-  height: 48px !important;
+  padding: 0 !important;
+  height: auto !important;
+  flex: 1 !important;
 }
 
 /* Eye icon FIXED */
@@ -254,6 +256,33 @@
 
 .ant-btn.ghost:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ===========================
+   PASSWORD STRENGTH
+=========================== */
+.password-strength-container {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto 16px auto !important;
+  display: block !important;
+  text-align: center !important;
+}
+
+.password-strength-container .ant-progress {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+}
+
+.password-strength-text {
+  font-size: 12px !important;
+  color: #666 !important;
+  margin-top: 4px !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 4px auto 0 auto !important;
 }
 
 /* ===========================
