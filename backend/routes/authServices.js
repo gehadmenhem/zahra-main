@@ -98,53 +98,39 @@ router.route("/register").post(async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-   
     const { email_address, password } = req.body?.loginData;
 
-    // ✅ Validate input
     if (!email_address || !password) {
-      return res.status(400).json({
-        error: "Email and password are required",
-      });
+      return res.status(400).json({ error: "Email and password are required" });
     }
 
-    // ✅ Find user
-    const user = await parentLogin({email_address})
+    const user = await parentLogin({ email_address });
     if (!user) {
-      return res.status(401).json({
-        error: "Invalid email or password",
-      });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
-    console.log(password)
-    console.log(user.password)
-    // 🔐 Compare password
+
     const isMatch = await bcrypt.compare(password, user.password);
-console.log(isMatch)
     if (!isMatch) {
-      return res.status(401).json({
-        error: "Invalid email or password",
-      });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    // 🔑 Generate JWT (optional but recommended)
-    const token = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    // 🔒 Exclude password and keep the rest of the user object
+    const { password: _, ...safeUser } = user;
 
-    // ✅ Success response (never return password)
+    // 🔑 Generate JWT with the safe user object
+    const token = jwt.sign(safeUser, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+    // ✅ Return the safe user + token
     res.status(200).json({
-      id: user.id,
-      email_address: user.email_address,
-      role: user.role,
-      token,
+      ...safeUser,
+      token
     });
   } catch (error) {
     console.error("Login error:", error.message);
     res.status(500).json({ error: "Login failed" });
   }
 });
+
 
 // // Login
 // router.post('/loginuser', async (req, res) => {
