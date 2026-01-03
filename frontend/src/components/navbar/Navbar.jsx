@@ -43,7 +43,7 @@ function Navbar() {
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
           
           <img
-  src="images/daycarelogo.jpg"
+  src="/images/daycarelogo.jpg"
   alt="A2Z Logo"
   className="a2z-logo"
 />
