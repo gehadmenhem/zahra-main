@@ -1,4 +1,4 @@
-const {registerUser}=require("../../db/dbOperations")
+const {registerUser,loginUser}=require("../../db/dbOperations")
 
 async function parentRegistration(parentProfile) {
   try {
@@ -12,4 +12,16 @@ async function parentRegistration(parentProfile) {
   }
 }
 
-module.exports={parentRegistration}
+async function parentLogin(parentLoginInfo) {
+  try {
+   
+      const loginResult = await loginUser(parentLoginInfo)
+      return loginResult || {}
+  } catch (error) {
+   
+    console.error('Register error:', error);
+    throw error;
+  }
+}
+
+module.exports={parentRegistration,parentLogin}

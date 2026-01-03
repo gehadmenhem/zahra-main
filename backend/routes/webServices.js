@@ -1,5 +1,5 @@
 const express = require("express");
-import bcrypt from "bcrypt";
+const bcrypt =require ("bcrypt");
 const bodyParser = require("body-parser");
 const app = express();
 const router = express.Router();
@@ -61,71 +61,122 @@ router.route("/").get((req, res) => {
 // });
 
 
-router.route("/register").post(async (req, res) => {
-  try {
-    console.log("Incoming data:", req.body);
+// router.route("/register").post(async (req, res) => {
+//   try {
+//     console.log("Incoming data:", req.body);
 
-    const {
-      first_name,
-      last_name,
-      email_address,
-      phone_number,
-      emergency_contact_name,
-      emergency_contact_phone,
-      province,
-      city,
-      postal_code,
-      password
-    } = req.body;
+//     const {
+//       first_name,
+//       last_name,
+//       email_address,
+//       phone_number,
+//       emergency_contact_name,
+//       emergency_contact_phone,
+//       province,
+//       city,
+//       postal_code,
+//       password
+//     } = req.body;
 
-    // ✅ Validation
-    if (
-      !first_name ||
-      !last_name ||
-      !email_address ||
-      !phone_number ||
-      !emergency_contact_name ||
-      !emergency_contact_phone ||
-      !province ||
-      !city ||
-      !postal_code ||
-      !password
-    ) {
-      return res.status(400).json({
-        error: "Validation error: all fields are required",
-      });
-    }
+//     // ✅ Validation
+//     if (
+//       !first_name ||
+//       !last_name ||
+//       !email_address ||
+//       !phone_number ||
+//       !emergency_contact_name ||
+//       !emergency_contact_phone ||
+//       !province ||
+//       !city ||
+//       !postal_code ||
+//       !password
+//     ) {
+//       return res.status(400).json({
+//         error: "Validation error: all fields are required",
+//       });
+//     }
 
-    // 🔐 Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+//     // 🔐 Hash the password
+//     const saltRounds = 10;
+//     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // ✅ Prepare data for DB
-    const parentData = {
-      first_name,
-      last_name,
-      email_address,
-      phone_number,
-      emergency_contact_name,
-      emergency_contact_phone,
-      province,
-      city,
-      postal_code,
-      password: hashedPassword, // store hashed password
+//     // ✅ Prepare data for DB
+//     const parentData = {
+//       first_name,
+//       last_name,
+//       email_address,
+//       phone_number,
+//       emergency_contact_name,
+//       emergency_contact_phone,
+//       province,
+//       city,
+//       postal_code,
+//       password: hashedPassword, // store hashed password
           
-    };
+//     };
 
-    console.log("Prepared parent data:", parentData);
+//     console.log("Prepared parent data:", parentData);
 
-    // 💾 Call your registration service
-    const result = await parentRegistration(parentData);
+//     // 💾 Call your registration service
+//     const result = await parentRegistration(parentData);
 
-    res.status(201).json(result);
-  } catch (error) {
-    console.error("Register error:", error.message);
-    res.status(500).json({ error: error.message || "Registration failed" });
-  }
-});
+//     res.status(201).json(result);
+//   } catch (error) {
+//     console.error("Register error:", error.message);
+//     res.status(500).json({ error: error.message || "Registration failed" });
+//   }
+// });
+
+// router.post("/login", async (req, res) => {
+//   try {
+//     const { email_address, password } = req.body;
+
+//     // ✅ Validate input
+//     if (!email_address || !password) {
+//       return res.status(400).json({
+//         error: "Email and password are required",
+//       });
+//     }
+
+//     // ✅ Find user
+//     const result = await parentLogin({email_address})
+
+//     if (result.rows.length === 0) {
+//       return res.status(401).json({
+//         error: "Invalid email or password",
+//       });
+//     }
+
+//     const user = result.rows[0];
+
+//     // 🔐 Compare password
+//     const isMatch = await bcrypt.compare(password, user.password);
+
+//     if (!isMatch) {
+//       return res.status(401).json({
+//         error: "Invalid email or password",
+//       });
+//     }
+
+//     // 🔑 Generate JWT (optional but recommended)
+//     const token = jwt.sign(
+//       { id: user.id, role: user.role },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "1d" }
+//     );
+
+//     // ✅ Success response (never return password)
+//     res.status(200).json({
+//       id: user.id,
+//       email_address: user.email_address,
+//       role: user.role,
+//       token,
+//     });
+//   } catch (error) {
+//     console.error("Login error:", error.message);
+//     res.status(500).json({ error: "Login failed" });
+//   }
+// });
 
 router.route("/register").get(async (req, res) => {
   try {

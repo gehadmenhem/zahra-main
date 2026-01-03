@@ -107,17 +107,45 @@ async function getUserByEmail() {
 
 async function registerUser(profile) {
   try {
-    console.log(profile)
+    console.log(profile);
+
     const [email_address] = await knexInstance.transaction(async (trx) => {
-      return await trx('dbo.parent').insert(profile).returning('email_address');
+      return await trx('dbo.parent')
+        .insert(profile)
+        .returning('email_address');
     });
+
     return email_address;
   } catch (error) {
-   
+    // PostgreSQL unique constraint error
+    if (error.code === '23505' && error.constraint === 'unique_email') {
+      throw new Error('Email already exists!');
+    }
+
     console.error('Register error:', error);
-    throw error;
+    throw error; // rethrow other errors
   }
 }
+
+async function loginUser(parentData) {
+  try {
+
+   const loginResult = await knexInstance("dbo.parent")
+      .select("id", "email_address", "password", "status")
+      .where({ parentData })
+     .first();
+    return loginResult
+  } catch (error) {
+    // PostgreSQL unique constraint error
+    if (error.code === '23505' && error.constraint === 'unique_email') {
+      throw new Error('Email already exists!');
+    }
+
+    console.error('Register error:', error);
+    throw error; // rethrow other errors
+  }
+}
+
 
 async function getReviews(){
   try {
@@ -137,4 +165,4 @@ async function getReviews(){
   }
 }
 
-module.exports = { registerInventory, getUser,getInventory,getInventoryImages,registerUser,getReviews };
+module.exports = { registerInventory, getUser,getInventory,getInventoryImages,registerUser,getReviews,loginUser };

@@ -4,71 +4,188 @@ const jwt = require('jsonwebtoken');
 const knexInstance = require("../db/dbConfig");
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
-const {registerUser} =require("../db/dbOperations");
-const { errorMonitor } = require('nodemailer/lib/xoauth2');
+const { registerUser } = require("../db/dbOperations");
+const {parentRegistration}=require("../controller/parentOperations/parentOperations")
 // Register
-router.post('/registeruser', async (req, res) => {
-    try {
+// router.post('/registeruser', async (req, res) => {
+//     try {
         
    
-    const { first_name, last_name, email_address, password } = req.body;
-    if (!first_name || !last_name || !email_address || !password) {
-        throw new Error("validation error: first_name, last_name, email_address, password")
+//     const { first_name, last_name, email_address, password } = req.body;
+//     if (!first_name || !last_name || !email_address || !password) {
+//         throw new Error("validation error: first_name, last_name, email_address, password")
+//     }
+
+//   const existing = await knexInstance('dbo.profile').where({ email_address }).first();
+//   if (existing) return res.status(400).json({ message: 'Email already exists' });
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const profile={first_name,last_name,email_address,password:hashedPassword}
+//  const registeredUser=await registerUser(profile)
+
+//         res.status(201).json({ message: 'User registered' });
+//          }
+//      catch (error) {
+//            console.error(error.message);
+//     res.status(500).json({ error: error?.message || error });
+//     }
+// });
+
+router.route("/register").post(async (req, res) => {
+  try {
+    console.log("Incoming data:", req.body);
+
+    const {
+      first_name,
+      last_name,
+      email_address,
+      phone_number,
+      emergency_contact_name,
+      emergency_contact_phone,
+      province,
+      city,
+      postal_code,
+      password
+    } = req.body;
+
+    // ✅ Validation
+    if (
+      !first_name ||
+      !last_name ||
+      !email_address ||
+      !phone_number ||
+      !emergency_contact_name ||
+      !emergency_contact_phone ||
+      !province ||
+      !city ||
+      !postal_code ||
+      !password
+    ) {
+      return res.status(400).json({
+        error: "Validation error: all fields are required",
+      });
     }
 
-  const existing = await knexInstance('dbo.profile').where({ email_address }).first();
-  if (existing) return res.status(400).json({ message: 'Email already exists' });
+    // 🔐 Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const profile={first_name,last_name,email_address,password:hashedPassword}
- const registeredUser=await registerUser(profile)
+    // ✅ Prepare data for DB
+    const parentData = {
+      first_name,
+      last_name,
+      email_address,
+      phone_number,
+      emergency_contact_name,
+      emergency_contact_phone,
+      province,
+      city,
+      postal_code,
+      password: hashedPassword, // store hashed password
+          
+    };
 
-        res.status(201).json({ message: 'User registered' });
-         }
-     catch (error) {
-           console.error(error.message);
-    res.status(500).json({ error: error?.message || error });
-    }
+    console.log("Prepared parent data:", parentData);
+
+    // 💾 Call your registration service
+    const result = await parentRegistration(parentData);
+
+    res.status(201).json(result);
+  } catch (error) {
+    console.error("Register error:", error.message);
+    res.status(500).json({ error: error.message || "Registration failed" });
+  }
 });
 
-// Login
-router.post('/loginuser', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email_address, password } = req.body;
 
+    // ✅ Validate input
     if (!email_address || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res.status(400).json({
+        error: "Email and password are required",
+      });
     }
 
-    const user = await knexInstance('dbo.profile').where({ email_address }).first();
+    // ✅ Find user
+    const result = await parentLogin({email_address})
 
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid Email Address' });
+    if (result.rows.length === 0) {
+      return res.status(401).json({
+        error: "Invalid email or password",
+      });
     }
 
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ message: 'Invalid Password' });
+    const user = result.rows[0];
+
+    // 🔐 Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        error: "Invalid email or password",
+      });
     }
 
-    const token = jwt.sign({ profile: email_address }, JWT_SECRET, { expiresIn: '1d' });
+    // 🔑 Generate JWT (optional but recommended)
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
-    // Set cookie properly
-    res.cookie('token', token, {
-      httpOnly: true,              // ✅ More secure - prevents JS access
-      secure: true,                // ✅ Required for HTTPS
-      sameSite: 'None',            // ✅ Required for cross-site cookies
-      maxAge: 86400000             // 1 day
-      // domain: '.onrender.com'   // ❌ Usually unnecessary unless you're using subdomains
+    // ✅ Success response (never return password)
+    res.status(200).json({
+      id: user.id,
+      email_address: user.email_address,
+      role: user.role,
+      token,
     });
-
-    res.json({ message: 'Login successful' });
-
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message || 'Internal Server Error' });
+    console.error("Login error:", error.message);
+    res.status(500).json({ error: "Login failed" });
   }
 });
+
+// // Login
+// router.post('/loginuser', async (req, res) => {
+//   try {
+//     const { email_address, password } = req.body;
+
+//     if (!email_address || !password) {
+//       return res.status(400).json({ message: "Email and password are required" });
+//     }
+
+//     const user = await knexInstance('dbo.profile').where({ email_address }).first();
+
+//     if (!user) {
+//       return res.status(401).json({ message: 'Invalid Email Address' });
+//     }
+
+//     const match = await bcrypt.compare(password, user.password);
+//     if (!match) {
+//       return res.status(401).json({ message: 'Invalid Password' });
+//     }
+
+//     const token = jwt.sign({ profile: email_address }, JWT_SECRET, { expiresIn: '1d' });
+
+//     // Set cookie properly
+//     res.cookie('token', token, {
+//       httpOnly: true,              // ✅ More secure - prevents JS access
+//       secure: true,                // ✅ Required for HTTPS
+//       sameSite: 'None',            // ✅ Required for cross-site cookies
+//       maxAge: 86400000             // 1 day
+//       // domain: '.onrender.com'   // ❌ Usually unnecessary unless you're using subdomains
+//     });
+
+//     res.json({ message: 'Login successful' });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: error.message || 'Internal Server Error' });
+//   }
+// });
 
 
 // // Logout

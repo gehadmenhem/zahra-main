@@ -5,7 +5,7 @@ export const register = async (data) => {
   try {
     const apiUrl = config.apiUrl;
 
-    const result = await axios.post(`${apiUrl}/register`, data);
+    const result = await axios.post(`${apiUrl}/auth/register`, data);
     // Axios automatically sends JSON
 
     return result.data;
@@ -15,9 +15,26 @@ export const register = async (data) => {
       error.message ||
       "Registration failed";
 
-    console.error("Register error:", message);
+  
     throw new Error(message);
   }
 };
 
+export const login = async (email_address, password) => {
+  try {
+    const response = await axiosInstance.post("/auth/login", {
+      email_address,
+      password,
+    });
+
+    // Backend sets cookie automatically, response contains user info
+    return response.data; // { message, user: { id, email_address, role } }
+  } catch (error) {
+      console.log(error)
+    // Extract message safely
+    const message =
+      error?.response?.data?.error || error.message || "Login failed";
+    throw new Error(message);
+  }
+};
 

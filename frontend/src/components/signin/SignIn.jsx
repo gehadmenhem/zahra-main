@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message, Row, Col } from 'antd';
 import './signin.css';
-import {register} from "./services"
+import {register,login} from "./services"
 const { Password } = Input;
 
 function SignIn() {
@@ -11,9 +11,16 @@ function SignIn() {
     setIsSignUp(!isSignUp);
   };
 
-  const onFinishSignIn = (values) => {
-    console.log('Sign In values:', values);
-    message.success('Sign In successful!');
+  const onFinishSignIn = async(values) => {
+    try {
+      console.log('Sign In values:', values);
+      const signInResult = await login(values)
+      
+    message.success(signInResult || 'Sign In successful!');
+    } catch (error) {
+        message.error(error.message || "Sign In failed");
+    }
+   
   };
 
  const onFinishSignUp = async (values) => {
