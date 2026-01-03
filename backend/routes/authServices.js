@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken');
 const knexInstance = require("../db/dbConfig");
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
-const { registerUser } = require("../db/dbOperations");
-const {parentRegistration}=require("../controller/parentOperations/parentOperations")
+const {parentRegistration,parentLogin}=require("../controller/parentOperations/parentOperations")
 // Register
 // router.post('/registeruser', async (req, res) => {
 //     try {
@@ -99,7 +98,8 @@ router.route("/register").post(async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email_address, password } = req.body;
+   
+    const { email_address, password } = req.body?.loginData;
 
     // ✅ Validate input
     if (!email_address || !password) {
@@ -109,19 +109,17 @@ router.post("/login", async (req, res) => {
     }
 
     // ✅ Find user
-    const result = await parentLogin({email_address})
-
-    if (result.rows.length === 0) {
+    const user = await parentLogin({email_address})
+    if (!user) {
       return res.status(401).json({
         error: "Invalid email or password",
       });
     }
-
-    const user = result.rows[0];
-
+    console.log(password)
+    console.log(user.password)
     // 🔐 Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-
+console.log(isMatch)
     if (!isMatch) {
       return res.status(401).json({
         error: "Invalid email or password",

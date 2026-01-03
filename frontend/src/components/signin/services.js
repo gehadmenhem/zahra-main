@@ -20,11 +20,10 @@ export const register = async (data) => {
   }
 };
 
-export const login = async (email_address, password) => {
+export const login = async (loginData) => {
   try {
     const response = await axiosInstance.post("/auth/login", {
-      email_address,
-      password,
+      loginData
     });
 
     // Backend sets cookie automatically, response contains user info

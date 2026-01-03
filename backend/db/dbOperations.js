@@ -127,14 +127,14 @@ async function registerUser(profile) {
   }
 }
 
-async function loginUser(parentData) {
+async function loginUser(email_address) {
   try {
-
    const loginResult = await knexInstance("dbo.parent")
-      .select("id", "email_address", "password", "status")
-      .where({ parentData })
+      .select("*")
+      .where( email_address )
      .first();
-    return loginResult
+   
+    return loginResult || {}
   } catch (error) {
     // PostgreSQL unique constraint error
     if (error.code === '23505' && error.constraint === 'unique_email') {
