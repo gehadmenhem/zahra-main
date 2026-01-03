@@ -167,7 +167,10 @@
   font-size: 15px !important;
   font-weight: 600 !important;
   display: block;
-  text-align: left;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
 }
 
 /* ===========================
@@ -175,7 +178,10 @@
    (FIXED + WIDER + ALIGNED)
 =========================== */
 .ant-form-item {
-  width: 100%;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
 .ant-input,
