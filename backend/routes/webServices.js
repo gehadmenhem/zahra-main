@@ -33,21 +33,30 @@ router.route('/').get((req, res) => {
   res.send('server is up and running cannot Get');
 });
 
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 const authMiddleware = (req, res, next) => {
-  const token = req.cookies.accessToken;
-
+  // Get token from cookies
+  const token = req.cookies.token; // optional chaining alternative
   if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Verify JWT token
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // Attach decoded info to request object
     req.user = decoded; // { id, email, role }
+
+    // Proceed to next middleware / route
     next();
   } catch (err) {
+    console.error('JWT verification failed:', err.message);
     return res.status(401).json({ message: 'Invalid or expired token' });
   }
 };
+
 router.get('/children', authMiddleware, async (req, res) => {
   try {
     const { parent_id } = req.query; // ✅ query parameter
