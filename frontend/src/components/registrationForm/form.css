@@ -15,7 +15,7 @@ body {
   transform: translate(-50%, -50%);
   background: rgba(189, 199, 218, 0.5);
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  /* box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6); */
   border-radius: 10px;
 }
 
@@ -50,13 +50,3 @@ body {
     min-width: 0;
   }
 }
-<<<<<<< HEAD
-=======
-
-.button-row {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px; /* or whatever spacing you prefer */
-  width: 100%;
-}
->>>>>>> ebae283fb162f9c5ba9e6261a3a63516457ae9f2

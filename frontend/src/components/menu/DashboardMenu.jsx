@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, Spin, theme } from 'antd';
 import { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
 import { getChildrens } from './children/services';
 const { Header, Content, Footer, Sider } = Layout;
@@ -21,6 +22,7 @@ const DashboardMenu = ({ parentId }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedKey, setSelectedKey] = useState('1');
+  const location = useLocation();
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -106,7 +108,9 @@ const DashboardMenu = ({ parentId }) => {
         <Header style={{ padding: 0, background: colorBgContainer }} />
 
         <Content style={{ margin: '0 16px' }}>
-          {selectedKey === '1' ? (
+          {location.pathname.includes('/addchild') ? (
+            <Outlet />
+          ) : selectedKey === '1' ? (
             <ParentInfoTable />
           ) : (
             <>

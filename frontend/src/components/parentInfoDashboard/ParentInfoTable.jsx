@@ -1,10 +1,13 @@
 import { Button, Form, Input, message, Modal, Space, Table } from 'antd';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { addChild, getChildrens, updateChild } from '../menu/children/services';
 
 const ParentInfoTable = () => {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [children, setChildren] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -23,9 +26,7 @@ const ParentInfoTable = () => {
   };
 
   const handleAddChild = () => {
-    setEditingChild(null);
-    form.resetFields();
-    setIsModalVisible(true);
+    navigate(`/dashboard/${id}/addchild`);
   };
 
   const handleEditChild = (child) => {

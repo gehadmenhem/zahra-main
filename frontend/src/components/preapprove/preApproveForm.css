@@ -1,0 +1,301 @@
+/* === Center container === */
+.center-container {
+  margin-top: -40px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  .center-container {
+    margin-top: 80px;
+  }
+}
+
+/* === Full background image === */
+.preapprove-full-bg {
+  width: 100%;
+  min-height: 400px;
+  background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1500&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  .preapprove-full-bg {
+    height: auto; /* Allow height to adjust to content */
+    min-height: auto; /* Remove fixed min-height to enable proper scrolling */
+  }
+}
+
+/* === Dark overlay === */
+.preapprove-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+/* Mobile specific adjustments for overlay */
+@media (max-width: 768px) {
+  .preapprove-overlay {
+    justify-content: flex-start; /* Change to flex-start to allow content to flow from top */
+    padding-top: 20px; /* Reduce top padding */
+    min-height: auto; /* Allow height to adjust to content */
+  }
+}
+
+/* === Multi-step form === */
+.multi-step-form {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* Progress bar */
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: rgb(247, 219, 145);
+  padding: 20px;
+}
+
+#progressbar li {
+  list-style-type: none;
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  width: 20%;
+  float: left;
+  position: relative;
+  text-align: center;
+}
+
+#progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 30px;
+  line-height: 30px;
+  display: block;
+  font-size: 12px;
+  color: #333;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto 5px auto;
+}
+
+#progressbar li:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: white;
+  position: absolute;
+  left: -50%;
+  top: 15px;
+  z-index: -1;
+}
+
+#progressbar li:first-child:after {
+  content: none;
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+  background: rgb(240, 178, 7);
+  color: white;
+}
+
+/* Form steps */
+fieldset {
+  border: 0 none;
+  border-radius: 0px;
+  width: 100%;
+  margin: 0;
+  padding: 20px 30px 50px 30px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.fs-title {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.fs-subtitle {
+  font-weight: normal;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* === Form Layout === */
+.ant-form {
+  padding: 0;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .ant-form-item {
+  flex: 1;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+/* === Inputs === */
+.ant-input,
+.ant-input-number,
+.ant-picker,
+.ant-select-selector {
+  border-radius: 8px;
+  height: 46px;
+  font-size: 15px;
+  color: black !important;
+}
+
+.ant-input-number input,
+.ant-picker input,
+.ant-select-selection-item {
+  height: 44px !important;
+  line-height: 44px !important;
+  color: black !important;
+}
+
+/* === Buttons === */
+.ant-btn {
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary {
+  background: rgb(240, 178, 7);
+  border-color: rgb(240, 178, 7);
+}
+
+.ant-btn-primary:hover {
+  background: black;
+  border-color: rgb(255, 190, 10);
+}
+
+.ant-btn-default:hover {
+  background: rgb(240, 178, 7) !important;
+  border-color: white !important;
+  color: white !important;
+}
+
+/* Contact info */
+.contact-info {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.contact-info h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.contact-info p {
+  color: #666;
+  margin: 5px 0;
+}
+
+/* === Responsive tweaks === */
+@media (max-width: 768px) {
+  .center-container {
+    width: 100%;
+    margin-top: 160px; /* Push down more on mobile */
+  }
+
+  .preapprove-overlay {
+    padding: 80px 15px 60px 15px; /* Add more top padding to push content down */
+    min-height: auto;
+  }
+
+  .multi-step-form {
+    max-width: 100%;
+    margin: 60px 10px 60px 10px; /* Add more top margin to push form down */
+  }
+
+  fieldset {
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-row .ant-btn {
+    width: 100%;
+  }
+
+  #progressbar li {
+    font-size: 10px;
+  }
+
+  #progressbar li:before {
+    width: 25px;
+    line-height: 25px;
+    font-size: 10px;
+  }
+
+  #progressbar li:after {
+    top: 12px;
+  }
+
+  .contact-info {
+    margin-top: 400px; /* Push footer down even more to ensure full visibility */
+  }
+
+  /* DatePicker mobile adjustments */
+  .ant-picker-dropdown {
+    width: 300px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .ant-picker-panel-container {
+    width: 100% !important;
+  }
+}

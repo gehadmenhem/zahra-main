@@ -1,5 +1,5 @@
 /* Custom font */
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 /* Basic reset */
 * {
@@ -9,21 +9,11 @@
 
 html {
   height: 100%;
-   background: radial-gradient(
-  circle,
-  rgba(80, 80, 1, 0.1),
-  rgba(3, 2, 50, 0.5)
-);
-
-
-
+  /* background: linear-gradient(rgba(7, 37, 1, 0.6), rgba(3, 52, 80, 0.6)); */
 }
 
 body {
   font-family: montserrat, arial, verdana;
-height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 /* Form styles */
@@ -39,7 +29,7 @@ height: 100%;
   background: white;
   border: 0;
   border-radius: 3px;
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  /* box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4); */
   padding: 20px 30px;
   width: auto;
   margin: 0 10%;
@@ -60,14 +50,14 @@ height: 100%;
   margin-bottom: 10px;
   width: 100%;
   font-family: montserrat;
-  color: #090a0a;
-  font-size: 15px;
+  color: #5fddc2;
+  font-size: 13px;
 }
 
 /* Action button styles */
 .multi-step-form .action-button {
   width: 100px;
-  background: #0be265;
+  background: #27ae60;
   font-weight: bold;
   font-size: 20px;
   color: white;
@@ -80,7 +70,7 @@ height: 100%;
 
 .multi-step-form .action-button:hover,
 .multi-step-form .action-button:focus {
-  box-shadow: 0 0 0 2px white, 0 0 0 3px #27ae60;
+  /* box-shadow: 0 0 0 2px white, 0 0 0 3px #27ae60; */
 }
 
 /* Headings */
@@ -100,7 +90,7 @@ height: 100%;
 
 /* Progress bar */
 #progressbar {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   overflow: hidden;
   counter-reset: step;
 }
@@ -110,16 +100,15 @@ height: 100%;
   text-transform: uppercase;
   color: white;
   font-size: 10px;
-  width: 20%;
+  width: 25%;
   float: left;
-  position:relative;
-  
+  position: relative;
 }
 
 #progressbar li:before {
   content: counter(step);
   counter-increment: step;
-  width: 5px;
+  width: 20px;
   line-height: 50px;
   font-size: 20px;
   color: #333;
@@ -130,7 +119,7 @@ height: 100%;
 
 /* Progress bar connectors */
 #progressbar li:after {
-  content: "";
+  content: '';
   width: 100%;
   height: 3px;
   background: white;
@@ -145,50 +134,6 @@ height: 100%;
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-  background: #ae8e27;
+  background: #27ae60;
   color: white;
-}
-
-.button-row {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-  padding: 0 16px; /* Add horizontal padding if needed */
-  width: 100%;
-}
-.feature-grid {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr); /* Two equal columns */
-  /* gap: 12px 24px; */
-  /* margin-top: 10px; */
-  text-align: left; /* Make sure text inside stays left-aligned */
-}
-
-.feature-checkbox {
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-}
-@media (max-width: 768px) {
-  .feature-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-   .multi-step-form {
-    width: 100%;           /* full width */
-    height: 100vh;         /* full viewport height */
-    margin: 0 auto;        /* center horizontally */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* vertically center content */
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-
-  .multi-step-form fieldset {
-    flex-grow: 1;          /* make fieldset grow to fill vertical space */
-    margin: 0 1rem;        /* smaller horizontal margin */
-    padding: 1rem 1.5rem;
-    box-sizing: border-box;
-    overflow-y: auto;      /* scroll inside if content overflows */
-  }
 }
