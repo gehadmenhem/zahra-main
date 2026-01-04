@@ -6,9 +6,8 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import { getChildrens } from './children/services';
 const { Header, Content, Footer, Sider } = Layout;
 
 /* Helper to create menu items */
@@ -33,9 +32,7 @@ const DashboardMenu = () => {
   useEffect(() => {
     const fetchChildren = async () => {
       try {
-        const response = await axios.get('/api/children', {
-          withCredentials: true,
-        });
+        const response = await getChildrens(parent_id);
 
         setChildrenData(response.data);
 
