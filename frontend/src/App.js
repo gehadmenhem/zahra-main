@@ -68,6 +68,10 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="dashboard/:id" element={<Dashboard />}>
             <Route path="addchild" element={<AddChildPage />} />
+            <Route
+              path="child/:childId"
+              element={<div>Child View Placeholder</div>}
+            />
           </Route>
         </Route>
         {/* Catch-all route */}

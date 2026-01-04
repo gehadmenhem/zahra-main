@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, Spin, theme } from 'antd';
 import { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
 import { getChildrens } from './children/services';
 const { Header, Content, Footer, Sider } = Layout;
@@ -23,13 +23,27 @@ const DashboardMenu = ({ parentId }) => {
   const [loading, setLoading] = useState(true);
   const [selectedKey, setSelectedKey] = useState('1');
   const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const handleMenuClick = (e) => {
-    setSelectedKey(e.key);
+    const key = e.key;
+    setSelectedKey(key);
+
+    // Navigate based on menu item
+    if (key === '1') {
+      // Dashboard - navigate to base dashboard route
+      navigate(`/dashboard/${id}`);
+    } else if (key.startsWith('child-')) {
+      // Child item - navigate to child view (you can customize this)
+      const childId = key.replace('child-', '');
+      navigate(`/dashboard/${id}/child/${childId}`);
+    }
+    // For other menu items, just update selectedKey without navigation
   };
 
   // Fetch children once on mount
