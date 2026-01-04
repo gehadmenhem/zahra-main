@@ -224,4 +224,23 @@ router.get('/me', async (req, res) => {
   }
 });
 
+// Get children for a parent
+router.get('/children', authenticateToken, async (req, res) => {
+  try {
+    const parentId = req.query.parentId || req.user.parent_id;
+    if (!parentId) {
+      return res.status(400).json({ error: 'Parent ID is required' });
+    }
+
+    const children = await knexInstance('dbo.children')
+      .where({ parent_id: parentId })
+      .select('child_id', 'first_name', 'last_name');
+
+    res.status(200).json(children);
+  } catch (error) {
+    console.error('Error fetching children:', error);
+    res.status(500).json({ error: 'Failed to fetch children' });
+  }
+});
+
 module.exports = router;

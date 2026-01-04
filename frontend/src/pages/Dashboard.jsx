@@ -1,12 +1,14 @@
+import { useSelector } from 'react-redux';
+import '../App.css';
+import DashboardMenu from '../components/menu/DashboardMenu';
 
-import "../App.css";
-import DashboardMenu from "../components/menu/DashboardMenu";
-import Footer from "../components/footer/Footer"
 export default function Dashboard() {
+  const { user } = useSelector((state) => state.auth);
+  const parentId = user?.parent_id;
+
   return (
     <>
-     
-      <DashboardMenu />
+      <DashboardMenu parentId={parentId} />
       {/* <Footer /> */}
     </>
   );

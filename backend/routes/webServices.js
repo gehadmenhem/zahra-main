@@ -50,12 +50,14 @@ const authMiddleware = (req, res, next) => {
 };
 router.get('/children', authMiddleware, async (req, res) => {
   try {
-    const { parent_id } = req.body;
+    const { parent_id } = req.query; // ✅ query parameter
+
+    console.log('Parent ID received:', parent_id);
+
     if (!parent_id) {
-      throw new Error(
-        'validation error: vin number is required to get the car Images'
-      );
+      return res.status(400).json({ message: 'Parent ID is required' });
     }
+
     const children = await getParentChildren(parent_id);
 
     res.status(200).json(children);
@@ -64,6 +66,7 @@ router.get('/children', authMiddleware, async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch children' });
   }
 });
+
 router.route('/register').get(async (req, res) => {
   try {
     const result = await getUser();

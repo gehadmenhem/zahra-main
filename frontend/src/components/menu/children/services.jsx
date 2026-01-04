@@ -1,12 +1,15 @@
-import axiosInstance from '../../api/axiosCookies.js';
+import axiosInstance from '../../../api/axiosCookies.js';
 
-export const getChildrens = async () => {
+export const getChildrens = async (parent_id) => {
   try {
-    const result = await axiosInstance.get('/children', {
-      withCredentials: true, // ✅ sends HTTP-only cookie automatically
+    console.log('Fetching children for parent:', parent_id);
+
+    const result = await axiosInstance.get(`/children`, {
+      params: { parent_id }, // ✅ send as query parameter
+      withCredentials: true, // ✅ send cookie
     });
 
-    return result.data;
+    return result.data; // ✅ return only the data
   } catch (error) {
     const message =
       error?.response?.data?.message ||

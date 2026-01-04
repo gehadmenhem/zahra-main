@@ -5,38 +5,35 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu, Spin, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { getChildrens } from './children/services';
+
 const { Header, Content, Footer, Sider } = Layout;
 
-/* Helper to create menu items */
 function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
+  return { key, icon, children, label };
 }
 
-const DashboardMenu = () => {
+const DashboardMenu = ({ parentId }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [childrenData, setChildrenData] = useState([]);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  // Fetch children once on mount
   useEffect(() => {
     const fetchChildren = async () => {
       try {
-        const response = await getChildrens(parent_id);
+        setLoading(true);
+        const data = await getChildrens(parentId); // fetch children from backend
+        setChildrenData(data || []);
 
-        setChildrenData(response.data);
-
-        const childMenuItems = response.data.map((child) =>
+        const childMenuItems = (data || []).map((child) =>
           getItem(
             `${child.first_name} ${child.last_name}`,
             `child-${child.id}`,
@@ -56,18 +53,32 @@ const DashboardMenu = () => {
         ]);
       } catch (error) {
         console.error('Error fetching children:', error);
-
-        // Fallback menu
+        // fallback menu
         setItems([
           getItem('Dashboard', '1', <PieChartOutlined />),
           getItem('Reports', '2', <DesktopOutlined />),
           getItem('Children', 'sub1', <UserOutlined />, []),
+          getItem('Team', 'sub2', <TeamOutlined />, [
+            getItem('Team 1', '6'),
+            getItem('Team 2', '8'),
+          ]),
+          getItem('Files', '9', <FileOutlined />),
         ]);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchChildren();
-  }, []);
+    if (parentId) fetchChildren();
+  }, [parentId]);
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', padding: 50 }}>
+        <Spin size="large" tip="Loading children..." />
+      </div>
+    );
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
