@@ -66,9 +66,9 @@ router.get('/children', authMiddleware, async (req, res) => {
     if (!parent_id) {
       return res.status(400).json({ message: 'Parent ID is required' });
     }
-
+    console.log(parent_id);
     const children = await getParentChildren(parent_id);
-
+    console.log(children);
     res.status(200).json(children);
   } catch (error) {
     console.error('Error fetching children:', error);
