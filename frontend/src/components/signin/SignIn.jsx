@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, message, Progress, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAuth, loginUser } from '../../store/authSlice';
+import { loginUser } from '../../store/authSlice';
 import { register } from './services';
 import './signin.css';
 const { Password } = Input;
@@ -14,10 +14,6 @@ function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
