@@ -1,15 +1,36 @@
+/** @format */
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const knexInstance = require("../db/dbConfig");
+const knexInstance = require('../db/dbConfig');
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
-const {parentRegistration,parentLogin}=require("../controller/parentOperations/parentOperations")
+const {
+  parentRegistration,
+  parentLogin,
+} = require('../controller/parentOperations/parentOperations');
+const {
+  childrenRegistration,
+} = require('../controller/childOperations/childOperations');
+
+// Middleware to verify JWT token
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};
 // Register
 // router.post('/registeruser', async (req, res) => {
 //     try {
-        
-   
+
 //     const { first_name, last_name, email_address, password } = req.body;
 //     if (!first_name || !last_name || !email_address || !password) {
 //         throw new Error("validation error: first_name, last_name, email_address, password")
@@ -30,9 +51,9 @@ const {parentRegistration,parentLogin}=require("../controller/parentOperations/p
 //     }
 // });
 
-router.route("/register").post(async (req, res) => {
+router.route('/register').post(async (req, res) => {
   try {
-    console.log("Incoming data:", req.body);
+    console.log('Incoming data:', req.body);
 
     const {
       first_name,
@@ -44,7 +65,7 @@ router.route("/register").post(async (req, res) => {
       province,
       city,
       postal_code,
-      password
+      password,
     } = req.body;
 
     // ✅ Validation
@@ -61,7 +82,7 @@ router.route("/register").post(async (req, res) => {
       !password
     ) {
       return res.status(400).json({
-        error: "Validation error: all fields are required",
+        error: 'Validation error: all fields are required',
       });
     }
 
@@ -81,61 +102,61 @@ router.route("/register").post(async (req, res) => {
       city,
       postal_code,
       password: hashedPassword, // store hashed password
-          
     };
 
-    console.log("Prepared parent data:", parentData);
+    console.log('Prepared parent data:', parentData);
 
     // 💾 Call your registration service
     const result = await parentRegistration(parentData);
 
     res.status(201).json(result);
   } catch (error) {
-    console.error("Register error:", error.message);
-    res.status(500).json({ error: error.message || "Registration failed" });
+    console.error('Register error:', error.message);
+    res.status(500).json({ error: error.message || 'Registration failed' });
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { email_address, password } = req.body?.loginData;
 
     if (!email_address || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     const user = await parentLogin({ email_address });
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // 🔒 Exclude password and keep the rest of the user object
     const { password: _, ...safeUser } = user;
 
     // 🔑 Generate JWT with the safe user object
-    const token = jwt.sign(safeUser, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign(safeUser, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    });
 
     // ✅ Set cookie properly
     res.cookie('token', token, {
-      httpOnly: true,              // ✅ More secure - prevents JS access
+      httpOnly: true, // ✅ More secure - prevents JS access
       secure: process.env.NODE_ENV === 'production', // ✅ Required for HTTPS in production
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // ✅ Lax for dev, None for prod
-      maxAge: 86400000             // 1 day
+      maxAge: 86400000, // 1 day
     });
 
     // ✅ Return the safe user only
     res.status(200).json(safeUser);
   } catch (error) {
-    console.error("Login error:", error.message);
-    res.status(500).json({ error: "Login failed" });
+    console.error('Login error:', error.message);
+    res.status(500).json({ error: 'Login failed' });
   }
 });
-
 
 // // Login
 // router.post('/loginuser', async (req, res) => {
@@ -176,7 +197,6 @@ router.post("/login", async (req, res) => {
 //   }
 // });
 
-
 // // Logout
 // router.post('/logout', (req, res) => {
 //   res.clearCookie('token');
@@ -185,17 +205,19 @@ router.post("/login", async (req, res) => {
 
 // Authenticated route
 router.get('/me', async (req, res) => {
-    console.log('inside me')
-    
-    const token = req.cookies.token;
-    console.log(token)
+  console.log('inside me');
+
+  const token = req.cookies.token;
+  console.log(token);
   if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
   try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      console.log(decoded)
-      const user = await knexInstance('dbo.parent').where({ email_address: decoded.email_address }).first();
-      console.log(user)
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(decoded);
+    const user = await knexInstance('dbo.parent')
+      .where({ email_address: decoded.email_address })
+      .first();
+    console.log(user);
     res.json(user);
   } catch {
     res.status(401).json({ message: 'Invalid token' });

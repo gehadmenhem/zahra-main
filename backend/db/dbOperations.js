@@ -172,6 +172,21 @@ async function insertChildren(childData) {
   }
 }
 
+async function selectChildrenParent(parent_id) {
+  try {
+    const result = await knexInstance
+      .select('*')
+      .from('dbo.children')
+      .where('parent_id_xref', '=', parent_id)
+      .orderBy('first_name', 'asc');
+
+    return result || [];
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+
 module.exports = {
   registerInventory,
   getUser,
@@ -181,4 +196,5 @@ module.exports = {
   getReviews,
   loginUser,
   insertChildren,
+  selectChildrenParent,
 };
