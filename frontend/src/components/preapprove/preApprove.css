@@ -1,6 +1,6 @@
 /* === Center container === */
 .center-container {
-  margin-top: -40px;
+  margin-top: -10px;
   display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
@@ -10,7 +10,6 @@
 /* === Full background image === */
 .preapprove-full-bg {
   width: 100%;
-  height: 100%;
   background: linear-gradient(
     100deg,
     rgb(208, 228, 233) 50%,
@@ -22,26 +21,23 @@
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
+  margin-top: 30px;
 }
 
 /* Mobile specific adjustments */
-@media (max-width: 768px) {
-  .preapprove-full-bg {
-    height: 100%; /* Allow height to adjust to content */
-  }
-}
 
 /* === Dark overlay === */
 .preapprove-overlay {
   /* background: rgba(0, 0, 0, 0.6); */
   width: 100%;
-  padding: 80px 20px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-top: -100px;
 }
 
 /* Mobile specific adjustments for overlay */
@@ -247,7 +243,7 @@ fieldset {
 
   .multi-step-form {
     max-width: 100%;
-    margin: 60px 10px 60px 10px; /* Add more top margin to push form down */
+    margin: 10px 10px 60px 10px; /* Reduce top margin further to move form up */
   }
 
   fieldset {
