@@ -13,8 +13,8 @@
   height: 100%;
   background: linear-gradient(
     100deg,
-    rgb(138, 202, 218) 50%,
-    rgb(245, 242, 242) 100%
+    rgb(3, 92, 114) 50%,
+    rgb(168, 166, 166) 100%
   );
   /* background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1500&q=80'); */
   background-size: cover;
@@ -35,7 +35,7 @@
 
 /* === Dark overlay === */
 .preapprove-overlay {
-  background: rgba(0, 0, 0, 0.6);
+  /* background: rgba(0, 0, 0, 0.6); */
   width: 100%;
   padding: 80px 20px;
   display: flex;
@@ -72,7 +72,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  background: rgb(247, 219, 145);
+  background: #02213b;
   padding: 20px;
 }
 
@@ -117,7 +117,7 @@
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-  background: rgb(240, 178, 7);
+  background: rgb(11, 90, 155);
   color: white;
 }
 
@@ -197,17 +197,17 @@ fieldset {
 }
 
 .ant-btn-primary {
-  background: rgb(240, 178, 7);
-  border-color: rgb(240, 178, 7);
+  background: rgb(11, 90, 155);
+  border-color: rgb(11, 90, 155);
 }
 
 .ant-btn-primary:hover {
   background: black;
-  border-color: rgb(255, 190, 10);
+  border-color: rgb(11, 90, 155);
 }
 
 .ant-btn-default:hover {
-  background: rgb(240, 178, 7) !important;
+  background: rgb(11, 90, 155) !important;
   border-color: white !important;
   color: white !important;
 }
