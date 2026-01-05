@@ -349,7 +349,12 @@ const PreApproveForm = () => {
                       },
                     ]}
                   >
-                    <DatePicker style={{ width: '100%' }} />
+                    <DatePicker
+                      style={{ width: '100%' }}
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf('day')
+                      }
+                    />
                   </Form.Item>
                 </div>
                 <Form.Item
