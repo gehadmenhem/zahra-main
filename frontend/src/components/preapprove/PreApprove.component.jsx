@@ -12,7 +12,6 @@ import {
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import apiCalls from '../../api/apiCalls';
-import ImageUploader from '../UploadImages/ImageUploader';
 import './preApprove.css';
 
 const PreApproveForm = () => {
@@ -20,96 +19,27 @@ const PreApproveForm = () => {
   const [personalForm] = Form.useForm();
   const [employmentForm] = Form.useForm();
   const [financialForm] = Form.useForm();
+  const [authorizedPickupsForm] = Form.useForm();
   const [coApplicantPersonalForm] = Form.useForm();
-  const [coApplicantEmploymentForm] = Form.useForm();
-  const [coApplicantFinancialForm] = Form.useForm();
-  const [documentsForm] = Form.useForm();
   const [formData, setFormData] = useState({});
-  const [fileList, setFileList] = useState([]);
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [hasCoApplicant, setHasCoApplicant] = useState(null);
+  const [hasSecondaryParent, setHasSecondaryParent] = useState(null);
+  const [specialExerciseDiet, setSpecialExerciseDiet] = useState(null);
+  const [peanutAllergy, setPeanutAllergy] = useState(null);
+  const [dairyAllergy, setDairyAllergy] = useState(null);
+  const [eggAllergy, setEggAllergy] = useState(null);
+  const [shellfishAllergy, setShellfishAllergy] = useState(null);
+  const [authorizedPickups, setAuthorizedPickups] = useState([{ id: 0 }]);
   const [consentChecked, setConsentChecked] = useState(false);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    documentsForm.setFieldsValue({ upload: fileList });
-  }, [fileList, documentsForm]);
-
-  const getMaxStep = () => {
-    if (hasCoApplicant === null) return 2; // Before deciding co-applicant
-    if (hasCoApplicant) return 7; // Personal(0), Employment(1), Financial(2), CoPersonal(3), CoEmployment(4), CoFinancial(5), Documents(6), Success(7)
-    return 3; // Personal(0), Employment(1), Financial(2), Documents(3), Success(4)
-  };
-
-  const handleNext = () => {
-    const maxStep = getMaxStep();
-    if (currentStep < maxStep) {
-      let formToValidate;
-      if (currentStep === 0) formToValidate = personalForm;
-      else if (currentStep === 1) formToValidate = employmentForm;
-      else if (currentStep === 2) formToValidate = financialForm;
-      else if (currentStep === 3 && hasCoApplicant)
-        formToValidate = coApplicantPersonalForm;
-      else if (currentStep === 4 && hasCoApplicant)
-        formToValidate = coApplicantEmploymentForm;
-      else if (currentStep === 5 && hasCoApplicant)
-        formToValidate = coApplicantFinancialForm;
-
-      if (currentStep === 2 && hasCoApplicant === null) {
-        // Special case: after financial, ask about co-applicant
-        setCurrentStep(currentStep + 1);
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      formToValidate
-        .validateFields()
-        .then((values) => {
-          setFormData((prev) => ({ ...prev, ...values }));
-          setCurrentStep(currentStep + 1);
-          window.scrollTo(0, 0);
-        })
-        .catch(() => {
-          notification.info({
-            message: 'Info',
-            description: 'Please fill in all required fields to proceed',
-            duration: 5,
-          });
-        });
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
-    }
-  };
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [previewImage, setPreviewImage] = useState('');
 
   const handleSubmit = async () => {
     try {
       setLoading(true);
 
-      // Check if at least one document is uploaded
-      if (fileList.length === 0) {
-        notification.error({
-          message: 'Error',
-          description: 'Please upload at least one document',
-          duration: 5,
-        });
-        setLoading(false);
-        return;
-      }
-
-      const documentsValues = await documentsForm.validateFields();
-
-      const submitData = { ...formData, ...documentsValues };
+      const submitData = { ...formData };
 
       // Format date if present
       if (submitData.dateOfBirth) {
@@ -136,13 +66,8 @@ const PreApproveForm = () => {
         employmentForm.resetFields();
         financialForm.resetFields();
         coApplicantPersonalForm.resetFields();
-        coApplicantEmploymentForm.resetFields();
-        coApplicantFinancialForm.resetFields();
-        documentsForm.resetFields();
-        setFileList([]);
         setFormData({});
-        setHasCoApplicant(null);
-        setConsentChecked(false);
+        setHasSecondaryParent(null);
         setCurrentStep(8); // Go to success step
       }
     } catch (error) {
@@ -156,37 +81,91 @@ const PreApproveForm = () => {
     }
   };
 
-  const handleCancel = () => setPreviewVisible(false);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const getMaxStep = () => {
+    if (hasSecondaryParent === null) return 2; // Before deciding secondary parent
+    if (hasSecondaryParent) return 4; // Personal(0), Employment(1), Health(2), SecondaryParent(3), AuthorizedPickups(4), Success(8)
+    return 3; // Personal(0), Employment(1), Health(2), AuthorizedPickups(3), Success(8)
+  };
+
+  const handleNext = () => {
+    const maxStep = getMaxStep();
+    if (currentStep < maxStep) {
+      let formToValidate;
+      if (currentStep === 0) formToValidate = personalForm;
+      else if (currentStep === 1) formToValidate = employmentForm;
+      else if (currentStep === 2) formToValidate = financialForm;
+      else if (currentStep === 3 && hasSecondaryParent)
+        formToValidate = coApplicantPersonalForm;
+      else if (
+        (currentStep === 3 && !hasSecondaryParent) ||
+        (currentStep === 4 && hasSecondaryParent)
+      )
+        formToValidate = authorizedPickupsForm;
+
+      formToValidate
+        .validateFields()
+        .then((values) => {
+          setFormData((prev) => ({ ...prev, ...values }));
+          setCurrentStep(currentStep + 1);
+          window.scrollTo(0, 0);
+        })
+        .catch(() => {
+          notification.info({
+            message: 'Info',
+            description: 'Please fill in all required fields to proceed',
+            duration: 5,
+          });
+        });
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const addAuthorizedPickup = () => {
+    setAuthorizedPickups([
+      ...authorizedPickups,
+      { id: authorizedPickups.length },
+    ]);
+  };
+
+  const removeAuthorizedPickup = (id) => {
+    setAuthorizedPickups(
+      authorizedPickups.filter((pickup) => pickup.id !== id)
+    );
+  };
+
+  const handleCancel = () => {
+    setPreviewVisible(false);
+  };
 
   return (
     <div className="preapprove-full-bg">
       <div className="preapprove-overlay">
         <div className="multi-step-form">
           <ul id="progressbar">
-            <li className={currentStep >= 0 ? 'active' : ''}>Personal Info</li>
-            <li className={currentStep >= 1 ? 'active' : ''}>Employment</li>
-            <li className={currentStep >= 2 ? 'active' : ''}>Financial Info</li>
-            {hasCoApplicant && (
+            <li className={currentStep >= 0 ? 'active' : ''}>Child Info</li>
+            <li className={currentStep >= 1 ? 'active' : ''}>Primary Parent</li>
+            <li className={currentStep >= 2 ? 'active' : ''}>Health Info</li>
+            {hasSecondaryParent && (
               <li className={currentStep >= 3 ? 'active' : ''}>
-                Co-Applicant Personal
-              </li>
-            )}
-            {hasCoApplicant && (
-              <li className={currentStep >= 4 ? 'active' : ''}>
-                Co-Applicant Employment
-              </li>
-            )}
-            {hasCoApplicant && (
-              <li className={currentStep >= 5 ? 'active' : ''}>
-                Co-Applicant Financial
+                Secondary Parent
               </li>
             )}
             <li
               className={
-                currentStep >= (hasCoApplicant ? 6 : 3) ? 'active' : ''
+                currentStep >= (hasSecondaryParent ? 4 : 3) ? 'active' : ''
               }
             >
-              Documents
+              Authorized Pickups
             </li>
             <li className={currentStep >= 8 ? 'active' : ''}>Success</li>
           </ul>
@@ -194,13 +173,13 @@ const PreApproveForm = () => {
           {/* Step 1: Personal Information */}
           {currentStep === 0 && (
             <fieldset>
-              <h2 className="fs-title">Personal Information</h2>
+              <h2 className="fs-title">Child Information</h2>
               <h3 className="fs-subtitle">Basic Details</h3>
               <Form layout="vertical" form={personalForm}>
                 <div className="form-row">
                   <Form.Item
-                    label="First Name"
-                    name="firstName"
+                    label="Legal Child First Name"
+                    name="first_name"
                     rules={[
                       {
                         required: true,
@@ -211,8 +190,8 @@ const PreApproveForm = () => {
                     <Input placeholder="John" />
                   </Form.Item>
                   <Form.Item
-                    label="Last Name"
-                    name="lastName"
+                    label="Legal Child Last Name"
+                    name="last_name"
                     rules={[
                       {
                         required: true,
@@ -225,42 +204,49 @@ const PreApproveForm = () => {
                 </div>
                 <div className="form-row">
                   <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                      { required: true, message: 'Please enter your email' },
-                      { type: 'email', message: 'Please enter a valid email' },
-                    ]}
+                    label="Child Middle Name"
+                    name="child_middle_name"
+                    // rules={[
+                    //   { required: true, message: 'Please enter your email' },
+                    //   { type: 'email', message: 'Please enter a valid email' },
+                    // ]}
                   >
-                    <Input placeholder="john.doe@example.com" />
+                    <Input placeholder="Danni" />
                   </Form.Item>
                   <Form.Item
-                    label="Phone Number"
-                    name="phone"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter your phone number',
-                      },
-                      {
-                        pattern: /^[0-9\s-+()]*$/,
-                        message: 'Please enter a valid phone number',
-                      },
-                    ]}
+                    label="Child Preferred Name"
+                    name="preferred_name"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: 'Please enter your preferred name',
+                    //   },
+                    // ]}
                   >
-                    <Input placeholder="(123) 456-7890" />
+                    <Input placeholder="Joe" />
                   </Form.Item>
                 </div>
-                <Form.Item
-                  label="Address"
-                  name="address"
-                  rules={[
-                    { required: true, message: 'Please enter your address' },
-                  ]}
-                >
-                  <Input placeholder="123 Main St, City, Province, Postal Code" />
-                </Form.Item>
                 <div className="form-row">
+                  <Form.Item
+                    label="First Language Spoken"
+                    name="first_language_spoken"
+                    // rules={[
+                    //   { required: true, message: 'Please enter your address' },
+                    // ]}
+                  >
+                    <Input placeholder="Arabic" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Second Language Spoken"
+                    name="second_language_spoken"
+                    // rules={[
+                    //   { required: true, message: 'Please enter your address' },
+                    // ]}
+                  >
+                    <Input placeholder="Arabic" />
+                  </Form.Item>
+                </div>
+                {/* <div className="form-row">
                   <Form.Item
                     label="City"
                     name="city"
@@ -291,27 +277,23 @@ const PreApproveForm = () => {
                   >
                     <Input placeholder="A1A 1A1" />
                   </Form.Item>
-                </div>
+                </div> */}
                 <div className="form-row">
                   <Form.Item
-                    label="Residence Status"
-                    name="residenceStatus"
+                    label="Gender"
+                    name="gender"
                     rules={[
                       {
                         required: true,
-                        message: 'Please select your residence status',
+                        message: 'Please select your child gender',
                       },
                     ]}
                   >
-                    <Select placeholder="Select residence status">
-                      <Select.Option value="rent">Rent</Select.Option>
-                      <Select.Option value="ownWithFamily">
-                        Own with Family
-                      </Select.Option>
+                    <Select placeholder="Select child gender">
+                      <Select.Option value="male">Male</Select.Option>
+                      <Select.Option value="female">Female</Select.Option>
                       <Select.Option value="other">Other</Select.Option>
-                      <Select.Option value="ownFreeClear">
-                        Own Free and Clear
-                      </Select.Option>
+                      <Select.Option value="unknown">Unknown</Select.Option>
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -328,6 +310,21 @@ const PreApproveForm = () => {
                   </Form.Item>
                 </div>
                 <Form.Item
+                  label="Religious Preference"
+                  name="religious_preference"
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: 'Please select if you are self employed',
+                  //   },
+                  // ]}
+                >
+                  <Radio.Group>
+                    <Radio value={true}>Yes</Radio>
+                    <Radio value={false}>No</Radio>
+                  </Radio.Group>
+                </Form.Item>
+                {/* <Form.Item
                   label="Social Insurance Number"
                   name="sin"
                   rules={[
@@ -335,7 +332,7 @@ const PreApproveForm = () => {
                   ]}
                 >
                   <Input placeholder="123-456-789" />
-                </Form.Item>
+                </Form.Item> */}
                 <Button onClick={handleNext} type="primary">
                   Next
                 </Button>
@@ -346,10 +343,10 @@ const PreApproveForm = () => {
           {/* Step 2: Employment Information */}
           {currentStep === 1 && (
             <fieldset>
-              <h2 className="fs-title">Employment Information</h2>
-              <h3 className="fs-subtitle">Income & Employment Details</h3>
+              <h2 className="fs-title">Primary Parent</h2>
+              <h3 className="fs-subtitle">Guardian Information Details</h3>
               <Form layout="vertical" form={employmentForm}>
-                <Form.Item
+                {/* <Form.Item
                   label="Self Employed"
                   name="selfEmployed"
                   rules={[
@@ -363,44 +360,94 @@ const PreApproveForm = () => {
                     <Radio value={true}>Yes</Radio>
                     <Radio value={false}>No</Radio>
                   </Radio.Group>
-                </Form.Item>
-                <Form.Item
-                  label="Employer"
-                  name="employer"
-                  rules={[
-                    { required: true, message: 'Please enter your employer' },
-                  ]}
-                >
-                  <Input placeholder="Company Name" />
-                </Form.Item>
+                </Form.Item> */}
                 <div className="form-row">
-                  <Form.Item label="Employer City" name="employerCity">
-                    <Input placeholder="City" />
-                  </Form.Item>
-                  <Form.Item label="Employer Province" name="employerProvince">
-                    <Input placeholder="Province" />
+                  <Form.Item
+                    label="Legal First Name"
+                    name="primary_parent_legal_first_name"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your legal first name',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Jessica" />
                   </Form.Item>
                   <Form.Item
-                    label="Employer Postal Code"
-                    name="employerPostalCode"
+                    label="Legal Last Name"
+                    name="primary_parent_legal_last_name"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your legal last name',
+                      },
+                    ]}
                   >
+                    <Input placeholder="Doe" />
+                  </Form.Item>
+                </div>
+                <div className="form-row">
+                  <Form.Item
+                    label="Country"
+                    name="country"
+                    rules={[
+                      { required: true, message: 'Please enter your Contry' },
+                    ]}
+                  >
+                    <Input placeholder="Canada" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Address"
+                    name="address"
+                    rules={[
+                      { required: true, message: 'Please enter your address' },
+                    ]}
+                  >
+                    <Input placeholder="123 somewhere NE" />
+                  </Form.Item>
+                </div>
+                <div className="form-row">
+                  <Form.Item label="City" name="parent_city">
+                    <Input placeholder="Calgary" />
+                  </Form.Item>
+                  <Form.Item label="Province" name="parent_province">
+                    <Input placeholder="Alberta/AB" />
+                  </Form.Item>
+                  <Form.Item label="Postal Code" name="parent_postal_code">
                     <Input placeholder="A1A 1A1" />
                   </Form.Item>
                 </div>
                 <div className="form-row">
                   <Form.Item
-                    label="Job Title"
-                    name="jobTitle"
+                    label="Email Address"
+                    name="primary_parent_email_address"
                     rules={[
                       {
                         required: true,
-                        message: 'Please enter your job title',
+                        message: 'Please enter your email address',
                       },
                     ]}
                   >
-                    <Input placeholder="Software Engineer" />
+                    <Input placeholder="jessica.doe@outlook.com" />
                   </Form.Item>
                   <Form.Item
+                    label="Phone Number"
+                    name="primary_parent_phone"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your phone number',
+                      },
+                      {
+                        pattern: /^[0-9\s-+()]*$/,
+                        message: 'Please enter a valid phone number',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="(123) 456-7890" />
+                  </Form.Item>
+                  {/* <Form.Item
                     label="Employment Length (years)"
                     name="employmentLength"
                     rules={[
@@ -411,23 +458,33 @@ const PreApproveForm = () => {
                     ]}
                   >
                     <Input type="number" placeholder="5" />
+                  </Form.Item> */}
+                </div>
+
+                <div className="form-row">
+                  <Form.Item label="Work Name" name="primary_parent_work_name">
+                    <Input placeholder="Company Name" />
+                  </Form.Item>
+                  <Form.Item label="Address" name="primary_parent_work_address">
+                    <Input placeholder="123 somewhere NE" />
                   </Form.Item>
                 </div>
+
                 <div className="form-row">
-                  <Form.Item
-                    label="Monthly Income"
-                    name="monthlyIncome"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter your monthly income',
-                      },
-                    ]}
-                  >
-                    <Input type="number" placeholder="5000" />
+                  <Form.Item label="Work City" name="primary_parent_work_city">
+                    <Input placeholder="Calgary" />
                   </Form.Item>
-                  <Form.Item label="Other Monthly Income" name="otherIncome">
-                    <Input type="number" placeholder="500" />
+                  <Form.Item
+                    label="Work Province"
+                    name="primary_parent_work_province"
+                  >
+                    <Input placeholder="Alberta/AB" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Work Postal Code"
+                    name="primary_parent_work_postal_code"
+                  >
+                    <Input placeholder="A1A 1A1" />
                   </Form.Item>
                 </div>
                 <div className="button-row">
@@ -440,72 +497,253 @@ const PreApproveForm = () => {
             </fieldset>
           )}
 
-          {/* Step 3: Financial Information */}
+          {/* Step 3: Health Information */}
           {currentStep === 2 && (
             <fieldset>
-              <h2 className="fs-title">Financial Information</h2>
-              <h3 className="fs-subtitle">Credit & Expenses</h3>
-              <Form layout="vertical" form={financialForm}>
-                <div className="form-row">
+              <h2 className="fs-title">Health Information</h2>
+              <h3 className="fs-subtitle">Diet & Allergies</h3>
+              <Form
+                layout="vertical"
+                form={financialForm}
+                onValuesChange={(changedValues) => {
+                  if (changedValues.specialExerciseDiet === false) {
+                    financialForm.setFieldsValue({
+                      specialExerciseDietDetails: '',
+                    });
+                  }
+                }}
+              >
+                <div style={{ marginBottom: '16px' }}>
                   <Form.Item
-                    label="Monthly Expenses"
-                    name="monthlyExpenses"
+                    label="Does the child have a special exercise diet?"
+                    name="specialExerciseDiet"
                     rules={[
                       {
                         required: true,
-                        message: 'Please enter your monthly expenses',
+                        message:
+                          'Please select if the child has a special exercise diet',
                       },
                     ]}
                   >
-                    <Input type="number" placeholder="3000" />
+                    <Radio.Group
+                      onChange={(e) => {
+                        setSpecialExerciseDiet(e);
+                        if (!e) {
+                          financialForm.setFieldsValue({
+                            specialExerciseDietDetails: '',
+                          });
+                        }
+                      }}
+                    >
+                      <Radio value={true}>Yes</Radio>
+                      <Radio value={false}>No</Radio>
+                    </Radio.Group>
                   </Form.Item>
-                  <Form.Item label="Credit Score" name="creditScore">
-                    <Input type="number" placeholder="700" />
+                  <Form.Item
+                    label="Special Exercise Diet Details"
+                    name="specialExerciseDietDetails"
+                    rules={[
+                      {
+                        required: specialExerciseDiet === true,
+                        message:
+                          'Please provide details about the special exercise diet',
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      placeholder="Please describe the child's special exercise diet requirements..."
+                      disabled={specialExerciseDiet !== true}
+                    />
                   </Form.Item>
                 </div>
-                <Form.Item label="Outstanding Debts" name="outstandingDebts">
-                  <Input.TextArea placeholder="List any outstanding debts (loans, credit cards, etc.)" />
-                </Form.Item>
+
+                <div style={{ marginBottom: '16px' }}>
+                  <Form.Item
+                    label="Does the child have a peanut allergy?"
+                    name="peanutAllergy"
+                    rules={[
+                      {
+                        required: true,
+                        message:
+                          'Please select if the child has a peanut allergy',
+                      },
+                    ]}
+                  >
+                    <Radio.Group
+                      onChange={(e) => {
+                        setPeanutAllergy(e);
+                        if (!e) {
+                          financialForm.setFieldsValue({
+                            peanutAllergyDetails: '',
+                          });
+                        }
+                      }}
+                    >
+                      <Radio value={true}>Yes</Radio>
+                      <Radio value={false}>No</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item
+                    label="Peanut Allergy Details"
+                    name="peanutAllergyDetails"
+                    rules={[
+                      {
+                        required: peanutAllergy === true,
+                        message:
+                          'Please provide details about the peanut allergy',
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      placeholder="Please describe the peanut allergy, reactions, or restrictions..."
+                      disabled={peanutAllergy !== true}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div style={{ marginBottom: '16px' }}>
+                  <Form.Item
+                    label="Does the child have a dairy allergy?"
+                    name="dairyAllergy"
+                    rules={[
+                      {
+                        required: true,
+                        message:
+                          'Please select if the child has a dairy allergy',
+                      },
+                    ]}
+                  >
+                    <Radio.Group
+                      onChange={(e) => {
+                        setDairyAllergy(e.target.value);
+                        if (!e.target.value) {
+                          financialForm.setFieldsValue({
+                            dairyAllergyDetails: '',
+                          });
+                        }
+                      }}
+                    >
+                      <Radio value={true}>Yes</Radio>
+                      <Radio value={false}>No</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item
+                    label="Dairy Allergy Details"
+                    name="dairyAllergyDetails"
+                    rules={[
+                      {
+                        required: dairyAllergy === true,
+                        message:
+                          'Please provide details about the dairy allergy',
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      placeholder="Please describe the dairy allergy, reactions, or restrictions..."
+                      disabled={dairyAllergy !== true}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div style={{ marginBottom: '16px' }}>
+                  <Form.Item
+                    label="Does the child have an egg allergy?"
+                    name="eggAllergy"
+                    rules={[
+                      {
+                        required: true,
+                        message:
+                          'Please select if the child has an egg allergy',
+                      },
+                    ]}
+                  >
+                    <Radio.Group
+                      onChange={(e) => {
+                        setEggAllergy(e);
+                        if (!e) {
+                          financialForm.setFieldsValue({
+                            eggAllergyDetails: '',
+                          });
+                        }
+                      }}
+                    >
+                      <Radio value={true}>Yes</Radio>
+                      <Radio value={false}>No</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item
+                    label="Egg Allergy Details"
+                    name="eggAllergyDetails"
+                    rules={[
+                      {
+                        required: eggAllergy === true,
+                        message: 'Please provide details about the egg allergy',
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      placeholder="Please describe the egg allergy, reactions, or restrictions..."
+                      disabled={eggAllergy !== true}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div style={{ marginBottom: '16px' }}>
+                  <Form.Item
+                    label="Does the child have a shellfish allergy?"
+                    name="shellfishAllergy"
+                    rules={[
+                      {
+                        required: true,
+                        message:
+                          'Please select if the child has a shellfish allergy',
+                      },
+                    ]}
+                  >
+                    <Radio.Group
+                      onChange={(e) => {
+                        setShellfishAllergy(e.target.value);
+                        if (!e.target.value) {
+                          financialForm.setFieldsValue({
+                            shellfishAllergyDetails: '',
+                          });
+                        }
+                      }}
+                    >
+                      <Radio value={true}>Yes</Radio>
+                      <Radio value={false}>No</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item
+                    label="Shellfish Allergy Details"
+                    name="shellfishAllergyDetails"
+                    rules={[
+                      {
+                        required: shellfishAllergy === true,
+                        message:
+                          'Please provide details about the shellfish allergy',
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      placeholder="Please describe the shellfish allergy, reactions, or restrictions..."
+                      disabled={shellfishAllergy !== true}
+                    />
+                  </Form.Item>
+                </div>
+
                 <Form.Item
-                  label="Loan Amount Requested"
-                  name="loanAmount"
-                  rules={[
-                    { required: true, message: 'Please enter the loan amount' },
-                  ]}
-                >
-                  <Input type="number" placeholder="25000" />
-                </Form.Item>
-                <Form.Item
-                  label="Loan Purpose"
-                  name="loanPurpose"
+                  label="Do you have a secondary parent?"
+                  name="hasSecondaryParent"
                   rules={[
                     {
                       required: true,
-                      message: 'Please specify the loan purpose',
-                    },
-                  ]}
-                >
-                  <Select placeholder="Select purpose">
-                    <Select.Option value="car">Car Purchase</Select.Option>
-                    <Select.Option value="home">Home Improvement</Select.Option>
-                    <Select.Option value="personal">
-                      Personal Loan
-                    </Select.Option>
-                    <Select.Option value="other">Other</Select.Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  label="Do you have a co-applicant?"
-                  name="hasCoApplicant"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please select if you have a co-applicant',
+                      message: 'Please select if you have a secondary parent',
                     },
                   ]}
                 >
                   <Radio.Group
-                    onChange={(e) => setHasCoApplicant(e.target.value)}
+                    onChange={(e) => setHasSecondaryParent(e.target.value)}
                   >
                     <Radio value={true}>Yes</Radio>
                     <Radio value={false}>No</Radio>
@@ -521,350 +759,119 @@ const PreApproveForm = () => {
             </fieldset>
           )}
 
-          {/* Step 3: Co-Applicant Personal Information */}
-          {currentStep === 3 && hasCoApplicant && (
+          {/* Step 3/4: Authorized Pickups */}
+          {((currentStep === 3 && !hasSecondaryParent) ||
+            (currentStep === 4 && hasSecondaryParent)) && (
             <fieldset>
-              <h2 className="fs-title">Co-Applicant Personal Information</h2>
-              <h3 className="fs-subtitle">Basic Details</h3>
-              <Form layout="vertical" form={coApplicantPersonalForm}>
-                <div className="form-row">
-                  <Form.Item
-                    label="First Name"
-                    name="coApplicantFirstName"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's first name",
-                      },
-                    ]}
+              <h2 className="fs-title">Authorized Pickups</h2>
+              <h3 className="fs-subtitle">Authorized Pickup Details</h3>
+              <Form layout="vertical" form={authorizedPickupsForm}>
+                {authorizedPickups.map((pickup, index) => (
+                  <div
+                    key={pickup.id}
+                    style={{
+                      marginBottom: '20px',
+                      border: '1px solid #d9d9d9',
+                      padding: '10px',
+                      borderRadius: '4px',
+                    }}
                   >
-                    <Input placeholder="John" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Last Name"
-                    name="coApplicantLastName"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's last name",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Doe" />
-                  </Form.Item>
-                </div>
-                <div className="form-row">
-                  <Form.Item
-                    label="Email"
-                    name="coApplicantEmail"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's email",
-                      },
-                      { type: 'email', message: 'Please enter a valid email' },
-                    ]}
-                  >
-                    <Input placeholder="john.doe@example.com" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Phone Number"
-                    name="coApplicantPhone"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's phone number",
-                      },
-                      {
-                        pattern: /^[0-9\s-+()]*$/,
-                        message: 'Please enter a valid phone number',
-                      },
-                    ]}
-                  >
-                    <Input placeholder="(123) 456-7890" />
-                  </Form.Item>
-                </div>
-                <Form.Item
-                  label="Address"
-                  name="coApplicantAddress"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please enter co-applicant's address",
-                    },
-                  ]}
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <h4>Pickup {index + 1}</h4>
+                      {authorizedPickups.length > 1 && (
+                        <Button
+                          type="link"
+                          danger
+                          onClick={() => removeAuthorizedPickup(pickup.id)}
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
+                    <div className="form-row">
+                      <Form.Item
+                        label="Legal Name"
+                        name={`authorized_pickup_legal_name_${pickup.id}`}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter the legal name',
+                          },
+                        ]}
+                      >
+                        <Input placeholder="John Doe" />
+                      </Form.Item>
+                      <Form.Item
+                        label="Phone"
+                        name={`authorized_pickup_phone_${pickup.id}`}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter the phone number',
+                          },
+                          {
+                            pattern: /^[0-9\s-+()]*$/,
+                            message: 'Please enter a valid phone number',
+                          },
+                        ]}
+                      >
+                        <Input placeholder="(123) 456-7890" />
+                      </Form.Item>
+                    </div>
+                    <div className="form-row">
+                      <Form.Item
+                        label="Relation to the Child"
+                        name={`authorized_pickup_relation_${pickup.id}`}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter the relation to the child',
+                          },
+                        ]}
+                      >
+                        <Input placeholder="Grandparent" />
+                      </Form.Item>
+                      <Form.Item
+                        label="Email"
+                        name={`authorized_pickup_email_${pickup.id}`}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please enter the email address',
+                          },
+                          {
+                            type: 'email',
+                            message: 'Please enter a valid email',
+                          },
+                        ]}
+                      >
+                        <Input placeholder="john.doe@example.com" />
+                      </Form.Item>
+                    </div>
+                  </div>
+                ))}
+                <Button
+                  type="dashed"
+                  onClick={addAuthorizedPickup}
+                  style={{ width: '100%', marginBottom: '20px' }}
                 >
-                  <Input placeholder="123 Main St, City, Province, Postal Code" />
-                </Form.Item>
-                <div className="form-row">
-                  <Form.Item
-                    label="City"
-                    name="coApplicantCity"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's city",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="City" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Province"
-                    name="coApplicantProvince"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's province",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Province" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Postal Code"
-                    name="coApplicantPostalCode"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's postal code",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="A1A 1A1" />
-                  </Form.Item>
-                </div>
-                <div className="form-row">
-                  <Form.Item
-                    label="Residence Status"
-                    name="coApplicantResidenceStatus"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          "Please select co-applicant's residence status",
-                      },
-                    ]}
-                  >
-                    <Select placeholder="Select residence status">
-                      <Select.Option value="rent">Rent</Select.Option>
-                      <Select.Option value="ownWithFamily">
-                        Own with Family
-                      </Select.Option>
-                      <Select.Option value="other">Other</Select.Option>
-                      <Select.Option value="ownFreeClear">
-                        Own Free and Clear
-                      </Select.Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Date of Birth"
-                    name="coApplicantDateOfBirth"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select co-applicant's date of birth",
-                      },
-                    ]}
-                  >
-                    <DatePicker style={{ width: '100%' }} />
-                  </Form.Item>
-                </div>
-                <Form.Item
-                  label="Social Insurance Number"
-                  name="coApplicantSin"
-                  rules={[
-                    {
-                      required: false,
-                      message: "Please enter co-applicant's SIN",
-                    },
-                  ]}
-                >
-                  <Input placeholder="123-456-789" />
-                </Form.Item>
-                <div className="button-row">
-                  <Button onClick={handlePrevious}>Previous</Button>
-                  <Button type="primary" onClick={handleNext}>
-                    Next
-                  </Button>
-                </div>
-              </Form>
-            </fieldset>
-          )}
-
-          {/* Step 4: Co-Applicant Employment Information */}
-          {currentStep === 4 && hasCoApplicant && (
-            <fieldset>
-              <h2 className="fs-title">Co-Applicant Employment Information</h2>
-              <h3 className="fs-subtitle">Income & Employment Details</h3>
-              <Form layout="vertical" form={coApplicantEmploymentForm}>
-                <Form.Item
-                  label="Self Employed"
-                  name="coApplicantSelfEmployed"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please select if co-applicant is self employed',
-                    },
-                  ]}
-                >
-                  <Radio.Group>
-                    <Radio value={true}>Yes</Radio>
-                    <Radio value={false}>No</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item
-                  label="Employer"
-                  name="coApplicantEmployer"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please enter co-applicant's employer",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Company Name" />
-                </Form.Item>
-                <div className="form-row">
-                  <Form.Item
-                    label="Employer City"
-                    name="coApplicantEmployerCity"
-                  >
-                    <Input placeholder="City" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Employer Province"
-                    name="coApplicantEmployerProvince"
-                  >
-                    <Input placeholder="Province" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Employer Postal Code"
-                    name="coApplicantEmployerPostalCode"
-                  >
-                    <Input placeholder="A1A 1A1" />
-                  </Form.Item>
-                </div>
-                <div className="form-row">
-                  <Form.Item
-                    label="Job Title"
-                    name="coApplicantJobTitle"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's job title",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Software Engineer" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Employment Length (years)"
-                    name="coApplicantEmploymentLength"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          "Please enter co-applicant's employment length",
-                      },
-                    ]}
-                  >
-                    <Input type="number" placeholder="5" />
-                  </Form.Item>
-                </div>
-                <div className="form-row">
-                  <Form.Item
-                    label="Monthly Income"
-                    name="coApplicantMonthlyIncome"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's monthly income",
-                      },
-                    ]}
-                  >
-                    <Input type="number" placeholder="5000" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Other Monthly Income"
-                    name="coApplicantOtherIncome"
-                  >
-                    <Input type="number" placeholder="500" />
-                  </Form.Item>
-                </div>
-                <div className="button-row">
-                  <Button onClick={handlePrevious}>Previous</Button>
-                  <Button type="primary" onClick={handleNext}>
-                    Next
-                  </Button>
-                </div>
-              </Form>
-            </fieldset>
-          )}
-
-          {/* Step 5: Co-Applicant Financial Information */}
-          {currentStep === 5 && hasCoApplicant && (
-            <fieldset>
-              <h2 className="fs-title">Co-Applicant Financial Information</h2>
-              <h3 className="fs-subtitle">Credit & Expenses</h3>
-              <Form layout="vertical" form={coApplicantFinancialForm}>
-                <div className="form-row">
-                  <Form.Item
-                    label="Monthly Expenses"
-                    name="coApplicantMonthlyExpenses"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter co-applicant's monthly expenses",
-                      },
-                    ]}
-                  >
-                    <Input type="number" placeholder="3000" />
-                  </Form.Item>
-                  <Form.Item label="Credit Score" name="coApplicantCreditScore">
-                    <Input type="number" placeholder="700" />
-                  </Form.Item>
-                </div>
-                <Form.Item
-                  label="Outstanding Debts"
-                  name="coApplicantOutstandingDebts"
-                >
-                  <Input.TextArea placeholder="List any outstanding debts (loans, credit cards, etc.)" />
-                </Form.Item>
-                <div className="button-row">
-                  <Button onClick={handlePrevious}>Previous</Button>
-                  <Button type="primary" onClick={handleNext}>
-                    Next
-                  </Button>
-                </div>
-              </Form>
-            </fieldset>
-          )}
-
-          {/* Step 4/5: Documents */}
-          {currentStep === (hasCoApplicant ? 6 : 3) && (
-            <fieldset>
-              <h2 className="fs-title">Documents</h2>
-              <h3 className="fs-subtitle">Upload Required Documents</h3>
-              <Form layout="vertical" form={documentsForm}>
-                <Form.Item
-                  label="Upload Documents (ID, Pay Stubs, Bank Statements, etc.)"
-                  name="upload"
-                >
-                  <ImageUploader
-                    fileList={fileList}
-                    setFileList={setFileList}
-                  />
-                </Form.Item>
-                <Form.Item label="Additional Notes" name="notes">
-                  <Input.TextArea placeholder="Any additional information..." />
-                </Form.Item>
+                  Add Another Authorized Pickup
+                </Button>
 
                 <Form.Item
                   name="consent"
                   valuePropName="checked"
                   rules={[
-                    { required: true, message: 'You must consent to proceed' },
+                    {
+                      required: true,
+                      message: 'You must consent to proceed',
+                    },
                   ]}
                   style={{
                     textAlign: 'left',
@@ -877,24 +884,9 @@ const PreApproveForm = () => {
                     onChange={(e) => setConsentChecked(e.target.checked)}
                   >
                     <span style={{ fontSize: '12px' }}>
-                      By clicking Submit Application, I consent to the
-                      collection, use and disclosure of my personal information
-                      as described in this paragraph. I agree that the personal
-                      information provided above may be used and disclosed by
-                      Zilla Finance and/or its agents or service providers as
-                      necessary to obtain credit, financial and related personal
-                      information (including a credit or consumer information
-                      report) about me from any credit bureau or credit
-                      reporting agency, and to advise me on credit availability
-                      in connection with product and/or service purchase
-                      financing. I further agree that the personal information
-                      provided above may be disclosed to the provider of Zilla
-                      Finance hosting or related services for the purpose of
-                      enabling Zilla Finance to access my personal information.
-                      Personal information I provide and credit information
-                      obtained may also be retained by Zilla Finance and used to
-                      facilitate the application process should I subsequently
-                      choose to apply for credit through Zilla Finance.
+                      By submitting this application, I consent to the
+                      collection, use, and sharing of personal information for
+                      the purpose of child registration and daycare services.
                     </span>
                   </Checkbox>
                 </Form.Item>
@@ -908,6 +900,148 @@ const PreApproveForm = () => {
                     disabled={!consentChecked}
                   >
                     Submit Application
+                  </Button>
+                </div>
+              </Form>
+            </fieldset>
+          )}
+
+          {/* Step 3: Secondary Parent */}
+          {currentStep === 3 && hasSecondaryParent && (
+            <fieldset>
+              <h2 className="fs-title">Secondary Parent</h2>
+              <h3 className="fs-subtitle">Guardian Information Details</h3>
+              <Form layout="vertical" form={coApplicantPersonalForm}>
+                <div className="form-row">
+                  <Form.Item
+                    label="Legal First Name"
+                    name="secondary_parent_legal_first_name"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your legal first name',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Jessica" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Legal Last Name"
+                    name="secondary_parent_legal_last_name"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your legal last name',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Doe" />
+                  </Form.Item>
+                </div>
+                <div className="form-row">
+                  <Form.Item
+                    label="Country"
+                    name="secondary_country"
+                    rules={[
+                      { required: true, message: 'Please enter your Contry' },
+                    ]}
+                  >
+                    <Input placeholder="Canada" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Address"
+                    name="secondary_address"
+                    rules={[
+                      { required: true, message: 'Please enter your address' },
+                    ]}
+                  >
+                    <Input placeholder="123 somewhere NE" />
+                  </Form.Item>
+                </div>
+                <div className="form-row">
+                  <Form.Item label="City" name="secondary_parent_city">
+                    <Input placeholder="Calgary" />
+                  </Form.Item>
+                  <Form.Item label="Province" name="secondary_parent_province">
+                    <Input placeholder="Alberta/AB" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Postal Code"
+                    name="secondary_parent_postal_code"
+                  >
+                    <Input placeholder="A1A 1A1" />
+                  </Form.Item>
+                </div>
+                <div className="form-row">
+                  <Form.Item
+                    label="Email Address"
+                    name="secondary_parent_email_address"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your email address',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="jessica.doe@outlook.com" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Phone Number"
+                    name="secondary_parent_phone"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your phone number',
+                      },
+                      {
+                        pattern: /^[0-9\s-+()]*$/,
+                        message: 'Please enter a valid phone number',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="(123) 456-7890" />
+                  </Form.Item>
+                </div>
+
+                <div className="form-row">
+                  <Form.Item
+                    label="Work Name"
+                    name="secondary_parent_work_name"
+                  >
+                    <Input placeholder="Company Name" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Address"
+                    name="secondary_parent_work_address"
+                  >
+                    <Input placeholder="123 somewhere NE" />
+                  </Form.Item>
+                </div>
+
+                <div className="form-row">
+                  <Form.Item
+                    label="Work City"
+                    name="secondary_parent_work_city"
+                  >
+                    <Input placeholder="Calgary" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Work Province"
+                    name="secondary_parent_work_province"
+                  >
+                    <Input placeholder="Alberta/AB" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Work Postal Code"
+                    name="secondary_parent_work_postal_code"
+                  >
+                    <Input placeholder="A1A 1A1" />
+                  </Form.Item>
+                </div>
+                <div className="button-row">
+                  <Button onClick={handlePrevious}>Previous</Button>
+                  <Button type="primary" onClick={handleNext}>
+                    Next
                   </Button>
                 </div>
               </Form>
