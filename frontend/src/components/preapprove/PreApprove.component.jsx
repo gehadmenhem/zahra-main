@@ -470,6 +470,10 @@ const PreApproveForm = () => {
                         required: true,
                         message: 'Please enter your email address',
                       },
+                      {
+                        type: 'email',
+                        message: 'Please enter a valid email',
+                      },
                     ]}
                   >
                     <Input placeholder="jessica.doe@outlook.com" />
@@ -991,6 +995,10 @@ const PreApproveForm = () => {
                       {
                         required: true,
                         message: 'Please enter your email address',
+                      },
+                      {
+                        type: 'email',
+                        message: 'Please enter a valid email',
                       },
                     ]}
                   >
