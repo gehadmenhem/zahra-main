@@ -285,6 +285,34 @@ fieldset {
     margin-top: 400px; /* Push footer down even more to ensure full visibility */
   }
 
+  /* Progress bar mobile adjustments */
+  #progressbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  #progressbar li {
+    width: 80px;
+    float: none;
+    text-align: center;
+    margin-bottom: 15px;
+    flex: 0 0 auto;
+    padding: 0 5px;
+  }
+
+  #progressbar li:before {
+    margin: 0 auto 5px auto;
+  }
+
+  #progressbar li:after {
+    width: 100%;
+    height: 2px;
+    left: -50%;
+    top: 15px;
+  }
+
   /* DatePicker mobile adjustments */
   .ant-picker-dropdown {
     width: 300px !important;
