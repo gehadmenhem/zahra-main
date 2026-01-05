@@ -8,6 +8,7 @@ import {
   notification,
   Radio,
   Select,
+  Upload,
 } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -21,6 +22,7 @@ const PreApproveForm = () => {
   const [financialForm] = Form.useForm();
   const [authorizedPickupsForm] = Form.useForm();
   const [coApplicantPersonalForm] = Form.useForm();
+  const [documentsForm] = Form.useForm();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const [hasSecondaryParent, setHasSecondaryParent] = useState(null);
@@ -31,6 +33,7 @@ const PreApproveForm = () => {
   const [shellfishAllergy, setShellfishAllergy] = useState(null);
   const [authorizedPickups, setAuthorizedPickups] = useState([{ id: 0 }]);
   const [consentChecked, setConsentChecked] = useState(false);
+  const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
@@ -66,9 +69,10 @@ const PreApproveForm = () => {
         employmentForm.resetFields();
         financialForm.resetFields();
         coApplicantPersonalForm.resetFields();
+        documentsForm.resetFields();
         setFormData({});
         setHasSecondaryParent(null);
-        setCurrentStep(8); // Go to success step
+        setCurrentStep(getMaxStep() + 1); // Go to success step
       }
     } catch (error) {
       notification.error({
@@ -87,8 +91,8 @@ const PreApproveForm = () => {
 
   const getMaxStep = () => {
     if (hasSecondaryParent === null) return 2; // Before deciding secondary parent
-    if (hasSecondaryParent) return 4; // Personal(0), Employment(1), Health(2), SecondaryParent(3), AuthorizedPickups(4), Success(8)
-    return 3; // Personal(0), Employment(1), Health(2), AuthorizedPickups(3), Success(8)
+    if (hasSecondaryParent) return 6; // Personal(0), Employment(1), Health(2), SecondaryParent(3), AuthorizedPickups(4), Documents(5), Success(6)
+    return 5; // Personal(0), Employment(1), Health(2), AuthorizedPickups(3), Documents(4), Success(5)
   };
 
   const handleNext = () => {
@@ -105,6 +109,11 @@ const PreApproveForm = () => {
         (currentStep === 4 && hasSecondaryParent)
       )
         formToValidate = authorizedPickupsForm;
+      else if (
+        (currentStep === 4 && !hasSecondaryParent) ||
+        (currentStep === 5 && hasSecondaryParent)
+      )
+        formToValidate = documentsForm;
 
       formToValidate
         .validateFields()
@@ -147,6 +156,27 @@ const PreApproveForm = () => {
     setPreviewVisible(false);
   };
 
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
+    );
+  };
+
+  const handleChange = ({ fileList }) => setFileList(fileList);
+
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
   return (
     <div className="preapprove-full-bg">
       <div className="preapprove-overlay">
@@ -167,7 +197,20 @@ const PreApproveForm = () => {
             >
               Authorized Pickups
             </li>
-            <li className={currentStep >= 8 ? 'active' : ''}>Success</li>
+            <li
+              className={
+                currentStep >= (hasSecondaryParent ? 5 : 4) ? 'active' : ''
+              }
+            >
+              Documents
+            </li>
+            <li
+              className={
+                currentStep >= (hasSecondaryParent ? 6 : 5) ? 'active' : ''
+              }
+            >
+              Success
+            </li>
           </ul>
 
           {/* Step 1: Personal Information */}
@@ -864,42 +907,10 @@ const PreApproveForm = () => {
                   Add Another Authorized Pickup
                 </Button>
 
-                <Form.Item
-                  name="consent"
-                  valuePropName="checked"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'You must consent to proceed',
-                    },
-                  ]}
-                  style={{
-                    textAlign: 'left',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                  }}
-                >
-                  <Checkbox
-                    onChange={(e) => setConsentChecked(e.target.checked)}
-                  >
-                    <span style={{ fontSize: '12px' }}>
-                      By submitting this application, I consent to the
-                      collection, use, and sharing of personal information for
-                      the purpose of child registration and daycare services.
-                    </span>
-                  </Checkbox>
-                </Form.Item>
-
                 <div className="button-row">
                   <Button onClick={handlePrevious}>Previous</Button>
-                  <Button
-                    type="primary"
-                    onClick={handleSubmit}
-                    loading={loading}
-                    disabled={!consentChecked}
-                  >
-                    Submit Application
+                  <Button type="primary" onClick={handleNext}>
+                    Next
                   </Button>
                 </div>
               </Form>
@@ -1048,8 +1059,74 @@ const PreApproveForm = () => {
             </fieldset>
           )}
 
+          {/* Step 4/5: Documents */}
+          {((currentStep === 4 && !hasSecondaryParent) ||
+            (currentStep === 5 && hasSecondaryParent)) && (
+            <fieldset>
+              <h2 className="fs-title">Documents</h2>
+              <h3 className="fs-subtitle">Upload Required Documents</h3>
+              <Form layout="vertical" form={documentsForm}>
+                <Form.Item
+                  label="Upload Documents"
+                  name="documents"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please upload at least one document',
+                    },
+                  ]}
+                >
+                  <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    beforeUpload={() => false} // Prevent auto upload
+                  >
+                    {fileList.length >= 8 ? null : (
+                      <div>
+                        <div style={{ marginTop: 8 }}>Upload</div>
+                      </div>
+                    )}
+                  </Upload>
+                </Form.Item>
+                <Form.Item
+                  name="consent"
+                  valuePropName="checked"
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        value
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error('Please provide consent to proceed')
+                            ),
+                    },
+                  ]}
+                >
+                  <Checkbox
+                    onChange={(e) => setConsentChecked(e.target.checked)}
+                  >
+                    I consent to the processing of my personal information
+                  </Checkbox>
+                </Form.Item>
+                <div className="button-row">
+                  <Button onClick={handlePrevious}>Previous</Button>
+                  <Button
+                    type="primary"
+                    onClick={handleSubmit}
+                    loading={loading}
+                  >
+                    Submit Application
+                  </Button>
+                </div>
+              </Form>
+            </fieldset>
+          )}
+
           {/* Step 5/6: Success */}
-          {currentStep === 8 && (
+          {((currentStep === 5 && !hasSecondaryParent) ||
+            (currentStep === 6 && hasSecondaryParent)) && (
             <fieldset>
               <h2 className="fs-title">Application Submitted Successfully!</h2>
               <h3 className="fs-subtitle">Thank you for your application</h3>
