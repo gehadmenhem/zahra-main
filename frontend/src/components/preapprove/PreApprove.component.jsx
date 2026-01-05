@@ -1095,19 +1095,17 @@ const PreApproveForm = () => {
                   valuePropName="checked"
                   rules={[
                     {
-                      validator: (_, value) =>
-                        value
-                          ? Promise.resolve()
-                          : Promise.reject(
-                              new Error('Please provide consent to proceed')
-                            ),
+                      required: true,
+                      message: 'Please provide consent to proceed',
                     },
                   ]}
                 >
                   <Checkbox
                     onChange={(e) => setConsentChecked(e.target.checked)}
                   >
-                    I consent to the processing of my personal information
+                    By submitting this application, I consent to the collection,
+                    use, and sharing of personal information for the purpose of
+                    child registration and daycare services.
                   </Checkbox>
                 </Form.Item>
                 <div className="button-row">
@@ -1116,6 +1114,7 @@ const PreApproveForm = () => {
                     type="primary"
                     onClick={handleSubmit}
                     loading={loading}
+                    disabled={!consentChecked}
                   >
                     Submit Application
                   </Button>
