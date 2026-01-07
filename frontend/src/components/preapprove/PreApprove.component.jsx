@@ -41,12 +41,29 @@ const PreApproveForm = () => {
   const { user } = useSelector((state) => state.auth);
   const handleSubmit = async () => {
     try {
-      console.log(formData);
       console.log(user);
       setLoading(true);
 
       const submitData = { ...formData };
 
+      // Transform authorized pickups into an array
+      const authorizedPickupsArray = [];
+      let index = 0;
+      while (submitData[`authorized_pickup_email_${index}`] !== undefined) {
+        authorizedPickupsArray.push({
+          email: submitData[`authorized_pickup_email_${index}`],
+          legal_name: submitData[`authorized_pickup_legal_name_${index}`],
+          phone: submitData[`authorized_pickup_phone_${index}`],
+          relation: submitData[`authorized_pickup_relation_${index}`],
+        });
+        delete submitData[`authorized_pickup_email_${index}`];
+        delete submitData[`authorized_pickup_legal_name_${index}`];
+        delete submitData[`authorized_pickup_phone_${index}`];
+        delete submitData[`authorized_pickup_relation_${index}`];
+        index++;
+      }
+      submitData.authorized_pickups = authorizedPickupsArray;
+      console.log(submitData);
       // Format date if present
       if (submitData.dateOfBirth) {
         submitData.dateOfBirth = dayjs(submitData.dateOfBirth).format(
