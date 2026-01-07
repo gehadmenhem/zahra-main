@@ -45,7 +45,7 @@ function SignIn() {
       const result = await dispatch(loginUser(values)).unwrap();
       message.success('Sign In successful!');
 
-      navigate('/dashboard');
+      navigate(`/dashboard/${result.parent_id}`);
     } catch (error) {
       message.error(error?.message || 'Sign In failed');
     }
