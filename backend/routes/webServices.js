@@ -128,7 +128,7 @@ router.post(
 
       const profileImage = req.file ? req.file.buffer : null;
       console.log(profileImage);
-      console.log(req.body);
+      console.dir(req.body);
       // const query = `
       //   INSERT INTO children_registration (
       //     parent_id,

@@ -1171,7 +1171,10 @@ const PreApproveForm = () => {
                 <Button onClick={() => setCurrentStep(0)}>
                   Submit Another Application
                 </Button>
-                <Button type="primary" onClick={() => navigate('/dashboard')}>
+                <Button
+                  type="primary"
+                  onClick={() => navigate(`/dashboard/${user.parent_id}`)}
+                >
                   Go to Dashboard
                 </Button>
               </div>
