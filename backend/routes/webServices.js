@@ -76,6 +76,129 @@ router.get('/children', authMiddleware, async (req, res) => {
   }
 });
 
+router.post(
+  '/registerChildren',
+  authMiddleware,
+  upload.single('profile_image'), // ⬅️ single file
+  async (req, res) => {
+    try {
+      const {
+        user,
+        first_name,
+        child_middle_name,
+        last_name,
+        preferred_name,
+        gender,
+        date_of_birth,
+        first_language_spoken,
+        second_language_spoken,
+        religious_preference,
+        address,
+        country,
+        parent_city,
+        parent_province,
+        parent_postal_code,
+        dairy_allergy,
+        dairy_allergy_details,
+        egg_allergy,
+        egg_allergy_details,
+        peanut_allergy,
+        peanut_allergy_details,
+        shellfish_allergy,
+        shellfish_allergy_details,
+        special_exercise_diet,
+        special_exercise_diet_details,
+        has_secondary_parent,
+        secondary_address,
+        secondary_country,
+        secondary_parent_city,
+        secondary_parent_province,
+        secondary_parent_postal_code,
+        secondary_parent_legal_first_name,
+        secondary_parent_legal_last_name,
+        secondary_parent_email_address,
+        secondary_parent_phone,
+        secondary_parent_work_name,
+        secondary_parent_work_address,
+        secondary_parent_work_city,
+        secondary_parent_work_province,
+        secondary_parent_work_postal_code,
+        authorized_pickups, // if JSON, you may need JSON.parse
+      } = req.body;
+
+      const profileImage = req.file ? req.file.buffer : null;
+      console.log(profileImage);
+      console.log(req.body);
+      // const query = `
+      //   INSERT INTO children_registration (
+      //     parent_id,
+      //     first_name,
+      //     middle_name,
+      //     last_name,
+      //     preferred_name,
+      //     gender,
+      //     date_of_birth,
+      //     first_language_spoken,
+      //     second_language_spoken,
+      //     religious_preference,
+      //     address,
+      //     country,
+      //     parent_city,
+      //     parent_province,
+      //     parent_postal_code,
+      //     dairy_allergy,
+      //     dairy_allergy_details,
+      //     peanut_allergy,
+      //     peanut_allergy_details,
+      //     special_exercise_diet,
+      //     special_exercise_diet_details,
+      //     profile_image
+      //   )
+      //   VALUES (
+      //     $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,
+      //     $11,$12,$13,$14,$15,
+      //     $16,$17,$18,$19,$20,$21,$22
+      //   )
+      //   RETURNING children_id;
+      // `;
+
+      // const values = [
+      //   parent_id,
+      //   first_name,
+      //   middle_name,
+      //   last_name,
+      //   preferred_name,
+      //   gender,
+      //   date_of_birth,
+      //   first_language_spoken,
+      //   second_language_spoken,
+      //   religious_preference === 'true',
+      //   address,
+      //   country,
+      //   parent_city,
+      //   parent_province,
+      //   parent_postal_code,
+      //   dairy_allergy === 'true',
+      //   dairy_allergy_details,
+      //   peanut_allergy === 'true',
+      //   peanut_allergy_details,
+      //   special_exercise_diet === 'true',
+      //   special_exercise_diet_details,
+      //   profileImage,
+      // ];
+
+      // const result = await pool.query(query, values);
+
+      res.status(201).json({
+        message: 'Child registered successfully',
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
 router.route('/register').get(async (req, res) => {
   try {
     const result = await getUser();

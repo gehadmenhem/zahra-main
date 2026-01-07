@@ -10,12 +10,12 @@ import {
   Select,
   Upload,
 } from 'antd';
-
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import apiCalls from '../../api/apiCalls';
+import { useNavigate } from 'react-router-dom';
 import './preApprove.css';
+import { registerChildren } from './preApprove.service';
 const PreApproveForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [personalForm] = Form.useForm();
@@ -39,12 +39,17 @@ const PreApproveForm = () => {
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     try {
       console.log(user);
       setLoading(true);
 
       const submitData = { ...formData };
+
+      // Add fileList and user to submitData
+
+      submitData.user = user;
 
       // Transform authorized pickups into an array
       const authorizedPickupsArray = [];
@@ -63,20 +68,15 @@ const PreApproveForm = () => {
         index++;
       }
       submitData.authorized_pickups = authorizedPickupsArray;
-      console.log(submitData);
+
       // Format date if present
       if (submitData.dateOfBirth) {
         submitData.dateOfBirth = dayjs(submitData.dateOfBirth).format(
           'YYYY-MM-DD'
         );
       }
-      if (submitData.coApplicantDateOfBirth) {
-        submitData.coApplicantDateOfBirth = dayjs(
-          submitData.coApplicantDateOfBirth
-        ).format('YYYY-MM-DD');
-      }
 
-      const result = await apiCalls.sendPreApproved(submitData);
+      const result = await registerChildren(submitData, fileList);
 
       if (result) {
         notification.success({
@@ -91,8 +91,7 @@ const PreApproveForm = () => {
         coApplicantPersonalForm.resetFields();
         documentsForm.resetFields();
         setFormData({});
-        setHasSecondaryParent(null);
-        setCurrentStep(getMaxStep() + 1); // Go to success step
+        setCurrentStep(hasSecondaryParent ? 7 : 6); // Go to success step
       }
     } catch (error) {
       notification.error({
@@ -226,7 +225,7 @@ const PreApproveForm = () => {
             </li>
             <li
               className={
-                currentStep >= (hasSecondaryParent ? 6 : 5) ? 'active' : ''
+                currentStep >= (hasSecondaryParent ? 7 : 6) ? 'active' : ''
               }
             >
               Success
@@ -599,8 +598,8 @@ const PreApproveForm = () => {
                   >
                     <Radio.Group
                       onChange={(e) => {
-                        setSpecialExerciseDiet(e);
-                        if (!e) {
+                        setSpecialExerciseDiet(e.target.value);
+                        if (!e.target.value) {
                           financialForm.setFieldsValue({
                             specialExerciseDietDetails: '',
                           });
@@ -643,8 +642,8 @@ const PreApproveForm = () => {
                   >
                     <Radio.Group
                       onChange={(e) => {
-                        setPeanutAllergy(e);
-                        if (!e) {
+                        setPeanutAllergy(e.target.value);
+                        if (!e.target.value) {
                           financialForm.setFieldsValue({
                             peanutAllergyDetails: '',
                           });
@@ -731,8 +730,8 @@ const PreApproveForm = () => {
                   >
                     <Radio.Group
                       onChange={(e) => {
-                        setEggAllergy(e);
-                        if (!e) {
+                        setEggAllergy(e.target.value);
+                        if (!e.target.value) {
                           financialForm.setFieldsValue({
                             eggAllergyDetails: '',
                           });
@@ -1100,12 +1099,12 @@ const PreApproveForm = () => {
               <h3 className="fs-subtitle">Upload Required Documents</h3>
               <Form layout="vertical" form={documentsForm}>
                 <Form.Item
-                  label="Upload Documents"
+                  label="Upload Image"
                   name="documents"
                   rules={[
                     {
                       required: true,
-                      message: 'Please upload at least one document',
+                      message: 'Please upload an image',
                     },
                   ]}
                 >
@@ -1115,10 +1114,12 @@ const PreApproveForm = () => {
                     onPreview={handlePreview}
                     onChange={handleChange}
                     beforeUpload={() => false} // Prevent auto upload
+                    accept="image/*"
+                    maxCount={1}
                   >
-                    {fileList.length >= 8 ? null : (
+                    {fileList.length >= 1 ? null : (
                       <div>
-                        <div style={{ marginTop: 8 }}>Upload</div>
+                        <div style={{ marginTop: 8 }}>Upload Image</div>
                       </div>
                     )}
                   </Upload>
@@ -1157,8 +1158,8 @@ const PreApproveForm = () => {
           )}
 
           {/* Step 5/6: Success */}
-          {((currentStep === 5 && !hasSecondaryParent) ||
-            (currentStep === 6 && hasSecondaryParent)) && (
+          {((currentStep === 6 && !hasSecondaryParent) ||
+            (currentStep === 7 && hasSecondaryParent)) && (
             <fieldset>
               <h2 className="fs-title">Application Submitted Successfully!</h2>
               <h3 className="fs-subtitle">Thank you for your application</h3>
@@ -1166,9 +1167,14 @@ const PreApproveForm = () => {
                 One of our representatives will contact you within 1-2 business
                 days.
               </p>
-              <Button onClick={() => setCurrentStep(0)}>
-                Submit Another Application
-              </Button>
+              <div className="button-row">
+                <Button onClick={() => setCurrentStep(0)}>
+                  Submit Another Application
+                </Button>
+                <Button type="primary" onClick={() => navigate('/dashboard')}>
+                  Go to Dashboard
+                </Button>
+              </div>
             </fieldset>
           )}
         </div>
