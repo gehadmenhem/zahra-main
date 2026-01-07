@@ -10,11 +10,12 @@ import {
   Select,
   Upload,
 } from 'antd';
+
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import apiCalls from '../../api/apiCalls';
 import './preApprove.css';
-
 const PreApproveForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [personalForm] = Form.useForm();
@@ -37,9 +38,11 @@ const PreApproveForm = () => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
-
+  const { user } = useSelector((state) => state.auth);
   const handleSubmit = async () => {
     try {
+      console.log(formData);
+      console.log(user);
       setLoading(true);
 
       const submitData = { ...formData };
