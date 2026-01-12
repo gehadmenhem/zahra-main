@@ -56,7 +56,7 @@ const DashboardMenu = ({ parentId }) => {
 
         const childMenuItems = (data || []).map((child) =>
           getItem(
-            `${child.first_name} ${child.last_name}`,
+            `${child.child_first_name} ${child.child_last_name}`,
             `child-${child.id}`,
             <UserOutlined />
           )
@@ -135,7 +135,7 @@ const DashboardMenu = ({ parentId }) => {
                   {
                     title:
                       childrenData.length > 0
-                        ? `${childrenData[0].first_name} ${childrenData[0].last_name}`
+                        ? `${childrenData[0].child_first_name} ${childrenData[0].child_last_name}`
                         : 'No Children',
                   },
                 ]}
@@ -150,7 +150,7 @@ const DashboardMenu = ({ parentId }) => {
                 }}
               >
                 {childrenData.length > 0
-                  ? `${childrenData[0].first_name} is registered.`
+                  ? `${childrenData[0].child_first_name} is registered.`
                   : 'No children registered.'}
               </div>
             </>

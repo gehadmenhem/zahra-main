@@ -29,9 +29,6 @@ const PreApproveForm = () => {
   const [hasSecondaryParent, setHasSecondaryParent] = useState(null);
   const [specialExerciseDiet, setSpecialExerciseDiet] = useState(null);
   const [peanutAllergy, setPeanutAllergy] = useState(null);
-  const [dairyAllergy, setDairyAllergy] = useState(null);
-  const [eggAllergy, setEggAllergy] = useState(null);
-  const [shellfishAllergy, setShellfishAllergy] = useState(null);
   const [authorizedPickups, setAuthorizedPickups] = useState([{ id: 0 }]);
   const [consentChecked, setConsentChecked] = useState(false);
   const [fileList, setFileList] = useState([]);
@@ -42,7 +39,6 @@ const PreApproveForm = () => {
   const navigate = useNavigate();
   const handleSubmit = async () => {
     try {
-      console.log(user);
       setLoading(true);
 
       const submitData = { ...formData };
@@ -532,6 +528,32 @@ const PreApproveForm = () => {
                   </Form.Item> */}
                 </div>
 
+                <Form.Item
+                  label="Status"
+                  name="primary_parent_status"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please select your status',
+                    },
+                  ]}
+                >
+                  <Select placeholder="Select status">
+                    <Select.Option value="Married">Married</Select.Option>
+                    <Select.Option value="Single">Single</Select.Option>
+                    <Select.Option value="Separated">Separated</Select.Option>
+                    <Select.Option value="Divorced">Divorced</Select.Option>
+                    <Select.Option value="Common-law">Common-law</Select.Option>
+                    <Select.Option value="Widowed">Widowed</Select.Option>
+                    <Select.Option value="Co-parenting / Shared custody">
+                      Co-parenting / Shared custody
+                    </Select.Option>
+                    <Select.Option value="Guardian (non-parent)">
+                      Guardian (non-parent)
+                    </Select.Option>
+                  </Select>
+                </Form.Item>
+
                 <div className="form-row">
                   <Form.Item label="Work Name" name="primary_parent_work_name">
                     <Input placeholder="Company Name" />
@@ -630,22 +652,21 @@ const PreApproveForm = () => {
 
                 <div style={{ marginBottom: '16px' }}>
                   <Form.Item
-                    label="Does the child have a peanut allergy?"
-                    name="peanutAllergy"
+                    label="Does the child have any allergies?"
+                    name="generalAllergy"
                     rules={[
                       {
                         required: true,
-                        message:
-                          'Please select if the child has a peanut allergy',
+                        message: 'Please select if the child has any allergies',
                       },
                     ]}
                   >
                     <Radio.Group
                       onChange={(e) => {
-                        setPeanutAllergy(e.target.value);
+                        setPeanutAllergy(e.target.value); // reusing state for general
                         if (!e.target.value) {
                           financialForm.setFieldsValue({
-                            peanutAllergyDetails: '',
+                            generalAllergyDetails: '',
                           });
                         }
                       }}
@@ -655,150 +676,18 @@ const PreApproveForm = () => {
                     </Radio.Group>
                   </Form.Item>
                   <Form.Item
-                    label="Peanut Allergy Details"
-                    name="peanutAllergyDetails"
+                    label="Allergy Details"
+                    name="generalAllergyDetails"
                     rules={[
                       {
-                        required: peanutAllergy === true,
-                        message:
-                          'Please provide details about the peanut allergy',
+                        required: peanutAllergy === true, // reusing state
+                        message: 'Please provide details about the allergies',
                       },
                     ]}
                   >
                     <Input.TextArea
-                      placeholder="Please describe the peanut allergy, reactions, or restrictions..."
+                      placeholder="Please describe the allergies, reactions, or restrictions..."
                       disabled={peanutAllergy !== true}
-                    />
-                  </Form.Item>
-                </div>
-
-                <div style={{ marginBottom: '16px' }}>
-                  <Form.Item
-                    label="Does the child have a dairy allergy?"
-                    name="dairyAllergy"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          'Please select if the child has a dairy allergy',
-                      },
-                    ]}
-                  >
-                    <Radio.Group
-                      onChange={(e) => {
-                        setDairyAllergy(e.target.value);
-                        if (!e.target.value) {
-                          financialForm.setFieldsValue({
-                            dairyAllergyDetails: '',
-                          });
-                        }
-                      }}
-                    >
-                      <Radio value={true}>Yes</Radio>
-                      <Radio value={false}>No</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                  <Form.Item
-                    label="Dairy Allergy Details"
-                    name="dairyAllergyDetails"
-                    rules={[
-                      {
-                        required: dairyAllergy === true,
-                        message:
-                          'Please provide details about the dairy allergy',
-                      },
-                    ]}
-                  >
-                    <Input.TextArea
-                      placeholder="Please describe the dairy allergy, reactions, or restrictions..."
-                      disabled={dairyAllergy !== true}
-                    />
-                  </Form.Item>
-                </div>
-
-                <div style={{ marginBottom: '16px' }}>
-                  <Form.Item
-                    label="Does the child have an egg allergy?"
-                    name="eggAllergy"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          'Please select if the child has an egg allergy',
-                      },
-                    ]}
-                  >
-                    <Radio.Group
-                      onChange={(e) => {
-                        setEggAllergy(e.target.value);
-                        if (!e.target.value) {
-                          financialForm.setFieldsValue({
-                            eggAllergyDetails: '',
-                          });
-                        }
-                      }}
-                    >
-                      <Radio value={true}>Yes</Radio>
-                      <Radio value={false}>No</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                  <Form.Item
-                    label="Egg Allergy Details"
-                    name="eggAllergyDetails"
-                    rules={[
-                      {
-                        required: eggAllergy === true,
-                        message: 'Please provide details about the egg allergy',
-                      },
-                    ]}
-                  >
-                    <Input.TextArea
-                      placeholder="Please describe the egg allergy, reactions, or restrictions..."
-                      disabled={eggAllergy !== true}
-                    />
-                  </Form.Item>
-                </div>
-
-                <div style={{ marginBottom: '16px' }}>
-                  <Form.Item
-                    label="Does the child have a shellfish allergy?"
-                    name="shellfishAllergy"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          'Please select if the child has a shellfish allergy',
-                      },
-                    ]}
-                  >
-                    <Radio.Group
-                      onChange={(e) => {
-                        setShellfishAllergy(e.target.value);
-                        if (!e.target.value) {
-                          financialForm.setFieldsValue({
-                            shellfishAllergyDetails: '',
-                          });
-                        }
-                      }}
-                    >
-                      <Radio value={true}>Yes</Radio>
-                      <Radio value={false}>No</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                  <Form.Item
-                    label="Shellfish Allergy Details"
-                    name="shellfishAllergyDetails"
-                    rules={[
-                      {
-                        required: shellfishAllergy === true,
-                        message:
-                          'Please provide details about the shellfish allergy',
-                      },
-                    ]}
-                  >
-                    <Input.TextArea
-                      placeholder="Please describe the shellfish allergy, reactions, or restrictions..."
-                      disabled={shellfishAllergy !== true}
                     />
                   </Form.Item>
                 </div>
@@ -931,8 +820,9 @@ const PreApproveForm = () => {
                   type="dashed"
                   onClick={addAuthorizedPickup}
                   style={{ width: '100%', marginBottom: '20px' }}
+                  disabled={authorizedPickups.length >= 2}
                 >
-                  Add Another Authorized Pickup
+                  Add Another Authorized Pickup (Max 2)
                 </Button>
 
                 <div className="button-row">

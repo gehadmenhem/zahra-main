@@ -159,10 +159,10 @@ async function getReviews() {
 
 async function insertChildren(childData) {
   try {
-    console.log(childData);
-
     const insertChildrenResult = await knexInstance.transaction(async (trx) => {
-      return await trx('dbo.children').insert(childData).returning('*');
+      return await trx('dbo.children_registration')
+        .insert(childData)
+        .returning('*');
     });
 
     return insertChildrenResult;
@@ -176,9 +176,9 @@ async function selectChildrenParent(parent_id) {
   try {
     const result = await knexInstance
       .select('*')
-      .from('dbo.children')
+      .from('dbo.children_registration')
       .where('parent_id_xref', '=', parent_id)
-      .orderBy('first_name', 'asc');
+      .orderBy('child_first_name', 'asc');
 
     return result || [];
   } catch (error) {

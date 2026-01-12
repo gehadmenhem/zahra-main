@@ -2,17 +2,21 @@ import axiosInstance from '../../api/axiosCookies.js';
 
 export const registerChildren = async (data, fileList) => {
   try {
-    console.log(fileList);
     const formData = new FormData();
+    console.log('RAW DATA:', data);
 
-    // Append all fields except profile_image
     for (const key in data) {
       if (
         key !== 'profile_image' &&
         data[key] !== undefined &&
         data[key] !== null
       ) {
-        formData.append(key, data[key]);
+        // ✅ stringify objects & arrays
+        if (typeof data[key] === 'object') {
+          formData.append(key, JSON.stringify(data[key]));
+        } else {
+          formData.append(key, data[key]);
+        }
       }
     }
 
@@ -21,7 +25,6 @@ export const registerChildren = async (data, fileList) => {
       formData.append('profile_image', fileList[0].originFileObj);
     }
 
-    console.log(formData);
     const result = await axiosInstance.post('/registerChildren', formData, {
       withCredentials: true,
       headers: {
