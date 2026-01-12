@@ -1,11 +1,26 @@
 import {
+  CalendarOutlined,
   DesktopOutlined,
   FileOutlined,
+  InfoCircleOutlined,
+  MedicineBoxOutlined,
+  PictureOutlined,
   PieChartOutlined,
+  PlayCircleOutlined,
   TeamOutlined,
+  TrophyOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Breadcrumb, Layout, Menu, Spin, theme } from 'antd';
+import {
+  Avatar,
+  Breadcrumb,
+  Card,
+  Layout,
+  Menu,
+  Modal,
+  Spin,
+  theme,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
@@ -23,6 +38,8 @@ const DashboardMenu = ({ parentId }) => {
   const [loading, setLoading] = useState(true);
   const [selectedKey, setSelectedKey] = useState('1');
   const [selectedChild, setSelectedChild] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -30,6 +47,33 @@ const DashboardMenu = ({ parentId }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const cards = [
+    { key: 'info', label: 'Child Info', icon: <InfoCircleOutlined /> },
+    { key: 'images', label: 'Child Images', icon: <PictureOutlined /> },
+    {
+      key: 'activity',
+      label: 'Child Practice Activity',
+      icon: <PlayCircleOutlined />,
+    },
+    {
+      key: 'attendance',
+      label: 'Child Attendance',
+      icon: <CalendarOutlined />,
+    },
+    { key: 'milestones', label: 'Milestones', icon: <TrophyOutlined /> },
+    { key: 'medication', label: 'Medication', icon: <MedicineBoxOutlined /> },
+  ];
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    setSelectedCard(null);
+  };
 
   const handleMenuClick = (e) => {
     const key = e.key;
@@ -157,20 +201,27 @@ const DashboardMenu = ({ parentId }) => {
                   {selectedChild.child_first_name}{' '}
                   {selectedChild.child_last_name}
                 </h2>
-                <p>
-                  <strong>Child ID:</strong> {selectedChild.children_id}
-                </p>
-                <p>
-                  <strong>Preferred Name:</strong>{' '}
-                  {selectedChild.preferred_name || 'N/A'}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {selectedChild.gender}
-                </p>
-                <p>
-                  <strong>Date of Birth:</strong> {selectedChild.date_of_birth}
-                </p>
-                {/* Add more child details as needed */}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '16px',
+                  }}
+                >
+                  {cards.map((card) => (
+                    <Card
+                      key={card.key}
+                      hoverable
+                      style={{ textAlign: 'center' }}
+                      onClick={() => handleCardClick(card)}
+                    >
+                      <div style={{ fontSize: '48px', marginBottom: '8px' }}>
+                        {card.icon}
+                      </div>
+                      <div>{card.label}</div>
+                    </Card>
+                  ))}
+                </div>
               </div>
             </>
           ) : (
@@ -198,6 +249,21 @@ const DashboardMenu = ({ parentId }) => {
           Ant Design ©{new Date().getFullYear()}
         </Footer>
       </Layout>
+
+      <Modal
+        title={selectedCard?.label}
+        open={modalVisible}
+        onCancel={handleModalClose}
+        footer={null}
+        width={800}
+      >
+        {selectedCard && (
+          <div>
+            <p>Content for {selectedCard.label} goes here.</p>
+            {/* Add specific content based on selectedCard.key */}
+          </div>
+        )}
+      </Modal>
     </Layout>
   );
 };
