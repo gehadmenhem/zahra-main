@@ -21,7 +21,7 @@ import {
   Spin,
   theme,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
 import { getChildrens } from './children/services';
@@ -97,7 +97,7 @@ const DashboardMenu = ({ parentId }) => {
     // For other menu items, just update selectedKey without navigation
   };
 
-  // Fetch children once on mount and when location changes
+  // Fetch children once on mount
   useEffect(() => {
     const fetchChildren = async () => {
       try {
@@ -142,7 +142,49 @@ const DashboardMenu = ({ parentId }) => {
     };
 
     if (parentId) fetchChildren();
-  }, [parentId, location.key]);
+  }, [parentId]);
+
+  // Refresh children when returning from addchild page
+  const prevPathRef = useRef();
+  useEffect(() => {
+    if (
+      prevPathRef.current &&
+      prevPathRef.current.includes('/addchild') &&
+      location.pathname === `/dashboard/${id}` &&
+      !loading
+    ) {
+      const fetchChildren = async () => {
+        try {
+          setLoading(true);
+          const data = await getChildrens(parentId);
+          setChildrenData(data || []);
+          const childMenuItems = (data || []).map((child) =>
+            getItem(
+              `${child.child_first_name} ${child.child_last_name}`,
+              `child-${child.children_id}`,
+              <Avatar src={child.profile_image} size="medium" />
+            )
+          );
+          setItems((prevItems) => {
+            const newItems = [...prevItems];
+            newItems[2] = getItem(
+              'Children',
+              'sub1',
+              <UserOutlined />,
+              childMenuItems
+            );
+            return newItems;
+          });
+        } catch (error) {
+          console.error('Error fetching children:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchChildren();
+    }
+    prevPathRef.current = location.pathname;
+  }, [location.pathname, id, parentId, loading]);
 
   if (loading) {
     return (
