@@ -97,7 +97,7 @@ const DashboardMenu = ({ parentId }) => {
     // For other menu items, just update selectedKey without navigation
   };
 
-  // Fetch children once on mount
+  // Fetch children once on mount and when location changes
   useEffect(() => {
     const fetchChildren = async () => {
       try {
@@ -142,7 +142,7 @@ const DashboardMenu = ({ parentId }) => {
     };
 
     if (parentId) fetchChildren();
-  }, [parentId]);
+  }, [parentId, location.key]);
 
   if (loading) {
     return (
