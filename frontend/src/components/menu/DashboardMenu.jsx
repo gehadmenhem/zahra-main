@@ -5,7 +5,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, Spin, theme } from 'antd';
+import { Avatar, Breadcrumb, Layout, Menu, Spin, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
@@ -60,12 +60,12 @@ const DashboardMenu = ({ parentId }) => {
         setLoading(true);
         const data = await getChildrens(parentId); // fetch children from backend
         setChildrenData(data || []);
-
+        console.log(data);
         const childMenuItems = (data || []).map((child) =>
           getItem(
             `${child.child_first_name} ${child.child_last_name}`,
             `child-${child.children_id}`,
-            <UserOutlined />
+            <Avatar src={child.profile_image} size="medium" />
           )
         );
 

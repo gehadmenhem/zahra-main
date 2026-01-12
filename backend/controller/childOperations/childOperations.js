@@ -17,7 +17,16 @@ async function childrenRegistration(data) {
 async function getParentChildren(parent_id) {
   try {
     const childrenResult = await selectChildrenParent(parent_id);
-    return childrenResult;
+    // Convert profile_image buffer to base64 data URL
+    const childrenWithImages = childrenResult.map((child) => {
+      if (child.profile_image) {
+        const buffer = child.profile_image.data || child.profile_image;
+        const base64 = buffer.toString('base64');
+        child.profile_image = `data:image/jpeg;base64,${base64}`;
+      }
+      return child;
+    });
+    return childrenWithImages;
   } catch (error) {
     console.error('Register error:', error);
     throw error;
