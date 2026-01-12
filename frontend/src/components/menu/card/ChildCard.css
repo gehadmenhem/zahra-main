@@ -1,0 +1,80 @@
+.child-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  padding: 20px 16px 24px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+  background: #fff;
+}
+
+.child-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Gradient bar on top */
+.card-gradient {
+  height: 60px;
+  width: 100%;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  margin-bottom: 30px;
+}
+
+/* Avatar positioning */
+.card-avatar {
+  margin-top: -40px;
+  margin-bottom: 12px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Labels */
+.card-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #02213b;
+  margin-bottom: 4px;
+}
+
+.card-subLabel {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.card-description {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 0;
+  padding: 0 8px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .child-card {
+    padding: 16px 12px 20px;
+  }
+  .card-avatar .ant-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  .card-label {
+    font-size: 16px;
+  }
+  .card-subLabel,
+  .card-description {
+    font-size: 12px;
+  }
+}
+
+/* Grid container */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}

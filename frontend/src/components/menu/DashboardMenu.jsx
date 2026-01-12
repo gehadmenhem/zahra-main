@@ -11,19 +11,11 @@ import {
   TrophyOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import {
-  Avatar,
-  Breadcrumb,
-  Card,
-  Layout,
-  Menu,
-  Modal,
-  Spin,
-  theme,
-} from 'antd';
+import { Avatar, Breadcrumb, Layout, Menu, Modal, Spin, theme } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
+import ChildCard from './card/ChildCard';
 import { getChildrens } from './children/services';
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -251,17 +243,11 @@ const DashboardMenu = ({ parentId }) => {
                   }}
                 >
                   {cards.map((card) => (
-                    <Card
+                    <ChildCard
                       key={card.key}
-                      hoverable
-                      style={{ textAlign: 'center' }}
-                      onClick={() => handleCardClick(card)}
-                    >
-                      <div style={{ fontSize: '48px', marginBottom: '8px' }}>
-                        {card.icon}
-                      </div>
-                      <div>{card.label}</div>
-                    </Card>
+                      card={card}
+                      onClick={handleCardClick}
+                    />
                   ))}
                 </div>
               </div>
