@@ -66,9 +66,9 @@ router.get('/children', authMiddleware, async (req, res) => {
     if (!parent_id) {
       return res.status(400).json({ message: 'Parent ID is required' });
     }
-    console.log(parent_id);
+
     const children = await getParentChildren(parent_id);
-    console.log(children);
+
     res.status(200).json(children);
   } catch (error) {
     console.error('Error fetching children:', error);
@@ -132,7 +132,7 @@ router.post(
       const profileImage = req.file ? req.file.buffer : null;
       const userObj = user ? JSON.parse(user) : null;
       const registrationData = {
-        parent_id: userObj?.parent_id,
+        parent_id_xref: userObj?.parent_id,
         child_first_name: first_name,
         child_middle_name,
         child_last_name: last_name,

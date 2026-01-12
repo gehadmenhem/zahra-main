@@ -22,6 +22,7 @@ const DashboardMenu = ({ parentId }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedKey, setSelectedKey] = useState('1');
+  const [selectedChild, setSelectedChild] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -37,10 +38,16 @@ const DashboardMenu = ({ parentId }) => {
     // Navigate based on menu item
     if (key === '1') {
       // Dashboard - navigate to base dashboard route
+      setSelectedChild(null);
       navigate(`/dashboard/${id}`);
     } else if (key.startsWith('child-')) {
+      console.log(key);
       // Child item - navigate to child view (you can customize this)
       const childId = key.replace('child-', '');
+      console.log(childId);
+      const child = childrenData.find((c) => c.children_id == childId);
+      setSelectedChild(child);
+      console.log(child);
       navigate(`/dashboard/${id}/child/${childId}`);
     }
     // For other menu items, just update selectedKey without navigation
@@ -57,7 +64,7 @@ const DashboardMenu = ({ parentId }) => {
         const childMenuItems = (data || []).map((child) =>
           getItem(
             `${child.child_first_name} ${child.child_last_name}`,
-            `child-${child.id}`,
+            `child-${child.children_id}`,
             <UserOutlined />
           )
         );
