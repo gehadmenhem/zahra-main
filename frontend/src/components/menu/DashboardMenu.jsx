@@ -133,17 +133,14 @@ const DashboardMenu = ({ parentId }) => {
             <Outlet />
           ) : selectedKey === '1' ? (
             <ParentInfoTable />
-          ) : (
+          ) : selectedChild ? (
             <>
               <Breadcrumb
                 style={{ margin: '16px 0' }}
                 items={[
                   { title: 'Children' },
                   {
-                    title:
-                      childrenData.length > 0
-                        ? `${childrenData[0].child_first_name} ${childrenData[0].child_last_name}`
-                        : 'No Children',
+                    title: `${selectedChild.child_first_name} ${selectedChild.child_last_name}`,
                   },
                 ]}
               />
@@ -156,9 +153,42 @@ const DashboardMenu = ({ parentId }) => {
                   borderRadius: borderRadiusLG,
                 }}
               >
-                {childrenData.length > 0
-                  ? `${childrenData[0].child_first_name} is registered.`
-                  : 'No children registered.'}
+                <h2>
+                  {selectedChild.child_first_name}{' '}
+                  {selectedChild.child_last_name}
+                </h2>
+                <p>
+                  <strong>Child ID:</strong> {selectedChild.children_id}
+                </p>
+                <p>
+                  <strong>Preferred Name:</strong>{' '}
+                  {selectedChild.preferred_name || 'N/A'}
+                </p>
+                <p>
+                  <strong>Gender:</strong> {selectedChild.gender}
+                </p>
+                <p>
+                  <strong>Date of Birth:</strong> {selectedChild.date_of_birth}
+                </p>
+                {/* Add more child details as needed */}
+              </div>
+            </>
+          ) : (
+            <>
+              <Breadcrumb
+                style={{ margin: '16px 0' }}
+                items={[{ title: 'Children' }, { title: 'Select a Child' }]}
+              />
+
+              <div
+                style={{
+                  padding: 24,
+                  minHeight: 360,
+                  background: colorBgContainer,
+                  borderRadius: borderRadiusLG,
+                }}
+              >
+                Please select a child from the menu to view details.
               </div>
             </>
           )}
