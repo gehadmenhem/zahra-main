@@ -396,9 +396,16 @@ const PreApproveForm = () => {
                 >
                   <Input placeholder="123-456-789" />
                 </Form.Item> */}
-                <Button onClick={handleNext} type="primary">
-                  Next
-                </Button>
+                <div className="button-row">
+                  <Button
+                    onClick={() => navigate(`/dashboard/${user.parent_id}`)}
+                  >
+                    Return to Dashboard
+                  </Button>
+                  <Button onClick={handleNext} type="primary">
+                    Next
+                  </Button>
+                </div>
               </Form>
             </fieldset>
           )}
