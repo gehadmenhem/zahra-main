@@ -89,7 +89,7 @@ router.post(
         last_name,
         preferred_name,
         gender,
-        date_of_birth,
+        dateOfBirth,
         first_language_spoken,
         second_language_spoken,
         religious_preference,
@@ -129,6 +129,7 @@ router.post(
         secondary_parent_work_postal_code,
         authorized_pickups, // if JSON, you may need JSON.parse
       } = req.body;
+
       const profileImage = req.file ? req.file.buffer : null;
       const userObj = user ? JSON.parse(user) : null;
       const registrationData = {
@@ -138,7 +139,7 @@ router.post(
         child_last_name: last_name,
         child_preferred_name: preferred_name,
         child_gender: gender,
-        child_date_of_birth: date_of_birth,
+        child_date_of_birth: dateOfBirth,
         first_language_spoken,
         second_language_spoken,
         religious_preference,

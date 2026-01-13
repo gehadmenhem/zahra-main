@@ -14,6 +14,7 @@ import {
 import { Avatar, Breadcrumb, Layout, Menu, Modal, Spin, theme } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import ChildInfoCard from '../child_info/ChildInfoCard';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
 import ChildCard from './card/ChildCard';
 import { getChildrens } from './children/services';
@@ -77,13 +78,12 @@ const DashboardMenu = ({ parentId }) => {
       setSelectedChild(null);
       navigate(`/dashboard/${id}`);
     } else if (key.startsWith('child-')) {
-      console.log(key);
       // Child item - navigate to child view (you can customize this)
       const childId = key.replace('child-', '');
-      console.log(childId);
+
       const child = childrenData.find((c) => c.children_id == childId);
       setSelectedChild(child);
-      console.log(child);
+
       navigate(`/dashboard/${id}/child/${childId}`);
     }
     // For other menu items, just update selectedKey without navigation
@@ -283,13 +283,11 @@ const DashboardMenu = ({ parentId }) => {
         open={modalVisible}
         onCancel={handleModalClose}
         footer={null}
-        width={800}
+        width={900}
+        centered
       >
-        {selectedCard && (
-          <div>
-            <p>Content for {selectedCard.label} goes here.</p>
-            {/* Add specific content based on selectedCard.key */}
-          </div>
+        {selectedCard?.key === 'info' && selectedChild && (
+          <ChildInfoCard child={selectedChild} />
         )}
       </Modal>
     </Layout>
