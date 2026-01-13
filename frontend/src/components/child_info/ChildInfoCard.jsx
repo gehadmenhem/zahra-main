@@ -6,7 +6,7 @@ import {
   SafetyOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
+import { Card } from 'antd';
 import { motion } from 'framer-motion';
 
 import './childInfoCard.css';
@@ -20,16 +20,6 @@ const ChildInfoCard = ({ child }) => {
       className="child-info-wrapper"
     >
       <Card className="child-info-card" bordered={false}>
-        <div className="header">
-          <Avatar className="avatar" src={child.profile_image} size="medium" />
-          <div>
-            <h2>
-              {child?.child_first_name} {child?.child_last_name}
-            </h2>
-            <p className="subtitle">Child Profile</p>
-          </div>
-        </div>
-
         <div className="info-grid">
           <InfoItem
             icon={<CalendarOutlined />}

@@ -18,6 +18,7 @@ import ChildInfoCard from '../child_info/ChildInfoCard';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
 import ChildCard from './card/ChildCard';
 import { getChildrens } from './children/services';
+import './dashboard_menu.css';
 const { Header, Content, Footer, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -279,16 +280,43 @@ const DashboardMenu = ({ parentId }) => {
       </Layout>
 
       <Modal
-        title={selectedCard?.label}
         open={modalVisible}
-        onCancel={handleModalClose}
+        onCancel={() => setModalVisible(false)}
         footer={null}
         width={900}
         centered
+        className="child-modal"
+        title={
+          <div className="modal-title-wrapper">
+            <div className="modal-avatar">
+              <Avatar
+                className="avatar"
+                src={selectedChild?.profile_image}
+                size="medium"
+              />
+            </div>
+
+            <div className="modal-title-text">
+              <h2>
+                {selectedChild?.child_first_name +
+                  ' ' +
+                  selectedChild?.child_last_name}
+              </h2>
+
+              <p>{selectedCard?.label}</p>
+            </div>
+          </div>
+        }
       >
         {selectedCard?.key === 'info' && selectedChild && (
           <ChildInfoCard child={selectedChild} />
         )}
+        {/* {selectedCard?.key === 'medical' && selectedChild && (
+          <MedicalInfo child={selectedChild} />
+        )}
+        {selectedCard?.key === 'emergency' && selectedChild && (
+          <EmergencyInfo child={selectedChild} />
+        )} */}
       </Modal>
     </Layout>
   );

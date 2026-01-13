@@ -1,0 +1,50 @@
+.child-modal .ant-modal-content {
+  border-radius: 24px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.child-modal .ant-modal-header {
+  border-bottom: none;
+  padding: 24px 32px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.child-modal .ant-modal-title {
+  width: 100%;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #fff;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal-header span {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.modal-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.child-modal .ant-modal-body {
+  padding: 32px;
+  background: #f9fafb;
+}
