@@ -372,21 +372,7 @@ const PreApproveForm = () => {
                     />
                   </Form.Item>
                 </div>
-                <Form.Item
-                  label="Religious Preference"
-                  name="religious_preference"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: 'Please select if you are self employed',
-                  //   },
-                  // ]}
-                >
-                  <Radio.Group>
-                    <Radio value={true}>Yes</Radio>
-                    <Radio value={false}>No</Radio>
-                  </Radio.Group>
-                </Form.Item>
+
                 {/* <Form.Item
                   label="Social Insurance Number"
                   name="sin"
