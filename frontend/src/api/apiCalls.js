@@ -105,19 +105,29 @@ const sendEmail = async (emailData) => {
 const userLogin = async (userData) => {
   try {
     const apiUrl = config.apiUrl;
-    const message = await axiosInstance.post(`${apiUrl}/auth/loginuser`, { email_address:userData?.email,password:userData?.password });
+    // Backend route is POST /auth/login and reads req.body.loginData
+    // with { email_address, password } (see backend/routes/authServices.js).
+    const message = await axiosInstance.post(`${apiUrl}/auth/login`, {
+      loginData: {
+        email_address: userData?.email,
+        password: userData?.password,
+      },
+    });
     if (message) {
-      return message 
+      return message
     }
     else {
        throw new Error('something went wrong while login');
 
     }
-    
+
   } catch (error) {
-    
-    const message =error.response.data.message||
-      error.response.data.error || error.message || "user login failed";
+
+    const message =
+      error?.response?.data?.error ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "user login failed";
     console.error("user login failed:", message);
     throw new Error(message);
   }
@@ -137,9 +147,12 @@ const checkifValidCookies = async (userData) => {
     }
     
   } catch (error) {
-    
-    const message =error.response.data.message||
-      error.response.data.error || error.message || "user login failed";
+
+    const message =
+      error?.response?.data?.message ||
+      error?.response?.data?.error ||
+      error?.message ||
+      "user login failed";
     console.error("user login failed:", message);
     throw new Error(message);
   }

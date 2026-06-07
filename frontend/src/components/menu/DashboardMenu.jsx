@@ -14,6 +14,7 @@ import {
 import { Avatar, Breadcrumb, Layout, Menu, Modal, Spin, theme } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import ChildAttendance from '../child_attendance/ChildAttendance';
 import ChildInfoCard from '../child_info/ChildInfoCard';
 import ParentInfoTable from '../parentInfoDashboard/ParentInfoTable';
 import ChildCard from './card/ChildCard';
@@ -310,6 +311,9 @@ const DashboardMenu = ({ parentId }) => {
       >
         {selectedCard?.key === 'info' && selectedChild && (
           <ChildInfoCard child={selectedChild} />
+        )}
+        {selectedCard?.key === 'attendance' && selectedChild && (
+          <ChildAttendance />
         )}
         {/* {selectedCard?.key === 'medical' && selectedChild && (
           <MedicalInfo child={selectedChild} />

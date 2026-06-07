@@ -18,14 +18,15 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const message = await apiCalls.userLogin({ email, password });
+      const response = await apiCalls.userLogin({ email, password });
+      const loggedInUser = response?.data; // backend returns the (password-stripped) user
       dispatch(checkAuth());
-      notification.info({
-        message: "Info",
-        description: message?.data?.message,
-        duration: 5,
+      notification.success({
+        message: "Success",
+        description: "Login successful",
+        duration: 3,
       });
-      navigate("/signup");
+      navigate(`/dashboard/${loggedInUser?.parent_id}`);
     } catch (error) {
       notification.error({
         message: "Error",

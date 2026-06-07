@@ -1,0 +1,58 @@
+.child-attendance-container {
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.ant-calendar {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.ant-calendar-date {
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.ant-calendar-date:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ant-modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.ant-modal-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom: none;
+}
+
+.ant-modal-title {
+  color: white;
+  font-weight: bold;
+}
+
+.ant-modal-body {
+  background: #f8f9fa;
+}
+
+.ant-list-item {
+  border-bottom: none;
+  padding: 8px 0;
+}
+
+.ant-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.ant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
